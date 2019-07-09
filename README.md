@@ -1,5 +1,9 @@
 # OpenWrt Docker repository
 
+[![GPL-2.0-only License][license-badge]][license-ref]
+[![Circle CI][circle-ci-badge]][circle-ci-ref]
+[![Docker Hub][docker-hub-badge]][docker-hub-ref]
+
 This repository contains scripts to create Docker containers for OpenWrt. The
 scripts are run via an CI and upload such containers to docker.io.
 
@@ -74,3 +78,10 @@ store the binary in hosts `./bin` folder.
 ### Tags
 
 All currently available ImageBuilders via lower case `<target>-<subtarget>`
+
+[circle-ci-badge]: https://img.shields.io/circleci/build/gh/openwrt/docker.svg?style=flat-square
+[circle-ci-ref]: https://circleci.com/gh/openwrt/docker
+[docker-hub-badge]: https://img.shields.io/badge/docker--hub-openwrtorg-blue.svg?style=flat-square
+[docker-hub-ref]: https://hub.docker.com/u/openwrtorg
+[license-badge]: https://img.shields.io/github/license/openwrt/docker.svg?style=flat-square
+[license-ref]: LICENSE
