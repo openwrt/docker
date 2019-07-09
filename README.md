@@ -42,7 +42,7 @@ Windows or via CI.
 
 ### Example
 
-    docker run --rm -v ./bin/:/home/build/sdk/bin -it openwrtorg/sdk:x86-64
+    docker run --rm -v "$(pwd)"/bin/:/home/build/sdk/bin -it openwrtorg/sdk:x86-64
     # within the Docker container
     ./scripts/feeds update base
     make defconfig
@@ -64,7 +64,7 @@ MacOS X, Windows or via CI.
 
 ### Example
 
-    docker run --rm -v ./bin/:/home/build/imagebuilder/bin -it openwrtorg/imagebuilder:x86-64
+    docker run --rm -v "$(pwd)"/bin/:/home/build/imagebuilder/bin -it openwrtorg/imagebuilder:x86-64
     # within the Docker container
     make image
 
