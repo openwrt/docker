@@ -11,7 +11,7 @@ Used variables are `BRANCHES`, `TARGETS`, `DOCKER_USER`, `DOCKER_PASS` and `DOCK
 `$DOCKER_PASS`: passwort to upload
 `$DOCKER_IMAGE`: image name
 
-`$BRANCHES` and `$TARGETS` unite to an build matrix.
+`$BRANCHES` and `$TARGETS` unite to a build matrix.
 
 See `.circleci/config.yml` for the current setup.
 
