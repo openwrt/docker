@@ -3,7 +3,7 @@
 set -e
 set -x
 
-docker login -u $DOCKER_USER -p $DOCKER_PASS
+docker login -u "$DOCKER_USER" -p "$DOCKER_PASS"
 
 # LEDE Build System (LEDE GnuPG key for unattended build jobs)
 curl 'https://git.openwrt.org/?p=keyring.git;a=blob_plain;f=gpg/626471F1.asc' | gpg --import \

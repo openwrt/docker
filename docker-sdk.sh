@@ -19,12 +19,12 @@ for TARGET in $TARGETS ; do
         curl "https://downloads.openwrt.org/$SDK_PATH/sha256sums.asc" -sS -o sha256sums.asc
         gpg --with-fingerprint --verify sha256sums.asc sha256sums
         rsync -av "downloads.openwrt.org::downloads/$SDK_PATH/$SDK_FILE" . || continue # skip uploading if no SDK is available
-        cat sha256sums | grep openwrt-sdk > sha256sums_sdk
+        grep openwrt-sdk sha256sums > sha256sums_sdk
         sha256sum -c sha256sums_sdk
 
         mkdir -p ./sdk
-        tar Jxf $SDK_FILE --strip=1 -C ./sdk
-        rm -rf $SDK_FILE
+        tar Jxf "$SDK_FILE" --strip=1 -C ./sdk
+        rm -rf "$SDK_FILE"
 
         # use GitHub instead of git.openwrt.org
         cat > ./sdk/feeds.conf <<EOF
@@ -35,19 +35,19 @@ src-git routing https://github.com/openwrt-routing/packages.git;$BRANCH_FEEDS
 src-git telephony https://github.com/openwrt/telephony.git;$BRANCH_FEEDS
 EOF
 
-        docker build -t $DOCKER_IMAGE:$TARGET-$BRANCH -f Dockerfile.sdk .
+        docker build -t "$DOCKER_IMAGE:$TARGET-$BRANCH" -f Dockerfile.sdk .
 
         rm -rf ./sdk
 
         if [ "$BRANCH" == "master" ]; then
-            docker tag $DOCKER_IMAGE:$TARGET-$BRANCH $DOCKER_IMAGE:$TARGET
-            docker push $DOCKER_IMAGE:$TARGET
+            docker tag "$DOCKER_IMAGE:$TARGET-$BRANCH" "$DOCKER_IMAGE:$TARGET"
+            docker push "$DOCKER_IMAGE:$TARGET"
             if [ "$TARGET" == "x86-64" ]; then
-                docker tag $DOCKER_IMAGE:$TARGET-$BRANCH $DOCKER_IMAGE:latest
-                docker push $DOCKER_IMAGE:latest
+                docker tag "$DOCKER_IMAGE:$TARGET-$BRANCH" "$DOCKER_IMAGE:latest"
+                docker push "$DOCKER_IMAGE:latest"
             fi
         else
-            docker push $DOCKER_IMAGE:$TARGET-$BRANCH
+            docker push "$DOCKER_IMAGE:$TARGET-$BRANCH"
         fi
     done
 done
