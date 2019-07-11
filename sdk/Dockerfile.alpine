@@ -1,0 +1,28 @@
+FROM alpine:latest
+
+RUN apk update && \
+    apk add alpine-sdk \
+            bash \
+            bzip2 \
+            coreutils \
+            file \
+            findutils \
+            gawk \
+            grep \
+            linux-headers \
+            ncurses-dev \
+            perl \
+            python2 \
+            rsync \
+            unzip \
+            wget \
+            xz \
+            zlib-dev
+
+RUN useradd -c "OpenWrt Builder" -m -d /home/build -s /bin/bash build
+COPY --chown=build:build ./sdk /home/build/sdk
+RUN chown build:build /home/build/sdk
+
+USER build
+ENV HOME /home/build
+WORKDIR /home/build/sdk
