@@ -41,7 +41,7 @@ removed.
 ## `sdk`
 
 Contains the OpenWrt SDK based on a `debian:latest` container with required
-packages preinstalled. This can be usefull when building packages on MacOS X,
+packages preinstalled. This can be useful when building packages on MacOS X,
 Windows or via CI.
 
 ### Example
@@ -63,7 +63,7 @@ All currently available SDKs via lower case `<target>-<subtarget>`
 ## `imagebuilder`
 
 Contains the OpenWrt ImageBuilder based on a `debian:latest` container with
-required packages preinstalled. This can be usefull when creating images on
+required packages preinstalled. This can be useful when creating images on
 MacOS X, Windows or via CI.
 
 ### Example
