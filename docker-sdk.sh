@@ -1,5 +1,8 @@
 #!/bin/bash
 
+set -e
+set -x
+
 TARGETS="${TARGETS:-x86-64}"
 BRANCHES="${BRANCHES:-master}"
 DOCKER_IMAGE="${DOCKER_IMAGE:-openwrt-sdk}"
@@ -23,8 +26,8 @@ for TARGET in $TARGETS ; do
         sha256sum -c sha256sums_sdk
 
         mkdir -p ./sdk
-        tar Jxf "$SDK_FILE" --strip=1 -C ./sdk
-        rm -rf "$SDK_FILE"
+        tar Jxf $SDK_FILE --strip=1 -C ./sdk
+        rm -rf $SDK_FILE
 
         # use GitHub instead of git.openwrt.org
         cat > ./sdk/feeds.conf <<EOF

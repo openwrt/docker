@@ -1,5 +1,8 @@
 #!/bin/bash
 
+set -e
+set -x
+
 TARGETS="${TARGETS:-x86-64}"
 BRANCHES="${BRANCHES:-master}"
 DOCKER_IMAGE="${DOCKER_IMAGE:-openwrt-imagebuilder}"
@@ -21,8 +24,8 @@ for TARGET in $TARGETS ; do
         sha256sum -c sha256sums_imagebuilder
 
         mkdir -p ./imagebuilder
-        tar Jxf "$IMAGEBUILDER_FILE" --strip=1 -C ./imagebuilder
-        rm -rf "$IMAGEBUILDER_FILE"
+        tar Jxf $IMAGEBUILDER_FILE --strip=1 -C ./imagebuilder
+        rm -rf $IMAGEBUILDER_FILE
 
         docker build -t "$DOCKER_IMAGE:$TARGET-$BRANCH" -f Dockerfile.imagebuilder .
 

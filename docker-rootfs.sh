@@ -22,8 +22,8 @@ for TARGET in $TARGETS ; do
         sha256sum -c sha256sums_rootfs
 
         mkdir -p ./rootfs-openwrt
-        tar xzf "$ROOTFS_FILE" -C ./rootfs-openwrt
-        rm -rf "$ROOTFS_FILE"
+        tar xzf $ROOTFS_FILE -C ./rootfs-openwrt
+        rm -rf $ROOTFS_FILE
 
         docker build -t "$DOCKER_IMAGE:$TARGET-$BRANCH" -f Dockerfile.rootfs .
 
