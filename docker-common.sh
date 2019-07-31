@@ -2,7 +2,7 @@
 
 set -e
 
-docker login -u "$DOCKER_USER" -p "$DOCKER_PASS"
+[ -n "$DOCKER_USER" ] && [ -n "$DOCKER_PASS" ] && docker login -u "$DOCKER_USER" -p "$DOCKER_PASS"
 
 # LEDE Build System (LEDE GnuPG key for unattended build jobs)
 curl 'https://git.openwrt.org/?p=keyring.git;a=blob_plain;f=gpg/626471F1.asc' | gpg --import \
@@ -15,3 +15,7 @@ curl 'https://git.openwrt.org/?p=keyring.git;a=blob_plain;f=gpg/D52BBB6B.asc' | 
 # OpenWrt Release Builder (18.06 Signing Key)
 curl 'https://git.openwrt.org/?p=keyring.git;a=blob_plain;f=gpg/17E1CE16.asc' | gpg --import \
     && echo '6768C55E79B032D77A28DA5F0F20257417E1CE16:6:' | gpg --import-ownertrust
+
+# LEDE Build System (LEDE usign key for unattended build jobs)
+curl 'https://git.openwrt.org/?p=keyring.git;a=blob_plain;f=usign/b5043e70f9a75cde' --create-dirs \
+ -o ~/usign/b5043e70f9a75cde
