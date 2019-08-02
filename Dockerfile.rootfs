@@ -2,9 +2,7 @@ FROM scratch
 
 MAINTAINER Paul Spooren <mail@aparcar.org>
 
-ADD ./rootfs-openwrt /
-
-ADD ./rootfs /
+ADD ./ /
 
 EXPOSE 80 443 22
 

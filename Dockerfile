@@ -21,9 +21,9 @@ RUN apt-get update -qq &&\
         && apt-get -y autoremove && apt-get clean
 
 RUN useradd -c "OpenWrt Builder" -m -d /home/build -s /bin/bash build
-COPY --chown=build:build ./imagebuilder /home/build/imagebuilder
-RUN chown build:build /home/build/imagebuilder
+COPY --chown=build:build . /home/build/openwrt/
+RUN chown build:build /home/build/openwrt/
 
 USER build
 ENV HOME /home/build
-WORKDIR /home/build/imagebuilder
+WORKDIR /home/build/openwrt/
