@@ -19,13 +19,9 @@ for TARGET in $TARGETS ; do
 
         ./docker-download.sh || exit 1
 
-        mkdir -p ./imagebuilder
-        tar Jxf $DOWNLOAD_FILE --strip=1 -C ./imagebuilder
-        rm -rf $DOWNLOAD_FILE
+        docker build -t "$DOCKER_IMAGE:$TARGET-$BRANCH" -f Dockerfile ./build
 
-        docker build -t "$DOCKER_IMAGE:$TARGET-$BRANCH" -f Dockerfile.imagebuilder .
-
-        rm -rf ./imagebuilder
+        rm -rf ./build
 
         [ -n "$DOCKER_USER" ] && [ -n "$DOCKER_PASS" ] && ./docker-upload.sh || true
     done

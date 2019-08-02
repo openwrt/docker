@@ -12,6 +12,7 @@ if [ ! -f sha256sums.asc ] && [ ! -f sha256sums.sig ]; then
     exit 1
 fi
 [ ! -f sha256sums.asc ] || gpg --with-fingerprint --verify sha256sums.asc sha256sums
+
 if [ -f sha256sums.sig ]; then
     VERIFIED=
     for KEY in ~/usign/*; do
@@ -32,3 +33,8 @@ fi
 rsync -av "$FILE_HOST::downloads/$DOWNLOAD_PATH/$DOWNLOAD_FILE" . || exit 1
 grep $DOWNLOAD_FILE sha256sums > sha256sums_min
 sha256sum -c sha256sums_min
+rm -f sha256sums{,_min,.sig,.asc}
+
+mkdir -p ./build
+tar xf $DOWNLOAD_FILE --strip=1 -C ./build
+rm -rf $DOWNLOAD_FILE

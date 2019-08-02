@@ -15,13 +15,11 @@ for TARGET in $TARGETS ; do
 
         ./docker-download.sh || exit 1
 
-        mkdir -p ./rootfs-openwrt
-        tar xzf $DOWNLOAD_FILE -C ./rootfs-openwrt
-        rm -rf $DOWNLOAD_FILE
+        cp -r ./rootfs/* ./build
 
-        docker build -t "$DOCKER_IMAGE:$TARGET-$BRANCH" -f Dockerfile.rootfs .
+        docker build -t "$DOCKER_IMAGE:$TARGET-$BRANCH" -f Dockerfile.rootfs ./build
 
-        rm -rf ./rootfs-openwrt
+        rm -rf ./build
 
         [ -n "$DOCKER_USER" ] && [ -n "$DOCKER_PASS" ] && ./docker-upload.sh || true
     done
