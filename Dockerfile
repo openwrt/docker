@@ -18,7 +18,7 @@ RUN apt-get update -qq &&\
         unzip \
         wget \
         zlib1g-dev \
-        && apt-get -y autoremove && apt-get clean
+        && apt-get -y autoremove && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN useradd -c "OpenWrt Builder" -m -d /home/build -s /bin/bash build
 COPY --chown=build:build . /home/build/openwrt/
