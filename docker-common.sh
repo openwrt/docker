@@ -18,4 +18,12 @@ curl 'https://git.openwrt.org/?p=keyring.git;a=blob_plain;f=gpg/17E1CE16.asc' | 
 
 # LEDE Build System (LEDE usign key for unattended build jobs)
 curl 'https://git.openwrt.org/?p=keyring.git;a=blob_plain;f=usign/b5043e70f9a75cde' --create-dirs \
- -o ~/usign/b5043e70f9a75cde
+    -o ./usign/b5043e70f9a75cde
+
+# Public usign key for unattended snapshot builds
+curl 'https://git.openwrt.org/?p=keyring.git;a=blob_plain;f=usign/b5043e70f9a75cde' --create-dirs \
+    -o ./usign/b5043e70f9a75cde
+
+# Public usign key for 19.07 release builds
+curl 'https://git.openwrt.org/?p=keyring.git;a=blob_plain;f=usign/f94b9dd6febac963' --create-dirs \
+    -o ./usign/f94b9dd6febac963

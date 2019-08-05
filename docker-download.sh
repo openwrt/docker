@@ -14,10 +14,15 @@ fi
 [ ! -f sha256sums.asc ] || gpg --with-fingerprint --verify sha256sums.asc sha256sums
 
 if [ -f sha256sums.sig ]; then
+	if hash signify-openbsd 2>/dev/null; then
+		SIGNIFY_BIN=signify-openbsd # debian
+	else
+		SIGNIFY_BIN=signify # alpine
+	fi
     VERIFIED=
-    for KEY in ~/usign/*; do
+    for KEY in ./usign/*; do
         echo "Trying $KEY..."
-        if signify-openbsd -V -q -p "$KEY" -x sha256sums.sig -m sha256sums; then
+        if "$SIGNIFY_BIN" -V -q -p "$KEY" -x sha256sums.sig -m sha256sums; then
             echo "...verified"
             VERIFIED=1
             break

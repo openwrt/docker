@@ -1,7 +1,7 @@
 # OpenWrt Docker repository
 
 [![GPL-2.0-only License][license-badge]][license-ref]
-[![Circle CI][circle-ci-badge]][circle-ci-ref]
+[![CI][ci-badge]][ci-ref]
 [![Docker Hub][docker-hub-badge]][docker-hub-ref]
 
 This repository contains scripts to create Docker containers for OpenWrt. The
@@ -17,7 +17,7 @@ Used variables are `BRANCHES`, `TARGETS`, `DOCKER_USER`, `DOCKER_PASS` and `DOCK
 
 `$BRANCHES` and `$TARGETS` unite to a build matrix.
 
-See `.circleci/config.yml` for the current setup.
+See `.gitlab-ci.yml` for the current setup.
 
 ## `rootfs`
 
@@ -27,7 +27,7 @@ additional files for the rootfs should be added there before building.
 
 ### Example
 
-    docker run --rm -it openwrtorg/rootfs:x86-64
+    docker run --rm -it openwrtorg/rootfs
 
 Enjoy a local OpenWrt container with internet access. Once closed the image is
 removed.
@@ -46,7 +46,7 @@ Windows or via CI.
 
 ### Example
 
-    docker run --rm -v "$(pwd)"/bin/:/home/build/sdk/bin -it openwrtorg/sdk:x86-64
+    docker run --rm -v "$(pwd)"/bin/:/home/build/openwrt/bin -it openwrtorg/sdk
     # within the Docker container
     ./scripts/feeds update base
     make defconfig
@@ -68,7 +68,7 @@ MacOS X, Windows or via CI.
 
 ### Example
 
-    docker run --rm -v "$(pwd)"/bin/:/home/build/imagebuilder/bin -it openwrtorg/imagebuilder:x86-64
+    docker run --rm -v "$(pwd)"/bin/:/home/build/openwrt/bin -it openwrtorg/imagebuilder
     # within the Docker container
     make image
 
@@ -79,8 +79,8 @@ store the binary in hosts `./bin` folder.
 
 All currently available ImageBuilders via lower case `<target>-<subtarget>`
 
-[circle-ci-badge]: https://img.shields.io/circleci/build/gh/openwrt/docker.svg?style=flat-square
-[circle-ci-ref]: https://circleci.com/gh/openwrt/docker
+[ci-badge]: https://code.fe80.eu/openwrt/docker/badges/master/pipeline.svg
+[ci-ref]: https://code.fe80.eu/openwrt/docker/commits/master
 [docker-hub-badge]: https://img.shields.io/badge/docker--hub-openwrtorg-blue.svg?style=flat-square
 [docker-hub-ref]: https://hub.docker.com/u/openwrtorg
 [license-badge]: https://img.shields.io/github/license/openwrt/docker.svg?style=flat-square

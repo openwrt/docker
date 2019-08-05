@@ -8,7 +8,9 @@ export DOCKER_IMAGE="${DOCKER_IMAGE:-openwrt-sdk}"
 export DOWNLOAD_FILE="openwrt-sdk-*.Linux-x86_64.tar.xz"
 
 for TARGET in $TARGETS ; do
+    export TARGET
     for BRANCH in $BRANCHES; do
+        export BRANCH
         if [ "$BRANCH" == "master" ]; then
             export DOWNLOAD_PATH="snapshots/targets/$(echo $TARGET | tr '-' '/')"
         else
@@ -16,11 +18,6 @@ for TARGET in $TARGETS ; do
         fi
 
         ./docker-download.sh || exit 1
-
-        docker build -t "$DOCKER_IMAGE:$TARGET-$BRANCH" -f Dockerfile ./build
-
-        rm -rf ./build
-
-        [ -n "$DOCKER_USER" ] && [ -n "$DOCKER_PASS" ] && ./docker-upload.sh || true
+        ./docker-build.sh || exit 1
     done
 done

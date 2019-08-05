@@ -17,10 +17,6 @@ for TARGET in $TARGETS ; do
 
         cp -r ./rootfs/* ./build
 
-        docker build -t "$DOCKER_IMAGE:$TARGET-$BRANCH" -f Dockerfile.rootfs ./build
-
-        rm -rf ./build
-
-        [ -n "$DOCKER_USER" ] && [ -n "$DOCKER_PASS" ] && ./docker-upload.sh || true
+        ./docker-build.sh || exit 1
     done
 done
