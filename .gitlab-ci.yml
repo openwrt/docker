@@ -1,0 +1,136 @@
+variables:
+  TERM: xterm
+  TARGETS: "cns3xxx-generic mvebu-cortexa53 mvebu-cortexa72 mvebu-cortexa9 ipq40xx-generic ipq806x-generic layerscape-armv7 layerscape-armv8_32b layerscape-armv8_64b imx6-generic octeontx-generic sunxi-cortexa8 sunxi-cortexa53 sunxi-cortexa7 ppc44x-generic bcm53xx-generic brcm47xx-mips74k brcm47xx-generic brcm47xx-legacy ath79-nand ath79-generic ath79-tiny ath25-generic mcs814x-generic ar7-ac49x ar7-generic kirkwood-generic apm821xx-sata apm821xx-nand ramips-rt305x ramips-rt3883 ramips-mt76x8 ramips-mt7620 ramips-rt288x ramips-mt7621 au1000-au1550 au1000-au1500 pistachio-generic gemini-wiligear gemini-generic gemini-raidsonic brcm2708-bcm2708 brcm2708-bcm2709 brcm2708-bcm2710 x86-geode x86-generic x86-legacy x86-64 lantiq-xway_legacy lantiq-xrx200 lantiq-ase lantiq-falcon lantiq-xway mediatek-mt7622 mediatek-mt7623 mediatek-32 mpc85xx-p1020 mpc85xx-p2020 mpc85xx-generic tegra-generic zynq-generic archs38-generic ixp4xx-harddisk ixp4xx-generic mxs-generic oxnas-ox820 octeon-generic armvirt-32 armvirt-64 arc770-generic adm8668-generic xburst-qi_lb60 samsung-s5pv210 omap-generic ar71xx-nand ar71xx-generic ar71xx-tiny ar71xx-mikrotik brcm63xx-generic brcm63xx-smp at91-sama5d3 at91-sama5d4 at91-sam9x at91-sama5 at91-legacy at91-sama5d2 rb532-generic malta-le malta-be malta-be64 malta-le64"
+
+build-imagebuilder:
+  image: docker:latest
+  stage: build
+  services:
+    - docker:dind
+  before_script:
+    - apk add curl rsync bash gnupg outils-signify
+    - bash docker-common.sh
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+  script:
+    - bash docker-imagebuilder.sh
+    - docker tag "$DOCKER_IMAGE:latest" "$DOCKER_IMAGE:imagebuilder"
+    - docker push "$DOCKER_IMAGE:imagebuilder"
+  variables:
+    TARGETS: "x86-64"
+    BRANCHES: "master 19.07-SNAPSHOT"
+    DOCKER_IMAGE: "$CI_REGISTRY_IMAGE"
+
+test-imagebuilder:
+  image: "$CI_REGISTRY_IMAGE:imagebuilder"
+  stage: test
+  script:
+    - cd ~/openwrt
+    - make image
+    - ls ./bin/targets/x86/64/*combined-squashfs.img.gz
+
+deploy-imagebuilder:
+  image: docker:latest
+  stage: deploy
+  only:
+    - master
+  services:
+    - docker:dind
+  before_script:
+    - apk add curl rsync bash gnupg outils-signify
+    - bash docker-common.sh
+    - docker login -u "$DOCKER_USER" -p "$DOCKER_PASS"
+  script:
+    - bash docker-imagebuilder.sh
+    - docker push "$DOCKER_IMAGE"
+  variables:
+    DOCKER_IMAGE: "openwrtorg/imagebuilder"
+
+build-sdk:
+  image: docker:latest
+  stage: build
+  services:
+    - docker:dind
+  before_script:
+    - apk add curl rsync bash gnupg outils-signify
+    - bash docker-common.sh
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+  script:
+    - bash docker-sdk.sh
+    - docker tag "$DOCKER_IMAGE:latest" "$DOCKER_IMAGE:sdk"
+    - docker push "$DOCKER_IMAGE:sdk"
+  variables:
+    TARGETS: "x86-64"
+    BRANCHES: "master 19.07-SNAPSHOT"
+    DOCKER_IMAGE: "$CI_REGISTRY_IMAGE"
+
+test-sdk:
+  image: "$CI_REGISTRY_IMAGE:sdk"
+  stage: test
+  script:
+    - cd ~/openwrt
+    - make defconfig
+    - ./scripts/feeds update base
+    - ./scripts/feeds install busybox
+    - make package/busybox/compile -j$(nproc)
+    - ls ./bin/packages/x86_64/base/busybox*
+
+deploy-sdk:
+  image: docker:latest
+  stage: deploy
+  only:
+    - master
+  services:
+    - docker:dind
+  before_script:
+    - apk add curl rsync bash gnupg outils-signify
+    - bash docker-common.sh
+    - docker login -u "$DOCKER_USER" -p "$DOCKER_PASS"
+  script:
+    - bash docker-sdk.sh
+    - docker push "$DOCKER_IMAGE"
+  variables:
+    DOCKER_IMAGE: "openwrtorg/sdk"
+
+build-rootfs:
+  image: docker:latest
+  stage: build
+  services:
+    - docker:dind
+  before_script:
+    - apk add curl rsync bash gnupg outils-signify
+    - bash docker-common.sh
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+  script:
+    - bash docker-rootfs.sh
+    - docker tag "$DOCKER_IMAGE:latest" "$DOCKER_IMAGE:rootfs"
+    - docker push "$DOCKER_IMAGE:rootfs"
+  variables:
+    TARGETS: "x86-64"
+    BRANCHES: "master 19.07-SNAPSHOT"
+    DOCKER_IMAGE: "$CI_REGISTRY_IMAGE"
+
+test-rootfs:
+  image: "$CI_REGISTRY_IMAGE:rootfs"
+  stage: test
+  script:
+    - ls /
+    - ping -c 3 1.1.1.1
+
+deploy-rootfs:
+  image: docker:latest
+  stage: deploy
+  only:
+    - master
+  services:
+    - docker:dind
+  before_script:
+    - apk add curl rsync bash gnupg outils-signify
+    - bash docker-common.sh
+    - docker login -u "$DOCKER_USER" -p "$DOCKER_PASS"
+  script:
+    - bash docker-rootfs.sh
+    - docker push "$DOCKER_IMAGE"
+  variables:
+    DOCKER_IMAGE: "openwrtorg/rootfs"
+    BRANCHES: "master 19.07-SNAPSHOT"
+    TARGETS: "x86-64 armvirt-32 armvirt-64"
