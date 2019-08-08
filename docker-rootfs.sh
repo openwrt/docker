@@ -6,6 +6,7 @@ TARGETS="${TARGETS:-x86-64}"
 BRANCHES="${BRANCHES:-master}"
 export DOCKER_IMAGE="${DOCKER_IMAGE:-openwrt-rootfs}"
 export DOWNLOAD_FILE="openwrt-*-rootfs.tar.gz"
+export DOCKERFILE="Dockerfile.rootfs"
 
 for TARGET in $TARGETS ; do
     export TARGET
