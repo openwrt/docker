@@ -2,6 +2,10 @@
 
 set -ex
 
+mkdir -p "gpg"
+chmod 700 "gpg"
+export GNUPGHOME="gpg"
+
 # LEDE Build System (LEDE GnuPG key for unattended build jobs)
 curl 'https://git.openwrt.org/?p=keyring.git;a=blob_plain;f=gpg/626471F1.asc' | gpg --import \
     && echo '54CC74307A2C6DC9CE618269CD84BCED626471F1:6:' | gpg --import-ownertrust
