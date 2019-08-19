@@ -58,7 +58,9 @@ binary in hosts `./bin` folder.
 
 ### Tags
 
-All currently available SDKs via lower case `<target>-<subtarget>`
+
+All currently available SDKs via lower case `<target>-<subtarget>[-<branch>]`,
+appending `19.07-SNAPSHOT` or `18.06.4` let's you build other than snapshots.
 
 ## `imagebuilder`
 
@@ -77,7 +79,8 @@ store the binary in hosts `./bin` folder.
 
 ### Tags
 
-All currently available ImageBuilders via lower case `<target>-<subtarget>`
+All currently available SDKs via lower case `<target>-<subtarget>[-<branch>]`,
+appending `19.07-SNAPSHOT` or `18.06.4` let's you build other than snapshots.
 
 [ci-badge]: https://code.fe80.eu/openwrt/docker/badges/master/pipeline.svg
 [ci-ref]: https://code.fe80.eu/openwrt/docker/commits/master
