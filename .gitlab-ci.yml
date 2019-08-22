@@ -45,6 +45,54 @@ deploy-imagebuilder:
   variables:
     DOCKER_IMAGE: "openwrtorg/imagebuilder"
 
+build-ci-docker-sdk:
+  image: docker:latest
+  stage: build
+  services:
+    - docker:dind
+  before_script:
+    - apk add curl rsync bash gnupg outils-signify
+    - bash docker-common.sh
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+  script:
+    - bash docker-ci-docker-sdk.sh
+    - docker tag "$DOCKER_IMAGE:latest" "$DOCKER_IMAGE:ci-docker-sdk"
+    - docker push "$DOCKER_IMAGE:ci-docker-sdk"
+  variables:
+    TARGETS: "x86-64"
+    BRANCHES: "master 19.07-SNAPSHOT"
+    DOCKER_IMAGE: "$CI_REGISTRY_IMAGE"
+
+test-ci-docker-sdk:
+  image: "$CI_REGISTRY_IMAGE:ci-docker-sdk"
+  stage: test
+  script:
+    - cd /openwrt
+    - make defconfig
+    - ./scripts/feeds update base
+    - ./scripts/feeds install busybox
+    - make package/busybox/compile -j$(nproc)
+    - ls ./bin/packages/x86_64/base/busybox*
+
+deploy-ci-docker-sdk:
+  image: docker:latest
+  stage: deploy
+  only:
+    - master
+  services:
+    - docker:dind
+  before_script:
+    - apk add curl rsync bash gnupg outils-signify
+    - bash docker-common.sh
+    - docker login -u "$DOCKER_USER" -p "$DOCKER_PASS"
+  script:
+    - bash docker-sdk.sh
+    - docker push "$DOCKER_IMAGE"
+  variables:
+    TARGETS: "x86-64"
+    DOCKERFILE: "Dockerfile.ci-docker-sdk"
+    DOCKER_IMAGE: "openwrtorg/ci-docker-sdk"
+
 build-sdk:
   image: docker:latest
   stage: build

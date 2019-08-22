@@ -1,0 +1,30 @@
+FROM docker:latest
+
+MAINTAINER Paul Spooren <mail@aparcar.org>
+
+RUN apk update && \
+    apk add alpine-sdk \
+            bash \
+            bzip2 \
+            coreutils \
+            curl \
+            file \
+            findutils \
+            gawk \
+            gnupg \
+            grep \
+            linux-headers \
+            ncurses-dev \
+            outils-signify \
+            perl \
+            python2 \
+            python3 \
+            rsync \
+            rsync \
+            unzip \
+            wget \
+            xz \
+            zlib-dev
+
+COPY . /openwrt/
+WORKDIR /openwrt/
