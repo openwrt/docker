@@ -14,6 +14,7 @@ RUN apt-get update -qq &&\
         libssl-dev \
         python2.7 \
         python3 \
+        rsync \
         subversion \
         sudo \
         swig \
