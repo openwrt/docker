@@ -1,6 +1,22 @@
 variables:
   BRANCH: master
 
+include:
+  - remote: https://gitlab.com/ynezz/openwrt-ci/raw/master/openwrt-ci/gitlab/main.yml
+  - local: "targets.yml"
+  - local: "targets_rootfs.yml"
+
+stages:
+  - pre-build
+  - build
+  - test
+  - deploy
+
+
+check scripts with shellcheck:
+  stage: pre-build
+  extends: .shellcheck
+
 .build:
   image: docker:latest
   stage: build
@@ -111,7 +127,3 @@ test-rootfs:
   script:
     - bash docker-rootfs.sh
     - docker push "$DOCKER_IMAGE"
-
-include:
-  - local: "targets.yml"
-  - local: "targets_rootfs.yml"
