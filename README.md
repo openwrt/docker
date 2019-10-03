@@ -7,15 +7,17 @@
 This repository contains scripts to create Docker containers for OpenWrt. The
 scripts are run via an CI and upload such containers to docker.io.
 
-Used variables are `BRANCHES`, `TARGETS`, `DOCKER_USER`, `DOCKER_PASS` and `DOCKER_IMAGE`.
+Used variables are `BRANCH`, `TARGET`, `DOCKER_USER`, `DOCKER_PASS` and `DOCKER_IMAGE`.
 
-`$BRANCHES`: space separated list of OpenWrt branches to build ("master 18.06.2 18.06.1")
-`$TARGETS`: space separated list of OpenWrt targets to build ("x86-64 ath79-generic")
+`$BRANCH`: OpenWrt branch to build (e.g. "master")
+`$TARGET`: OpenWrt target to build (e.g. "x86-64")
 `$DOCKER_USER`: user to upload
 `$DOCKER_PASS`: passwort to upload
 `$DOCKER_IMAGE`: image name
 
-`$BRANCHES` and `$TARGETS` unite to a build matrix.
+To build multiple targets use the `gen-targets.sh` script which generates the
+files `targets.yml` and `targets_rootfs.yml`, which are imported by the GitLab
+runner. This allows to run multiple jobs in parallel.
 
 See `.gitlab-ci.yml` for the current setup.
 
