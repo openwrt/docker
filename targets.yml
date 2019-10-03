@@ -1,0 +1,869 @@
+
+deploy-imagebuilder-apm821xx-nand:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: apm821xx-nand
+
+deploy-sdk-apm821xx-nand:
+  extends: .deploy-sdk
+  variables:
+    TARGET: apm821xx-nand
+
+
+deploy-imagebuilder-apm821xx-sata:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: apm821xx-sata
+
+deploy-sdk-apm821xx-sata:
+  extends: .deploy-sdk
+  variables:
+    TARGET: apm821xx-sata
+
+
+deploy-imagebuilder-ar7-ac49x:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: ar7-ac49x
+
+deploy-sdk-ar7-ac49x:
+  extends: .deploy-sdk
+  variables:
+    TARGET: ar7-ac49x
+
+
+deploy-imagebuilder-ar7-generic:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: ar7-generic
+
+deploy-sdk-ar7-generic:
+  extends: .deploy-sdk
+  variables:
+    TARGET: ar7-generic
+
+
+deploy-imagebuilder-ar71xx-generic:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: ar71xx-generic
+
+deploy-sdk-ar71xx-generic:
+  extends: .deploy-sdk
+  variables:
+    TARGET: ar71xx-generic
+
+
+deploy-imagebuilder-ar71xx-mikrotik:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: ar71xx-mikrotik
+
+deploy-sdk-ar71xx-mikrotik:
+  extends: .deploy-sdk
+  variables:
+    TARGET: ar71xx-mikrotik
+
+
+deploy-imagebuilder-ar71xx-nand:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: ar71xx-nand
+
+deploy-sdk-ar71xx-nand:
+  extends: .deploy-sdk
+  variables:
+    TARGET: ar71xx-nand
+
+
+deploy-imagebuilder-ar71xx-tiny:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: ar71xx-tiny
+
+deploy-sdk-ar71xx-tiny:
+  extends: .deploy-sdk
+  variables:
+    TARGET: ar71xx-tiny
+
+
+deploy-imagebuilder-arc770-generic:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: arc770-generic
+
+deploy-sdk-arc770-generic:
+  extends: .deploy-sdk
+  variables:
+    TARGET: arc770-generic
+
+
+deploy-imagebuilder-archs38-generic:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: archs38-generic
+
+deploy-sdk-archs38-generic:
+  extends: .deploy-sdk
+  variables:
+    TARGET: archs38-generic
+
+
+deploy-imagebuilder-armvirt-32:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: armvirt-32
+
+deploy-sdk-armvirt-32:
+  extends: .deploy-sdk
+  variables:
+    TARGET: armvirt-32
+
+
+deploy-imagebuilder-armvirt-64:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: armvirt-64
+
+deploy-sdk-armvirt-64:
+  extends: .deploy-sdk
+  variables:
+    TARGET: armvirt-64
+
+
+deploy-imagebuilder-at91-legacy:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: at91-legacy
+
+deploy-sdk-at91-legacy:
+  extends: .deploy-sdk
+  variables:
+    TARGET: at91-legacy
+
+
+deploy-imagebuilder-at91-sam9x:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: at91-sam9x
+
+deploy-sdk-at91-sam9x:
+  extends: .deploy-sdk
+  variables:
+    TARGET: at91-sam9x
+
+
+deploy-imagebuilder-at91-sama5:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: at91-sama5
+
+deploy-sdk-at91-sama5:
+  extends: .deploy-sdk
+  variables:
+    TARGET: at91-sama5
+
+
+deploy-imagebuilder-at91-sama5d2:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: at91-sama5d2
+
+deploy-sdk-at91-sama5d2:
+  extends: .deploy-sdk
+  variables:
+    TARGET: at91-sama5d2
+
+
+deploy-imagebuilder-at91-sama5d3:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: at91-sama5d3
+
+deploy-sdk-at91-sama5d3:
+  extends: .deploy-sdk
+  variables:
+    TARGET: at91-sama5d3
+
+
+deploy-imagebuilder-at91-sama5d4:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: at91-sama5d4
+
+deploy-sdk-at91-sama5d4:
+  extends: .deploy-sdk
+  variables:
+    TARGET: at91-sama5d4
+
+
+deploy-imagebuilder-ath25-generic:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: ath25-generic
+
+deploy-sdk-ath25-generic:
+  extends: .deploy-sdk
+  variables:
+    TARGET: ath25-generic
+
+
+deploy-imagebuilder-ath79-generic:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: ath79-generic
+
+deploy-sdk-ath79-generic:
+  extends: .deploy-sdk
+  variables:
+    TARGET: ath79-generic
+
+
+deploy-imagebuilder-ath79-nand:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: ath79-nand
+
+deploy-sdk-ath79-nand:
+  extends: .deploy-sdk
+  variables:
+    TARGET: ath79-nand
+
+
+deploy-imagebuilder-ath79-tiny:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: ath79-tiny
+
+deploy-sdk-ath79-tiny:
+  extends: .deploy-sdk
+  variables:
+    TARGET: ath79-tiny
+
+
+deploy-imagebuilder-bcm53xx-generic:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: bcm53xx-generic
+
+deploy-sdk-bcm53xx-generic:
+  extends: .deploy-sdk
+  variables:
+    TARGET: bcm53xx-generic
+
+
+deploy-imagebuilder-brcm2708-bcm2708:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: brcm2708-bcm2708
+
+deploy-sdk-brcm2708-bcm2708:
+  extends: .deploy-sdk
+  variables:
+    TARGET: brcm2708-bcm2708
+
+
+deploy-imagebuilder-brcm2708-bcm2709:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: brcm2708-bcm2709
+
+deploy-sdk-brcm2708-bcm2709:
+  extends: .deploy-sdk
+  variables:
+    TARGET: brcm2708-bcm2709
+
+
+deploy-imagebuilder-brcm2708-bcm2710:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: brcm2708-bcm2710
+
+deploy-sdk-brcm2708-bcm2710:
+  extends: .deploy-sdk
+  variables:
+    TARGET: brcm2708-bcm2710
+
+
+deploy-imagebuilder-brcm47xx-generic:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: brcm47xx-generic
+
+deploy-sdk-brcm47xx-generic:
+  extends: .deploy-sdk
+  variables:
+    TARGET: brcm47xx-generic
+
+
+deploy-imagebuilder-brcm47xx-legacy:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: brcm47xx-legacy
+
+deploy-sdk-brcm47xx-legacy:
+  extends: .deploy-sdk
+  variables:
+    TARGET: brcm47xx-legacy
+
+
+deploy-imagebuilder-brcm47xx-mips74k:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: brcm47xx-mips74k
+
+deploy-sdk-brcm47xx-mips74k:
+  extends: .deploy-sdk
+  variables:
+    TARGET: brcm47xx-mips74k
+
+
+deploy-imagebuilder-brcm63xx-generic:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: brcm63xx-generic
+
+deploy-sdk-brcm63xx-generic:
+  extends: .deploy-sdk
+  variables:
+    TARGET: brcm63xx-generic
+
+
+deploy-imagebuilder-brcm63xx-smp:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: brcm63xx-smp
+
+deploy-sdk-brcm63xx-smp:
+  extends: .deploy-sdk
+  variables:
+    TARGET: brcm63xx-smp
+
+
+deploy-imagebuilder-cns3xxx-generic:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: cns3xxx-generic
+
+deploy-sdk-cns3xxx-generic:
+  extends: .deploy-sdk
+  variables:
+    TARGET: cns3xxx-generic
+
+
+deploy-imagebuilder-gemini-generic:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: gemini-generic
+
+deploy-sdk-gemini-generic:
+  extends: .deploy-sdk
+  variables:
+    TARGET: gemini-generic
+
+
+deploy-imagebuilder-imx6-generic:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: imx6-generic
+
+deploy-sdk-imx6-generic:
+  extends: .deploy-sdk
+  variables:
+    TARGET: imx6-generic
+
+
+deploy-imagebuilder-ipq40xx-generic:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: ipq40xx-generic
+
+deploy-sdk-ipq40xx-generic:
+  extends: .deploy-sdk
+  variables:
+    TARGET: ipq40xx-generic
+
+
+deploy-imagebuilder-ipq806x-generic:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: ipq806x-generic
+
+deploy-sdk-ipq806x-generic:
+  extends: .deploy-sdk
+  variables:
+    TARGET: ipq806x-generic
+
+
+deploy-imagebuilder-ixp4xx-generic:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: ixp4xx-generic
+
+deploy-sdk-ixp4xx-generic:
+  extends: .deploy-sdk
+  variables:
+    TARGET: ixp4xx-generic
+
+
+deploy-imagebuilder-ixp4xx-harddisk:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: ixp4xx-harddisk
+
+deploy-sdk-ixp4xx-harddisk:
+  extends: .deploy-sdk
+  variables:
+    TARGET: ixp4xx-harddisk
+
+
+deploy-imagebuilder-kirkwood-generic:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: kirkwood-generic
+
+deploy-sdk-kirkwood-generic:
+  extends: .deploy-sdk
+  variables:
+    TARGET: kirkwood-generic
+
+
+deploy-imagebuilder-lantiq-ase:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: lantiq-ase
+
+deploy-sdk-lantiq-ase:
+  extends: .deploy-sdk
+  variables:
+    TARGET: lantiq-ase
+
+
+deploy-imagebuilder-lantiq-falcon:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: lantiq-falcon
+
+deploy-sdk-lantiq-falcon:
+  extends: .deploy-sdk
+  variables:
+    TARGET: lantiq-falcon
+
+
+deploy-imagebuilder-lantiq-xrx200:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: lantiq-xrx200
+
+deploy-sdk-lantiq-xrx200:
+  extends: .deploy-sdk
+  variables:
+    TARGET: lantiq-xrx200
+
+
+deploy-imagebuilder-lantiq-xway:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: lantiq-xway
+
+deploy-sdk-lantiq-xway:
+  extends: .deploy-sdk
+  variables:
+    TARGET: lantiq-xway
+
+
+deploy-imagebuilder-lantiq-xway_legacy:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: lantiq-xway_legacy
+
+deploy-sdk-lantiq-xway_legacy:
+  extends: .deploy-sdk
+  variables:
+    TARGET: lantiq-xway_legacy
+
+
+deploy-imagebuilder-layerscape-armv7:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: layerscape-armv7
+
+deploy-sdk-layerscape-armv7:
+  extends: .deploy-sdk
+  variables:
+    TARGET: layerscape-armv7
+
+
+deploy-imagebuilder-layerscape-armv8_32b:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: layerscape-armv8_32b
+
+deploy-sdk-layerscape-armv8_32b:
+  extends: .deploy-sdk
+  variables:
+    TARGET: layerscape-armv8_32b
+
+
+deploy-imagebuilder-layerscape-armv8_64b:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: layerscape-armv8_64b
+
+deploy-sdk-layerscape-armv8_64b:
+  extends: .deploy-sdk
+  variables:
+    TARGET: layerscape-armv8_64b
+
+
+deploy-imagebuilder-malta-be:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: malta-be
+
+deploy-sdk-malta-be:
+  extends: .deploy-sdk
+  variables:
+    TARGET: malta-be
+
+
+deploy-imagebuilder-mediatek-mt7622:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: mediatek-mt7622
+
+deploy-sdk-mediatek-mt7622:
+  extends: .deploy-sdk
+  variables:
+    TARGET: mediatek-mt7622
+
+
+deploy-imagebuilder-mediatek-mt7623:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: mediatek-mt7623
+
+deploy-sdk-mediatek-mt7623:
+  extends: .deploy-sdk
+  variables:
+    TARGET: mediatek-mt7623
+
+
+deploy-imagebuilder-mpc85xx-generic:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: mpc85xx-generic
+
+deploy-sdk-mpc85xx-generic:
+  extends: .deploy-sdk
+  variables:
+    TARGET: mpc85xx-generic
+
+
+deploy-imagebuilder-mpc85xx-p1020:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: mpc85xx-p1020
+
+deploy-sdk-mpc85xx-p1020:
+  extends: .deploy-sdk
+  variables:
+    TARGET: mpc85xx-p1020
+
+
+deploy-imagebuilder-mpc85xx-p2020:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: mpc85xx-p2020
+
+deploy-sdk-mpc85xx-p2020:
+  extends: .deploy-sdk
+  variables:
+    TARGET: mpc85xx-p2020
+
+
+deploy-imagebuilder-mvebu-cortexa53:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: mvebu-cortexa53
+
+deploy-sdk-mvebu-cortexa53:
+  extends: .deploy-sdk
+  variables:
+    TARGET: mvebu-cortexa53
+
+
+deploy-imagebuilder-mvebu-cortexa72:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: mvebu-cortexa72
+
+deploy-sdk-mvebu-cortexa72:
+  extends: .deploy-sdk
+  variables:
+    TARGET: mvebu-cortexa72
+
+
+deploy-imagebuilder-mvebu-cortexa9:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: mvebu-cortexa9
+
+deploy-sdk-mvebu-cortexa9:
+  extends: .deploy-sdk
+  variables:
+    TARGET: mvebu-cortexa9
+
+
+deploy-imagebuilder-mxs-generic:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: mxs-generic
+
+deploy-sdk-mxs-generic:
+  extends: .deploy-sdk
+  variables:
+    TARGET: mxs-generic
+
+
+deploy-imagebuilder-octeon-generic:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: octeon-generic
+
+deploy-sdk-octeon-generic:
+  extends: .deploy-sdk
+  variables:
+    TARGET: octeon-generic
+
+
+deploy-imagebuilder-octeontx-generic:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: octeontx-generic
+
+deploy-sdk-octeontx-generic:
+  extends: .deploy-sdk
+  variables:
+    TARGET: octeontx-generic
+
+
+deploy-imagebuilder-omap-generic:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: omap-generic
+
+deploy-sdk-omap-generic:
+  extends: .deploy-sdk
+  variables:
+    TARGET: omap-generic
+
+
+deploy-imagebuilder-oxnas-ox820:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: oxnas-ox820
+
+deploy-sdk-oxnas-ox820:
+  extends: .deploy-sdk
+  variables:
+    TARGET: oxnas-ox820
+
+
+deploy-imagebuilder-pistachio-generic:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: pistachio-generic
+
+deploy-sdk-pistachio-generic:
+  extends: .deploy-sdk
+  variables:
+    TARGET: pistachio-generic
+
+
+deploy-imagebuilder-ramips-mt7620:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: ramips-mt7620
+
+deploy-sdk-ramips-mt7620:
+  extends: .deploy-sdk
+  variables:
+    TARGET: ramips-mt7620
+
+
+deploy-imagebuilder-ramips-mt7621:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: ramips-mt7621
+
+deploy-sdk-ramips-mt7621:
+  extends: .deploy-sdk
+  variables:
+    TARGET: ramips-mt7621
+
+
+deploy-imagebuilder-ramips-mt76x8:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: ramips-mt76x8
+
+deploy-sdk-ramips-mt76x8:
+  extends: .deploy-sdk
+  variables:
+    TARGET: ramips-mt76x8
+
+
+deploy-imagebuilder-ramips-rt288x:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: ramips-rt288x
+
+deploy-sdk-ramips-rt288x:
+  extends: .deploy-sdk
+  variables:
+    TARGET: ramips-rt288x
+
+
+deploy-imagebuilder-ramips-rt305x:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: ramips-rt305x
+
+deploy-sdk-ramips-rt305x:
+  extends: .deploy-sdk
+  variables:
+    TARGET: ramips-rt305x
+
+
+deploy-imagebuilder-ramips-rt3883:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: ramips-rt3883
+
+deploy-sdk-ramips-rt3883:
+  extends: .deploy-sdk
+  variables:
+    TARGET: ramips-rt3883
+
+
+deploy-imagebuilder-rb532-generic:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: rb532-generic
+
+deploy-sdk-rb532-generic:
+  extends: .deploy-sdk
+  variables:
+    TARGET: rb532-generic
+
+
+deploy-imagebuilder-samsung-s5pv210:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: samsung-s5pv210
+
+deploy-sdk-samsung-s5pv210:
+  extends: .deploy-sdk
+  variables:
+    TARGET: samsung-s5pv210
+
+
+deploy-imagebuilder-sunxi-cortexa53:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: sunxi-cortexa53
+
+deploy-sdk-sunxi-cortexa53:
+  extends: .deploy-sdk
+  variables:
+    TARGET: sunxi-cortexa53
+
+
+deploy-imagebuilder-sunxi-cortexa7:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: sunxi-cortexa7
+
+deploy-sdk-sunxi-cortexa7:
+  extends: .deploy-sdk
+  variables:
+    TARGET: sunxi-cortexa7
+
+
+deploy-imagebuilder-sunxi-cortexa8:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: sunxi-cortexa8
+
+deploy-sdk-sunxi-cortexa8:
+  extends: .deploy-sdk
+  variables:
+    TARGET: sunxi-cortexa8
+
+
+deploy-imagebuilder-tegra-generic:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: tegra-generic
+
+deploy-sdk-tegra-generic:
+  extends: .deploy-sdk
+  variables:
+    TARGET: tegra-generic
+
+
+deploy-imagebuilder-x86-64:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: x86-64
+
+deploy-sdk-x86-64:
+  extends: .deploy-sdk
+  variables:
+    TARGET: x86-64
+
+
+deploy-imagebuilder-x86-generic:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: x86-generic
+
+deploy-sdk-x86-generic:
+  extends: .deploy-sdk
+  variables:
+    TARGET: x86-generic
+
+
+deploy-imagebuilder-x86-geode:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: x86-geode
+
+deploy-sdk-x86-geode:
+  extends: .deploy-sdk
+  variables:
+    TARGET: x86-geode
+
+
+deploy-imagebuilder-x86-legacy:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: x86-legacy
+
+deploy-sdk-x86-legacy:
+  extends: .deploy-sdk
+  variables:
+    TARGET: x86-legacy
+
+
+deploy-imagebuilder-zynq-generic:
+  extends: .deploy-imagebuilder
+  variables:
+    TARGET: zynq-generic
+
+deploy-sdk-zynq-generic:
+  extends: .deploy-sdk
+  variables:
+    TARGET: zynq-generic
+

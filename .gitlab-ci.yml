@@ -1,13 +1,5 @@
 variables:
   BRANCH: master
-  TARGETS_1: "cns3xxx-generic mvebu-cortexa53 mvebu-cortexa72 mvebu-cortexa9 ipq40xx-generic ipq806x-generic layerscape-armv7 layerscape-armv8_32b layerscape-armv8_64b imx6-generic"
-  TARGETS_2: "octeontx-generic sunxi-cortexa8 sunxi-cortexa53 sunxi-cortexa7 bcm53xx-generic brcm47xx-mips74k brcm47xx-generic brcm47xx-legacy ath79-nand ath79-generic"
-  TARGETS_3: "ath79-tiny ath25-generic ar7-ac49x ar7-generic kirkwood-generic apm821xx-sata apm821xx-nand ramips-rt305x ramips-rt3883 ramips-mt76x8"
-  TARGETS_4: "ramips-mt7620 ramips-rt288x ramips-mt7621 pistachio-generic gemini-generic brcm2708-bcm2708 brcm2708-bcm2709 brcm2708-bcm2710 x86-geode x86-generic"
-  TARGETS_5: "x86-legacy x86-64 lantiq-xway_legacy lantiq-xrx200 lantiq-ase lantiq-falcon lantiq-xway mediatek-mt7622 mediatek-mt7623 mpc85xx-p1020"
-  TARGETS_6: "mpc85xx-p2020 mpc85xx-generic tegra-generic zynq-generic archs38-generic ixp4xx-harddisk ixp4xx-generic mxs-generic oxnas-ox820 octeon-generic"
-  TARGETS_7: "armvirt-32 armvirt-64 arc770-generic samsung-s5pv210 omap-generic ar71xx-nand ar71xx-generic ar71xx-tiny ar71xx-mikrotik brcm63xx-generic"
-  TARGETS_8: "brcm63xx-smp at91-sama5d3 at91-sama5d4 at91-sam9x at91-sama5 at91-legacy at91-sama5d2 rb532-generic malta-be"
 
 .build:
   image: docker:latest
@@ -86,86 +78,6 @@ test-sdk:
     - make package/busybox/compile -j$(nproc)
     - ls ./bin/packages/x86_64/base/busybox*
 
-deploy-imagebuilder-1:
-  extends: .deploy-imagebuilder
-  variables:
-    TARGETS: "$TARGETS_1"
-
-deploy-imagebuilder-2:
-  extends: .deploy-imagebuilder
-  variables:
-    TARGETS: "$TARGETS_2"
-
-deploy-imagebuilder-3:
-  extends: .deploy-imagebuilder
-  variables:
-    TARGETS: "$TARGETS_3"
-
-deploy-imagebuilder-4:
-  extends: .deploy-imagebuilder
-  variables:
-    TARGETS: "$TARGETS_4"
-
-deploy-imagebuilder-5:
-  extends: .deploy-imagebuilder
-  variables:
-    TARGETS: "$TARGETS_5"
-
-deploy-imagebuilder-6:
-  extends: .deploy-imagebuilder
-  variables:
-    TARGETS: "$TARGETS_6"
-
-deploy-imagebuilder-7:
-  extends: .deploy-imagebuilder
-  variables:
-    TARGETS: "$TARGETS_7"
-
-deploy-imagebuilder-8:
-  extends: .deploy-imagebuilder
-  variables:
-    TARGETS: "$TARGETS_8"
-
-deploy-sdk-1:
-  extends: .deploy-sdk
-  variables:
-    TARGETS: "$TARGETS_1"
-
-deploy-sdk-2:
-  extends: .deploy-sdk
-  variables:
-    TARGETS: "$TARGETS_2"
-
-deploy-sdk-3:
-  extends: .deploy-sdk
-  variables:
-    TARGETS: "$TARGETS_3"
-
-deploy-sdk-4:
-  extends: .deploy-sdk
-  variables:
-    TARGETS: "$TARGETS_4"
-
-deploy-sdk-5:
-  extends: .deploy-sdk
-  variables:
-    TARGETS: "$TARGETS_5"
-
-deploy-sdk-6:
-  extends: .deploy-sdk
-  variables:
-    TARGETS: "$TARGETS_6"
-
-deploy-sdk-7:
-  extends: .deploy-sdk
-  variables:
-    TARGETS: "$TARGETS_7"
-
-deploy-sdk-8:
-  extends: .deploy-sdk
-  variables:
-    TARGETS: "$TARGETS_8"
-
 build-rootfs:
   extends: .build
   except:
@@ -189,14 +101,17 @@ test-rootfs:
     - ls /
     - ping -c 3 1.1.1.1
 
-deploy-rootfs:
+.deploy-rootfs:
   extends: .deploy
   except:
     variables:
       - $SKIP_ROOTFS
   variables:
     DOCKER_IMAGE: "openwrtorg/rootfs"
-    TARGETS: "x86-64 armvirt-32 armvirt-64"
   script:
     - bash docker-rootfs.sh
     - docker push "$DOCKER_IMAGE"
+
+include:
+  - local: "targets.yml"
+  - local: "targets_rootfs.yml"
