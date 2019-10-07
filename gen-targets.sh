@@ -1,12 +1,12 @@
 #!/bin/bash
 
-TARGETS_ROOTFS="""\
+TARGETS_ROOTFS=" \
 	x86-64 \
 	armvirt-32 \
 	armvirt-64 \
-"""
+"
 
-TARGETS="""\
+TARGETS=" \
 	apm821xx-nand \
 	apm821xx-sata \
 	ar7-ac49x \
@@ -86,31 +86,32 @@ TARGETS="""\
 	x86-geode \
 	x86-legacy \
 	zynq-generic \
-"""
+"
 
-> targets_rootfs.yml
-
-for TARGET in $TARGETS_ROOTFS; do
-	echo """
+gen_targets_rootfs() {
+	for TARGET in $TARGETS_ROOTFS; do
+		echo "
 deploy-rootfs-$TARGET:
   extends: .deploy-rootfs
   variables:
-    TARGET: "$TARGET"
-""" >> targets_rootfs.yml
-done
+    TARGET: $TARGET"
+	done
+}
 
-> targets.yml
-
-for TARGET in $TARGETS; do
-	echo """
+gen_targets() {
+	for TARGET in $TARGETS; do
+		echo "
 deploy-imagebuilder-$TARGET:
   extends: .deploy-imagebuilder
   variables:
-    TARGET: "$TARGET"
+    TARGET: $TARGET
 
 deploy-sdk-$TARGET:
   extends: .deploy-sdk
   variables:
-    TARGET: "$TARGET"
-""" >> targets.yml
-done
+    TARGET: $TARGET"
+	done
+}
+
+gen_targets > targets.yml
+gen_targets_rootfs > targets_rootfs.yml

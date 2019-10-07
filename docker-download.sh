@@ -37,10 +37,10 @@ fi
 
 # shrink checksum file to single desired file and verify downloaded archive
 rsync -av "$FILE_HOST::downloads/$DOWNLOAD_PATH/$DOWNLOAD_FILE" . || exit 1
-grep $DOWNLOAD_FILE sha256sums > sha256sums_min
+grep "$DOWNLOAD_FILE" sha256sums > sha256sums_min
 sha256sum -c sha256sums_min
 rm -f sha256sums{,_min,.sig,.asc}
 
 mkdir -p ./build
-tar xf $DOWNLOAD_FILE --strip=1 -C ./build
-rm -rf $DOWNLOAD_FILE
+tar xf "$DOWNLOAD_FILE" --strip=1 -C ./build
+rm -rf "$DOWNLOAD_FILE"
