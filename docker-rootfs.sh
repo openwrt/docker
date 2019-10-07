@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 set -ex
 
@@ -8,13 +8,14 @@ export DOCKER_IMAGE="${DOCKER_IMAGE:-openwrt-rootfs}"
 export DOWNLOAD_FILE="openwrt-*-rootfs.tar.gz"
 export DOCKERFILE="Dockerfile.rootfs"
 
-if [ "$BRANCH" == "master" ]; then
-	export DOWNLOAD_PATH="snapshots/targets/$(echo $TARGET | tr '-' '/')"
+if [ "$BRANCH" = "master" ]; then
+	DOWNLOAD_PATH="snapshots/targets/$(echo "$TARGET" | tr '-' '/')"
 else
-	export DOWNLOAD_PATH="releases/$BRANCH/targets/$(echo $TARGET | tr '-' '/')"
+	DOWNLOAD_PATH="releases/$BRANCH/targets/$(echo "$TARGET" | tr '-' '/')"
 fi
+export DOWNLOAD_PATH
 
-./docker-download.sh || continue
+./docker-download.sh || true
 
 cp -r ./rootfs/* ./build
 
