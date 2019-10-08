@@ -1,0 +1,33 @@
+build-rootfs:
+  extends: .build
+  except:
+    variables:
+      - $SKIP_ROOTFS
+  variables:
+    TARGETS: "x86-64"
+    DOCKER_IMAGE: "$CI_REGISTRY_IMAGE"
+  script:
+    - bash docker-rootfs.sh
+    - docker tag "$DOCKER_IMAGE:x86-64-$BRANCH" "$DOCKER_IMAGE:rootfs-$BRANCH-$CI_COMMIT_REF_SLUG"
+    - docker push "$DOCKER_IMAGE:rootfs-$BRANCH-$CI_COMMIT_REF_SLUG"
+
+test-rootfs:
+  image: "$CI_REGISTRY_IMAGE:rootfs-$BRANCH-$CI_COMMIT_REF_SLUG"
+  stage: test
+  except:
+    variables:
+      - $SKIP_ROOTFS
+  script:
+    - ls /
+    - ping -c 3 1.1.1.1
+
+.deploy-rootfs:
+  extends: .deploy
+  except:
+    variables:
+      - $SKIP_ROOTFS
+  variables:
+    DOCKER_IMAGE: "openwrtorg/rootfs"
+  script:
+    - bash docker-rootfs.sh
+    - docker push "$DOCKER_IMAGE"

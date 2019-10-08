@@ -113,5 +113,5 @@ deploy-sdk-$TARGET:
 	done
 }
 
-gen_targets > targets.yml
-gen_targets_rootfs > targets_rootfs.yml
+gen_targets > .gitlab/ci/targets.yml
+gen_targets_rootfs > .gitlab/ci/targets_rootfs.yml

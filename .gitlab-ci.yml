@@ -2,9 +2,13 @@ variables:
   BRANCH: master
 
 include:
+  - local: .gitlab/ci/base.yml
+  - local: .gitlab/ci/imagebuilder.yml
+  - local: .gitlab/ci/sdk.yml
+  - local: .gitlab/ci/rootfs.yml
+  - local: .gitlab/ci/targets.yml
+  - local: .gitlab/ci/targets_rootfs.yml
   - remote: https://gitlab.com/ynezz/openwrt-ci/raw/master/openwrt-ci/gitlab/main.yml
-  - local: "targets.yml"
-  - local: "targets_rootfs.yml"
 
 stages:
   - pre-build
@@ -12,118 +16,6 @@ stages:
   - test
   - deploy
 
-
 check scripts with shellcheck:
   stage: pre-build
-  extends: .shellcheck
-
-.build:
-  image: docker:latest
-  stage: build
-  services:
-    - docker:dind
-  before_script:
-    - apk add curl rsync bash gnupg outils-signify
-    - bash docker-common.sh
-    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
-
-.deploy:
-  image: docker:latest
-  stage: deploy
-  only:
-    - master
-  services:
-    - docker:dind
-  before_script:
-    - apk add curl rsync bash gnupg outils-signify
-    - bash docker-common.sh
-    - docker login -u "$DOCKER_USER" -p "$DOCKER_PASS"
-
-.deploy-imagebuilder:
-  extends: .deploy
-  variables:
-    DOCKER_IMAGE: "openwrtorg/imagebuilder"
-  script:
-    - bash docker-imagebuilder.sh
-    - docker push "$DOCKER_IMAGE"
-
-.deploy-sdk:
-  extends: .deploy
-  variables:
-    DOCKER_IMAGE: "openwrtorg/sdk"
-  script:
-    - bash docker-sdk.sh
-    - docker push "$DOCKER_IMAGE"
-
-build-imagebuilder:
-  extends: .build
-  variables:
-    TARGETS: "x86-64"
-    DOCKER_IMAGE: "$CI_REGISTRY_IMAGE"
-  script:
-    - bash docker-imagebuilder.sh
-    - docker tag "$DOCKER_IMAGE:x86-64-$BRANCH" "$DOCKER_IMAGE:imagebuilder-$BRANCH-$CI_COMMIT_REF_SLUG"
-    - docker push "$DOCKER_IMAGE:imagebuilder-$BRANCH-$CI_COMMIT_REF_SLUG"
-
-test-imagebuilder:
-  image: "$CI_REGISTRY_IMAGE:imagebuilder-$BRANCH-$CI_COMMIT_REF_SLUG"
-  stage: test
-  script:
-    - cd /home/build/openwrt/
-    - make image
-    - ls ./bin/targets/x86/64/*combined-squashfs.img.gz
-
-build-sdk:
-  extends: .build
-  variables:
-    TARGETS: "x86-64"
-    DOCKER_IMAGE: "$CI_REGISTRY_IMAGE"
-  script:
-    - bash docker-sdk.sh
-    - docker tag "$DOCKER_IMAGE:x86-64-$BRANCH" "$DOCKER_IMAGE:sdk-$BRANCH-$CI_COMMIT_REF_SLUG"
-    - docker push "$DOCKER_IMAGE:sdk-$BRANCH-$CI_COMMIT_REF_SLUG"
-
-test-sdk:
-  image: "$CI_REGISTRY_IMAGE:sdk-$BRANCH-$CI_COMMIT_REF_SLUG"
-  stage: test
-  script:
-    - cd ~/openwrt
-    - make defconfig
-    - ./scripts/feeds update base
-    - ./scripts/feeds install busybox
-    - make package/busybox/compile -j$(nproc)
-    - ls ./bin/packages/x86_64/base/busybox*
-
-build-rootfs:
-  extends: .build
-  except:
-    variables:
-      - $SKIP_ROOTFS
-  variables:
-    TARGETS: "x86-64"
-    DOCKER_IMAGE: "$CI_REGISTRY_IMAGE"
-  script:
-    - bash docker-rootfs.sh
-    - docker tag "$DOCKER_IMAGE:x86-64-$BRANCH" "$DOCKER_IMAGE:rootfs-$BRANCH-$CI_COMMIT_REF_SLUG"
-    - docker push "$DOCKER_IMAGE:rootfs-$BRANCH-$CI_COMMIT_REF_SLUG"
-
-test-rootfs:
-  image: "$CI_REGISTRY_IMAGE:rootfs-$BRANCH-$CI_COMMIT_REF_SLUG"
-  stage: test
-  except:
-    variables:
-      - $SKIP_ROOTFS
-  script:
-    - ls /
-    - ping -c 3 1.1.1.1
-
-.deploy-rootfs:
-  extends: .deploy
-  except:
-    variables:
-      - $SKIP_ROOTFS
-  variables:
-    DOCKER_IMAGE: "openwrtorg/rootfs"
-  script:
-    - bash docker-rootfs.sh
-    - docker push "$DOCKER_IMAGE"
+  extends: .openwrt-shellcheck
