@@ -1,0 +1,21 @@
+.build:
+  image: docker:latest
+  stage: build
+  services:
+    - docker:dind
+  before_script:
+    - apk add curl rsync bash gnupg outils-signify
+    - bash docker-common.sh
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+
+.deploy:
+  image: docker:latest
+  stage: deploy
+  only:
+    - master
+  services:
+    - docker:dind
+  before_script:
+    - apk add curl rsync bash gnupg outils-signify
+    - bash docker-common.sh
+    - docker login -u "$DOCKER_USER" -p "$DOCKER_PASS"
