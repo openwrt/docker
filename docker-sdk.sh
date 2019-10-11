@@ -14,5 +14,5 @@ else
 fi
 export DOWNLOAD_PATH
 
-./docker-download.sh || true
+./docker-download.sh || exit 1
 ./docker-build.sh || exit 1

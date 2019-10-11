@@ -15,7 +15,7 @@ else
 fi
 export DOWNLOAD_PATH
 
-./docker-download.sh || true
+./docker-download.sh || exit 1
 
 cp -r ./rootfs/* ./build
 
