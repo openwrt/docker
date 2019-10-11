@@ -84,8 +84,8 @@ store the binary in hosts `./bin` folder.
 All currently available SDKs via lower case `<target>-<subtarget>[-<branch>]`,
 appending `19.07-SNAPSHOT` or `18.06.4` let's you build other than snapshots.
 
-[ci-badge]: https://code.fe80.eu/openwrt/docker/badges/master/pipeline.svg
-[ci-ref]: https://code.fe80.eu/openwrt/docker/commits/master
+[ci-badge]: https://gitlab.com/openwrtorg/docker/badges/master/pipeline.svg
+[ci-ref]: https://gitlab.com/openwrtorg/docker/commits/master
 [docker-hub-badge]: https://img.shields.io/badge/docker--hub-openwrtorg-blue.svg?style=flat-square
 [docker-hub-ref]: https://hub.docker.com/u/openwrtorg
 [license-badge]: https://img.shields.io/github/license/openwrt/docker.svg?style=flat-square
