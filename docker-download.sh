@@ -35,12 +35,17 @@ if [ -f sha256sums.sig ]; then
     fi
 fi
 
-# shrink checksum file to single desired file and verify downloaded archive
+# download file via rsync
 rsync -av "$FILE_HOST::downloads/$DOWNLOAD_PATH/$DOWNLOAD_FILE" . || exit 1
-grep "$DOWNLOAD_FILE" sha256sums > sha256sums_min
+
+# contains the actually downloaded file so no further globbing is required
+LOCAL_FILE="$(find . -name "$DOWNLOAD_FILE" -printf '%f\n')"
+
+# shrink checksum file to single desired file and verify downloaded archive
+grep "$LOCAL_FILE" sha256sums > sha256sums_min
 sha256sum -c sha256sums_min
 rm -f sha256sums{,_min,.sig,.asc}
 
 mkdir -p ./build
-tar xf "$DOWNLOAD_FILE" --strip=1 -C ./build
-rm -rf "$DOWNLOAD_FILE"
+tar xf "$LOCAL_FILE" --strip=1 -C ./build
+rm -rf "$LOCAL_FILE"
