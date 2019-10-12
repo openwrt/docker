@@ -39,7 +39,7 @@ fi
 rsync -av "$FILE_HOST::downloads/$DOWNLOAD_PATH/$DOWNLOAD_FILE" . || exit 1
 
 # contains the actually downloaded file so no further globbing is required
-LOCAL_FILE="$(find . -name "$DOWNLOAD_FILE" -printf '%f\n')"
+LOCAL_FILE="$(find . -name "$DOWNLOAD_FILE" -exec basename {} \;)"
 
 # shrink checksum file to single desired file and verify downloaded archive
 grep "$LOCAL_FILE" sha256sums > sha256sums_min
