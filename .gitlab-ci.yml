@@ -14,7 +14,11 @@ stages:
   - pre-build
   - build
   - test
+  - build-deploy-container
   - deploy
+
+build deploy container:
+  extends: .build-deploy-container
 
 check scripts with shellcheck:
   stage: pre-build
