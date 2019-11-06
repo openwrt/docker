@@ -1,0 +1,8 @@
+FROM docker:latest
+
+RUN apk add curl rsync bash gnupg outils-signify
+RUN mkdir -p /deploy
+COPY docker-common.sh /deploy
+WORKDIR /deploy
+RUN chmod +x ./docker-common.sh
+RUN ./docker-common.sh
