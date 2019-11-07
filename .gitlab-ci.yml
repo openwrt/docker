@@ -11,8 +11,8 @@ include:
   - remote: https://gitlab.com/ynezz/openwrt-ci/raw/master/openwrt-ci/gitlab/main.yml
 
 stages:
-  - build-deploy-container
   - pre-build
+  - build-deploy-container
   - build
   - test
   - deploy
