@@ -3,7 +3,8 @@
 set -ex
 
 export FILE_HOST="${FILE_HOST:-downloads.openwrt.org}"
-export GNUPGHOME="gpg"
+export GNUPGHOME="/keys/gpg/"
+export USIGNHOME="/keys/usign/"
 
 curl "https://$FILE_HOST/$DOWNLOAD_PATH/sha256sums" -fs -o sha256sums
 curl "https://$FILE_HOST/$DOWNLOAD_PATH/sha256sums.asc" -fs -o sha256sums.asc || true
@@ -21,7 +22,7 @@ if [ -f sha256sums.sig ]; then
 		SIGNIFY_BIN=signify # alpine
 	fi
     VERIFIED=
-    for KEY in ./usign/*; do
+    for KEY in "$USIGNHOME"* ; do
         echo "Trying $KEY..."
         if "$SIGNIFY_BIN" -V -q -p "$KEY" -x sha256sums.sig -m sha256sums; then
             echo "...verified"

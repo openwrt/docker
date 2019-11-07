@@ -2,9 +2,13 @@
 
 set -ex
 
-mkdir -p "gpg"
-chmod 700 "gpg"
-export GNUPGHOME="gpg"
+export GNUPGHOME="/keys/gpg/"
+mkdir -p "$GNUPGHOME"
+chmod 700 "$GNUPGHOME"
+
+export USIGNHOME="/keys/usign/"
+mkdir -p "$USIGNHOME"
+chmod 700 "$USIGNHOME"
 
 # LEDE Build System (LEDE GnuPG key for unattended build jobs)
 curl 'https://git.openwrt.org/?p=keyring.git;a=blob_plain;f=gpg/626471F1.asc' | gpg --import \
@@ -23,13 +27,13 @@ curl 'https://git.openwrt.org/?p=keyring.git;a=blob_plain;f=gpg/17E1CE16.asc' | 
     && echo '6768C55E79B032D77A28DA5F0F20257417E1CE16:6:' | gpg --import-ownertrust
 
 # LEDE Build System (LEDE usign key for unattended build jobs)
-curl 'https://git.openwrt.org/?p=keyring.git;a=blob_plain;f=usign/b5043e70f9a75cde' --create-dirs \
-    -o ./usign/b5043e70f9a75cde
+curl 'https://git.openwrt.org/?p=keyring.git;a=blob_plain;f=usign/b5043e70f9a75cde' \
+	--create-dirs -o "$USIGNHOME/b5043e70f9a75cde"
 
 # Public usign key for unattended snapshot builds
-curl 'https://git.openwrt.org/?p=keyring.git;a=blob_plain;f=usign/b5043e70f9a75cde' --create-dirs \
-    -o ./usign/b5043e70f9a75cde
+curl 'https://git.openwrt.org/?p=keyring.git;a=blob_plain;f=usign/b5043e70f9a75cde' \
+       	--create-dirs -o "$USIGNHOME/b5043e70f9a75cde"
 
 # Public usign key for 19.07 release builds
-curl 'https://git.openwrt.org/?p=keyring.git;a=blob_plain;f=usign/f94b9dd6febac963' --create-dirs \
-    -o ./usign/f94b9dd6febac963
+curl 'https://git.openwrt.org/?p=keyring.git;a=blob_plain;f=usign/f94b9dd6febac963' \
+	--create-dirs -o "$USIGNHOME/f94b9dd6febac963"

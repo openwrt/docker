@@ -11,10 +11,10 @@ include:
   - remote: https://gitlab.com/ynezz/openwrt-ci/raw/master/openwrt-ci/gitlab/main.yml
 
 stages:
+  - build-deploy-container
   - pre-build
   - build
   - test
-  - build-deploy-container
   - deploy
 
 build deploy container:
@@ -23,3 +23,4 @@ build deploy container:
 check scripts with shellcheck:
   stage: pre-build
   extends: .openwrt-shellcheck
+
