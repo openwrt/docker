@@ -21,6 +21,11 @@ test-sdk:
   stage: test
   script:
     - cd ~/openwrt
+    - touch .config
+    - make prepare-tmpinfo scripts/config/conf
+    - ./scripts/config/conf --defconfig=.config Config.in
+    - make prereq
+    - rm .config
     - make defconfig
     - ./scripts/feeds update base
     - ./scripts/feeds install busybox
