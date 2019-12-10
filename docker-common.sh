@@ -39,6 +39,10 @@ curl 'https://git.openwrt.org/?p=keyring.git;a=blob_plain;f=gpg/2074BE7A.asc' | 
 curl 'https://git.openwrt.org/?p=keyring.git;a=blob_plain;f=usign/b5043e70f9a75cde' --create-dirs -o "$USIGNHOME/b5043e70f9a75cde" \
  && echo "d7ac10f9ed1b38033855f3d27c9327d558444fca804c685b17d9dcfb0648228f *$USIGNHOME/b5043e70f9a75cde" | sha256sum -c
 
+# untrusted comment: Public usign key for 18.06 release builds
+curl 'https://git.openwrt.org/?p=keyring.git;a=blob_plain;f=usign/1035ac73cc4e59e3' --create-dirs -o "$USIGNHOME/1035ac73cc4e59e3" \
+ && echo "8dc2e7f5c4e634437e6641f4df77a18bf59f0c8e9016c8ba4be5d4a0111e68c2 *$USIGNHOME/1035ac73cc4e59e3" | sha256sum -c
+
 # untrusted comment: Public usign key for 19.07 release builds
 curl 'https://git.openwrt.org/?p=keyring.git;a=blob_plain;f=usign/f94b9dd6febac963' --create-dirs -o "$USIGNHOME/f94b9dd6febac963" \
  && echo "b1d09457cfbc36fccfe18382d65c54a2ade3e7fd3902da490a53aa517b512755 *$USIGNHOME/f94b9dd6febac963" | sha256sum -c
