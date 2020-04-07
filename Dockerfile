@@ -12,7 +12,6 @@ RUN apt-get update -qq &&\
         git \
         libncurses5-dev \
         libssl-dev \
-        python2.7 \
         python3 \
         rsync \
         subversion \
