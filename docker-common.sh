@@ -2,11 +2,11 @@
 
 set -ex
 
-export GNUPGHOME="/keys/gpg/"
+export GNUPGHOME="${GNUPGHOME:-/keys/gpg/}"
 mkdir -p "$GNUPGHOME"
 chmod 700 "$GNUPGHOME"
 
-export USIGNHOME="/keys/usign/"
+export USIGNHOME="${USIGNHOME:-/keys/usign/}"
 mkdir -p "$USIGNHOME"
 chmod 700 "$USIGNHOME"
 
