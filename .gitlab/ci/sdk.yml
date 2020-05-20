@@ -29,5 +29,9 @@ test-sdk:
     - make defconfig
     - ./scripts/feeds update base
     - ./scripts/feeds install busybox
+    - sync
+    - sleep 1
     - make package/busybox/compile V=s
+    - sync
+    - sleep 1
     - ls ./bin/packages/x86_64/base/busybox*
