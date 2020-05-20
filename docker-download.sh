@@ -3,8 +3,8 @@
 set -ex
 
 export FILE_HOST="${FILE_HOST:-downloads.openwrt.org}"
-export GNUPGHOME="/keys/gpg/"
-export USIGNHOME="/keys/usign/"
+export GNUPGHOME="${GNUPGHOME:-/keys/gpg/}"
+export USIGNHOME="${USIGNHOME:-/keys/usign/}"
 
 curl "https://$FILE_HOST/$DOWNLOAD_PATH/sha256sums" -fs -o sha256sums
 curl "https://$FILE_HOST/$DOWNLOAD_PATH/sha256sums.asc" -fs -o sha256sums.asc || true
