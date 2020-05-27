@@ -22,4 +22,4 @@ test-imagebuilder:
   script:
     - cd /home/build/openwrt/
     - make image
-    - ls ./bin/targets/x86/64/*squashfs-combined.img.gz
+    - ls ./bin/targets/x86/64/*.img.gz | grep squashfs
