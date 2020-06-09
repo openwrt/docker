@@ -164,58 +164,90 @@ deploy-sdk-bcm53xx-generic:
 
 deploy-imagebuilder-brcm2708-bcm2708:
   extends: .deploy-imagebuilder
+  except:
+    - master
 
 deploy-sdk-brcm2708-bcm2708:
   extends: .deploy-sdk
+  except:
+    - master
 
 
 deploy-imagebuilder-brcm2708-bcm2709:
   extends: .deploy-imagebuilder
+  except:
+    - master
 
 deploy-sdk-brcm2708-bcm2709:
   extends: .deploy-sdk
+  except:
+    - master
 
 
 deploy-imagebuilder-brcm2708-bcm2710:
   extends: .deploy-imagebuilder
+  except:
+    - master
 
 deploy-sdk-brcm2708-bcm2710:
   extends: .deploy-sdk
+  except:
+    - master
 
 
 deploy-imagebuilder-brcm47xx-generic:
   extends: .deploy-imagebuilder
+  except:
+    - master
 
 deploy-sdk-brcm47xx-generic:
   extends: .deploy-sdk
+  except:
+    - master
 
 
 deploy-imagebuilder-brcm47xx-legacy:
   extends: .deploy-imagebuilder
+  except:
+    - master
 
 deploy-sdk-brcm47xx-legacy:
   extends: .deploy-sdk
+  except:
+    - master
 
 
 deploy-imagebuilder-brcm47xx-mips74k:
   extends: .deploy-imagebuilder
+  except:
+    - master
 
 deploy-sdk-brcm47xx-mips74k:
   extends: .deploy-sdk
+  except:
+    - master
 
 
 deploy-imagebuilder-brcm63xx-generic:
   extends: .deploy-imagebuilder
+  except:
+    - master
 
 deploy-sdk-brcm63xx-generic:
   extends: .deploy-sdk
+  except:
+    - master
 
 
 deploy-imagebuilder-brcm63xx-smp:
   extends: .deploy-imagebuilder
+  except:
+    - master
 
 deploy-sdk-brcm63xx-smp:
   extends: .deploy-sdk
+  except:
+    - master
 
 
 deploy-imagebuilder-cns3xxx-generic:
