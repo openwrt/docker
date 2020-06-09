@@ -4,7 +4,6 @@ build-rootfs:
     variables:
       - $SKIP_ROOTFS
   variables:
-    TARGETS: "x86-64"
     DOCKER_IMAGE: "$CI_REGISTRY_IMAGE"
   script:
     - bash docker-rootfs.sh
