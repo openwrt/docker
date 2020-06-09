@@ -6,7 +6,7 @@
     - bash docker-sdk.sh
     - docker push "$DOCKER_IMAGE"
 
-build-sdk:
+deploy-sdk-x86-64:
   extends: .build
   variables:
     TARGETS: "x86-64"
