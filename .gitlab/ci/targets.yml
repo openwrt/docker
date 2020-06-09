@@ -15,30 +15,46 @@ deploy-sdk-apm821xx-sata:
 
 deploy-imagebuilder-ar71xx-generic:
   extends: .deploy-imagebuilder
+  except:
+    - master
 
 deploy-sdk-ar71xx-generic:
   extends: .deploy-sdk
+  except:
+    - master
 
 
 deploy-imagebuilder-ar71xx-mikrotik:
   extends: .deploy-imagebuilder
+  except:
+    - master
 
 deploy-sdk-ar71xx-mikrotik:
   extends: .deploy-sdk
+  except:
+    - master
 
 
 deploy-imagebuilder-ar71xx-nand:
   extends: .deploy-imagebuilder
+  except:
+    - master
 
 deploy-sdk-ar71xx-nand:
   extends: .deploy-sdk
+  except:
+    - master
 
 
 deploy-imagebuilder-ar71xx-tiny:
   extends: .deploy-imagebuilder
+  except:
+    - master
 
 deploy-sdk-ar71xx-tiny:
   extends: .deploy-sdk
+  except:
+    - master
 
 
 deploy-imagebuilder-arc770-generic:
