@@ -384,20 +384,6 @@ deploy-sdk-ipq806x-generic:
   extends: .deploy-sdk
 
 
-deploy-imagebuilder-ixp4xx-generic:
-  extends: .deploy-imagebuilder
-
-deploy-sdk-ixp4xx-generic:
-  extends: .deploy-sdk
-
-
-deploy-imagebuilder-ixp4xx-harddisk:
-  extends: .deploy-imagebuilder
-
-deploy-sdk-ixp4xx-harddisk:
-  extends: .deploy-sdk
-
-
 deploy-imagebuilder-kirkwood-generic:
   extends: .deploy-imagebuilder
 
