@@ -13,20 +13,6 @@ deploy-sdk-apm821xx-sata:
   extends: .deploy-sdk
 
 
-deploy-imagebuilder-ar7-ac49x:
-  extends: .deploy-imagebuilder
-
-deploy-sdk-ar7-ac49x:
-  extends: .deploy-sdk
-
-
-deploy-imagebuilder-ar7-generic:
-  extends: .deploy-imagebuilder
-
-deploy-sdk-ar7-generic:
-  extends: .deploy-sdk
-
-
 deploy-imagebuilder-ar71xx-generic:
   extends: .deploy-imagebuilder
 
