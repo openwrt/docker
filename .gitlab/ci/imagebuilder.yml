@@ -9,7 +9,6 @@
 deploy-imagebuilder-x86-64:
   extends: .build
   variables:
-    TARGETS: "x86-64"
     DOCKER_IMAGE: "$CI_REGISTRY_IMAGE"
   script:
     - bash docker-imagebuilder.sh
