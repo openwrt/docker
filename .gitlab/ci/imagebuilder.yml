@@ -6,7 +6,7 @@
     - bash docker-imagebuilder.sh
     - docker push "$DOCKER_IMAGE"
 
-build-imagebuilder:
+deploy-imagebuilder-x86-64:
   extends: .build
   variables:
     TARGETS: "x86-64"

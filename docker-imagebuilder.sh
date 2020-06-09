@@ -2,6 +2,7 @@
 
 set -ex
 
+TARGET="${CI_JOB_NAME//deploy-imagebuilder-/}"
 export TARGET="${TARGET:-x86-64}"
 export BRANCH="${BRANCH:-master}"
 export DOCKER_IMAGE="${DOCKER_IMAGE:-openwrt-imagebuilder}"
