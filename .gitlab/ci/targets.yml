@@ -2,14 +2,14 @@
 deploy-imagebuilder_apm821xx-nand:
   extends: .deploy-imagebuilder
 
-deploy-sdk-apm821xx-nand:
+deploy-sdk_apm821xx-nand:
   extends: .deploy-sdk
 
 
 deploy-imagebuilder_apm821xx-sata:
   extends: .deploy-imagebuilder
 
-deploy-sdk-apm821xx-sata:
+deploy-sdk_apm821xx-sata:
   extends: .deploy-sdk
 
 
@@ -18,7 +18,7 @@ deploy-imagebuilder_ar71xx-generic:
   except:
     - master
 
-deploy-sdk-ar71xx-generic:
+deploy-sdk_ar71xx-generic:
   extends: .deploy-sdk
   except:
     - master
@@ -29,7 +29,7 @@ deploy-imagebuilder_ar71xx-mikrotik:
   except:
     - master
 
-deploy-sdk-ar71xx-mikrotik:
+deploy-sdk_ar71xx-mikrotik:
   extends: .deploy-sdk
   except:
     - master
@@ -40,7 +40,7 @@ deploy-imagebuilder_ar71xx-nand:
   except:
     - master
 
-deploy-sdk-ar71xx-nand:
+deploy-sdk_ar71xx-nand:
   extends: .deploy-sdk
   except:
     - master
@@ -51,7 +51,7 @@ deploy-imagebuilder_ar71xx-tiny:
   except:
     - master
 
-deploy-sdk-ar71xx-tiny:
+deploy-sdk_ar71xx-tiny:
   extends: .deploy-sdk
   except:
     - master
@@ -60,105 +60,105 @@ deploy-sdk-ar71xx-tiny:
 deploy-imagebuilder_arc770-generic:
   extends: .deploy-imagebuilder
 
-deploy-sdk-arc770-generic:
+deploy-sdk_arc770-generic:
   extends: .deploy-sdk
 
 
 deploy-imagebuilder_archs38-generic:
   extends: .deploy-imagebuilder
 
-deploy-sdk-archs38-generic:
+deploy-sdk_archs38-generic:
   extends: .deploy-sdk
 
 
 deploy-imagebuilder_armvirt-32:
   extends: .deploy-imagebuilder
 
-deploy-sdk-armvirt-32:
+deploy-sdk_armvirt-32:
   extends: .deploy-sdk
 
 
 deploy-imagebuilder_armvirt-64:
   extends: .deploy-imagebuilder
 
-deploy-sdk-armvirt-64:
+deploy-sdk_armvirt-64:
   extends: .deploy-sdk
 
 
 deploy-imagebuilder_at91-legacy:
   extends: .deploy-imagebuilder
 
-deploy-sdk-at91-legacy:
+deploy-sdk_at91-legacy:
   extends: .deploy-sdk
 
 
 deploy-imagebuilder_at91-sam9x:
   extends: .deploy-imagebuilder
 
-deploy-sdk-at91-sam9x:
+deploy-sdk_at91-sam9x:
   extends: .deploy-sdk
 
 
 deploy-imagebuilder_at91-sama5:
   extends: .deploy-imagebuilder
 
-deploy-sdk-at91-sama5:
+deploy-sdk_at91-sama5:
   extends: .deploy-sdk
 
 
 deploy-imagebuilder_at91-sama5d2:
   extends: .deploy-imagebuilder
 
-deploy-sdk-at91-sama5d2:
+deploy-sdk_at91-sama5d2:
   extends: .deploy-sdk
 
 
 deploy-imagebuilder_at91-sama5d3:
   extends: .deploy-imagebuilder
 
-deploy-sdk-at91-sama5d3:
+deploy-sdk_at91-sama5d3:
   extends: .deploy-sdk
 
 
 deploy-imagebuilder_at91-sama5d4:
   extends: .deploy-imagebuilder
 
-deploy-sdk-at91-sama5d4:
+deploy-sdk_at91-sama5d4:
   extends: .deploy-sdk
 
 
 deploy-imagebuilder_ath25-generic:
   extends: .deploy-imagebuilder
 
-deploy-sdk-ath25-generic:
+deploy-sdk_ath25-generic:
   extends: .deploy-sdk
 
 
 deploy-imagebuilder_ath79-generic:
   extends: .deploy-imagebuilder
 
-deploy-sdk-ath79-generic:
+deploy-sdk_ath79-generic:
   extends: .deploy-sdk
 
 
 deploy-imagebuilder_ath79-nand:
   extends: .deploy-imagebuilder
 
-deploy-sdk-ath79-nand:
+deploy-sdk_ath79-nand:
   extends: .deploy-sdk
 
 
 deploy-imagebuilder_ath79-tiny:
   extends: .deploy-imagebuilder
 
-deploy-sdk-ath79-tiny:
+deploy-sdk_ath79-tiny:
   extends: .deploy-sdk
 
 
 deploy-imagebuilder_bcm53xx-generic:
   extends: .deploy-imagebuilder
 
-deploy-sdk-bcm53xx-generic:
+deploy-sdk_bcm53xx-generic:
   extends: .deploy-sdk
 
 
@@ -167,7 +167,7 @@ deploy-imagebuilder_brcm2708-bcm2708:
   except:
     - master
 
-deploy-sdk-brcm2708-bcm2708:
+deploy-sdk_brcm2708-bcm2708:
   extends: .deploy-sdk
   except:
     - master
@@ -178,7 +178,7 @@ deploy-imagebuilder_bcm27xx-bcm2708:
   only:
     - master
 
-deploy-sdk-bcm27xx-bcm2708:
+deploy-sdk_bcm27xx-bcm2708:
   extends: .deploy-sdk
   only:
     - master
@@ -189,7 +189,7 @@ deploy-imagebuilder_brcm2708-bcm2709:
   except:
     - master
 
-deploy-sdk-brcm2708-bcm2709:
+deploy-sdk_brcm2708-bcm2709:
   extends: .deploy-sdk
   except:
     - master
@@ -200,7 +200,7 @@ deploy-imagebuilder_bcm27xx-bcm2709:
   only:
     - master
 
-deploy-sdk-bcm27xx-bcm2709:
+deploy-sdk_bcm27xx-bcm2709:
   extends: .deploy-sdk
   only:
     - master
@@ -211,7 +211,7 @@ deploy-imagebuilder_brcm2708-bcm2710:
   except:
     - master
 
-deploy-sdk-brcm2708-bcm2710:
+deploy-sdk_brcm2708-bcm2710:
   extends: .deploy-sdk
   except:
     - master
@@ -222,7 +222,7 @@ deploy-imagebuilder_bcm27xx-bcm2710:
   only:
     - master
 
-deploy-sdk-bcm27xx-bcm2710:
+deploy-sdk_bcm27xx-bcm2710:
   extends: .deploy-sdk
   only:
     - master
@@ -233,7 +233,7 @@ deploy-imagebuilder_bcm27xx-bcm2711:
   only:
     - master
 
-deploy-sdk-bcm27xx-bcm2711:
+deploy-sdk_bcm27xx-bcm2711:
   extends: .deploy-sdk
   only:
     - master
@@ -244,7 +244,7 @@ deploy-imagebuilder_brcm47xx-generic:
   except:
     - master
 
-deploy-sdk-brcm47xx-generic:
+deploy-sdk_brcm47xx-generic:
   extends: .deploy-sdk
   except:
     - master
@@ -255,7 +255,7 @@ deploy-imagebuilder_bcm47xx-generic:
   only:
     - master
 
-deploy-sdk-bcm47xx-generic:
+deploy-sdk_bcm47xx-generic:
   extends: .deploy-sdk
   only:
     - master
@@ -266,7 +266,7 @@ deploy-imagebuilder_brcm47xx-legacy:
   except:
     - master
 
-deploy-sdk-brcm47xx-legacy:
+deploy-sdk_brcm47xx-legacy:
   extends: .deploy-sdk
   except:
     - master
@@ -277,7 +277,7 @@ deploy-imagebuilder_bcm47xx-legacy:
   only:
     - master
 
-deploy-sdk-bcm47xx-legacy:
+deploy-sdk_bcm47xx-legacy:
   extends: .deploy-sdk
   only:
     - master
@@ -288,7 +288,7 @@ deploy-imagebuilder_brcm47xx-mips74k:
   except:
     - master
 
-deploy-sdk-brcm47xx-mips74k:
+deploy-sdk_brcm47xx-mips74k:
   extends: .deploy-sdk
   except:
     - master
@@ -299,7 +299,7 @@ deploy-imagebuilder_bcm47xx-mips74k:
   only:
     - master
 
-deploy-sdk-bcm47xx-mips74k:
+deploy-sdk_bcm47xx-mips74k:
   extends: .deploy-sdk
   only:
     - master
@@ -310,7 +310,7 @@ deploy-imagebuilder_brcm63xx-generic:
   except:
     - master
 
-deploy-sdk-brcm63xx-generic:
+deploy-sdk_brcm63xx-generic:
   extends: .deploy-sdk
   except:
     - master
@@ -321,7 +321,7 @@ deploy-imagebuilder_bcm63xx-generic:
   only:
     - master
 
-deploy-sdk-bcm63xx-generic:
+deploy-sdk_bcm63xx-generic:
   extends: .deploy-sdk
   only:
     - master
@@ -332,7 +332,7 @@ deploy-imagebuilder_brcm63xx-smp:
   except:
     - master
 
-deploy-sdk-brcm63xx-smp:
+deploy-sdk_brcm63xx-smp:
   extends: .deploy-sdk
   except:
     - master
@@ -343,7 +343,7 @@ deploy-imagebuilder_bcm63xx-smp:
   only:
     - master
 
-deploy-sdk-bcm63xx-smp:
+deploy-sdk_bcm63xx-smp:
   extends: .deploy-sdk
   only:
     - master
@@ -352,321 +352,321 @@ deploy-sdk-bcm63xx-smp:
 deploy-imagebuilder_cns3xxx-generic:
   extends: .deploy-imagebuilder
 
-deploy-sdk-cns3xxx-generic:
+deploy-sdk_cns3xxx-generic:
   extends: .deploy-sdk
 
 
 deploy-imagebuilder_gemini-generic:
   extends: .deploy-imagebuilder
 
-deploy-sdk-gemini-generic:
+deploy-sdk_gemini-generic:
   extends: .deploy-sdk
 
 
 deploy-imagebuilder_imx6-generic:
   extends: .deploy-imagebuilder
 
-deploy-sdk-imx6-generic:
+deploy-sdk_imx6-generic:
   extends: .deploy-sdk
 
 
 deploy-imagebuilder_ipq40xx-generic:
   extends: .deploy-imagebuilder
 
-deploy-sdk-ipq40xx-generic:
+deploy-sdk_ipq40xx-generic:
   extends: .deploy-sdk
 
 
 deploy-imagebuilder_ipq806x-generic:
   extends: .deploy-imagebuilder
 
-deploy-sdk-ipq806x-generic:
+deploy-sdk_ipq806x-generic:
   extends: .deploy-sdk
 
 
 deploy-imagebuilder_kirkwood-generic:
   extends: .deploy-imagebuilder
 
-deploy-sdk-kirkwood-generic:
+deploy-sdk_kirkwood-generic:
   extends: .deploy-sdk
 
 
 deploy-imagebuilder_lantiq-ase:
   extends: .deploy-imagebuilder
 
-deploy-sdk-lantiq-ase:
+deploy-sdk_lantiq-ase:
   extends: .deploy-sdk
 
 
 deploy-imagebuilder_lantiq-falcon:
   extends: .deploy-imagebuilder
 
-deploy-sdk-lantiq-falcon:
+deploy-sdk_lantiq-falcon:
   extends: .deploy-sdk
 
 
 deploy-imagebuilder_lantiq-xrx200:
   extends: .deploy-imagebuilder
 
-deploy-sdk-lantiq-xrx200:
+deploy-sdk_lantiq-xrx200:
   extends: .deploy-sdk
 
 
 deploy-imagebuilder_lantiq-xway:
   extends: .deploy-imagebuilder
 
-deploy-sdk-lantiq-xway:
+deploy-sdk_lantiq-xway:
   extends: .deploy-sdk
 
 
 deploy-imagebuilder_lantiq-xway_legacy:
   extends: .deploy-imagebuilder
 
-deploy-sdk-lantiq-xway_legacy:
+deploy-sdk_lantiq-xway_legacy:
   extends: .deploy-sdk
 
 
 deploy-imagebuilder_layerscape-armv7:
   extends: .deploy-imagebuilder
 
-deploy-sdk-layerscape-armv7:
+deploy-sdk_layerscape-armv7:
   extends: .deploy-sdk
 
 
 deploy-imagebuilder_layerscape-armv8_32b:
   extends: .deploy-imagebuilder
 
-deploy-sdk-layerscape-armv8_32b:
+deploy-sdk_layerscape-armv8_32b:
   extends: .deploy-sdk
 
 
 deploy-imagebuilder_layerscape-armv8_64b:
   extends: .deploy-imagebuilder
 
-deploy-sdk-layerscape-armv8_64b:
+deploy-sdk_layerscape-armv8_64b:
   extends: .deploy-sdk
 
 
 deploy-imagebuilder_malta-be:
   extends: .deploy-imagebuilder
 
-deploy-sdk-malta-be:
+deploy-sdk_malta-be:
   extends: .deploy-sdk
 
 
 deploy-imagebuilder_mediatek-mt7622:
   extends: .deploy-imagebuilder
 
-deploy-sdk-mediatek-mt7622:
+deploy-sdk_mediatek-mt7622:
   extends: .deploy-sdk
 
 
 deploy-imagebuilder_mediatek-mt7623:
   extends: .deploy-imagebuilder
 
-deploy-sdk-mediatek-mt7623:
+deploy-sdk_mediatek-mt7623:
   extends: .deploy-sdk
 
 
 deploy-imagebuilder_mpc85xx-generic:
   extends: .deploy-imagebuilder
 
-deploy-sdk-mpc85xx-generic:
+deploy-sdk_mpc85xx-generic:
   extends: .deploy-sdk
 
 
 deploy-imagebuilder_mpc85xx-p1020:
   extends: .deploy-imagebuilder
 
-deploy-sdk-mpc85xx-p1020:
+deploy-sdk_mpc85xx-p1020:
   extends: .deploy-sdk
 
 
 deploy-imagebuilder_mpc85xx-p2020:
   extends: .deploy-imagebuilder
 
-deploy-sdk-mpc85xx-p2020:
+deploy-sdk_mpc85xx-p2020:
   extends: .deploy-sdk
 
 
 deploy-imagebuilder_mvebu-cortexa53:
   extends: .deploy-imagebuilder
 
-deploy-sdk-mvebu-cortexa53:
+deploy-sdk_mvebu-cortexa53:
   extends: .deploy-sdk
 
 
 deploy-imagebuilder_mvebu-cortexa72:
   extends: .deploy-imagebuilder
 
-deploy-sdk-mvebu-cortexa72:
+deploy-sdk_mvebu-cortexa72:
   extends: .deploy-sdk
 
 
 deploy-imagebuilder_mvebu-cortexa9:
   extends: .deploy-imagebuilder
 
-deploy-sdk-mvebu-cortexa9:
+deploy-sdk_mvebu-cortexa9:
   extends: .deploy-sdk
 
 
 deploy-imagebuilder_mxs-generic:
   extends: .deploy-imagebuilder
 
-deploy-sdk-mxs-generic:
+deploy-sdk_mxs-generic:
   extends: .deploy-sdk
 
 
 deploy-imagebuilder_octeon-generic:
   extends: .deploy-imagebuilder
 
-deploy-sdk-octeon-generic:
+deploy-sdk_octeon-generic:
   extends: .deploy-sdk
 
 
 deploy-imagebuilder_octeontx-generic:
   extends: .deploy-imagebuilder
 
-deploy-sdk-octeontx-generic:
+deploy-sdk_octeontx-generic:
   extends: .deploy-sdk
 
 
 deploy-imagebuilder_omap-generic:
   extends: .deploy-imagebuilder
 
-deploy-sdk-omap-generic:
+deploy-sdk_omap-generic:
   extends: .deploy-sdk
 
 
 deploy-imagebuilder_oxnas-ox820:
   extends: .deploy-imagebuilder
 
-deploy-sdk-oxnas-ox820:
+deploy-sdk_oxnas-ox820:
   extends: .deploy-sdk
 
 
 deploy-imagebuilder_pistachio-generic:
   extends: .deploy-imagebuilder
 
-deploy-sdk-pistachio-generic:
+deploy-sdk_pistachio-generic:
   extends: .deploy-sdk
 
 
 deploy-imagebuilder_ramips-mt7620:
   extends: .deploy-imagebuilder
 
-deploy-sdk-ramips-mt7620:
+deploy-sdk_ramips-mt7620:
   extends: .deploy-sdk
 
 
 deploy-imagebuilder_ramips-mt7621:
   extends: .deploy-imagebuilder
 
-deploy-sdk-ramips-mt7621:
+deploy-sdk_ramips-mt7621:
   extends: .deploy-sdk
 
 
 deploy-imagebuilder_ramips-mt76x8:
   extends: .deploy-imagebuilder
 
-deploy-sdk-ramips-mt76x8:
+deploy-sdk_ramips-mt76x8:
   extends: .deploy-sdk
 
 
 deploy-imagebuilder_ramips-rt288x:
   extends: .deploy-imagebuilder
 
-deploy-sdk-ramips-rt288x:
+deploy-sdk_ramips-rt288x:
   extends: .deploy-sdk
 
 
 deploy-imagebuilder_ramips-rt305x:
   extends: .deploy-imagebuilder
 
-deploy-sdk-ramips-rt305x:
+deploy-sdk_ramips-rt305x:
   extends: .deploy-sdk
 
 
 deploy-imagebuilder_ramips-rt3883:
   extends: .deploy-imagebuilder
 
-deploy-sdk-ramips-rt3883:
+deploy-sdk_ramips-rt3883:
   extends: .deploy-sdk
 
 
 deploy-imagebuilder_rb532-generic:
   extends: .deploy-imagebuilder
 
-deploy-sdk-rb532-generic:
+deploy-sdk_rb532-generic:
   extends: .deploy-sdk
 
 
 deploy-imagebuilder_samsung-s5pv210:
   extends: .deploy-imagebuilder
 
-deploy-sdk-samsung-s5pv210:
+deploy-sdk_samsung-s5pv210:
   extends: .deploy-sdk
 
 
 deploy-imagebuilder_sunxi-cortexa53:
   extends: .deploy-imagebuilder
 
-deploy-sdk-sunxi-cortexa53:
+deploy-sdk_sunxi-cortexa53:
   extends: .deploy-sdk
 
 
 deploy-imagebuilder_sunxi-cortexa7:
   extends: .deploy-imagebuilder
 
-deploy-sdk-sunxi-cortexa7:
+deploy-sdk_sunxi-cortexa7:
   extends: .deploy-sdk
 
 
 deploy-imagebuilder_sunxi-cortexa8:
   extends: .deploy-imagebuilder
 
-deploy-sdk-sunxi-cortexa8:
+deploy-sdk_sunxi-cortexa8:
   extends: .deploy-sdk
 
 
 deploy-imagebuilder_tegra-generic:
   extends: .deploy-imagebuilder
 
-deploy-sdk-tegra-generic:
+deploy-sdk_tegra-generic:
   extends: .deploy-sdk
 
 
 deploy-imagebuilder_x86-64:
   extends: .deploy-imagebuilder
 
-deploy-sdk-x86-64:
+deploy-sdk_x86-64:
   extends: .deploy-sdk
 
 
 deploy-imagebuilder_x86-generic:
   extends: .deploy-imagebuilder
 
-deploy-sdk-x86-generic:
+deploy-sdk_x86-generic:
   extends: .deploy-sdk
 
 
 deploy-imagebuilder_x86-geode:
   extends: .deploy-imagebuilder
 
-deploy-sdk-x86-geode:
+deploy-sdk_x86-geode:
   extends: .deploy-sdk
 
 
 deploy-imagebuilder_x86-legacy:
   extends: .deploy-imagebuilder
 
-deploy-sdk-x86-legacy:
+deploy-sdk_x86-legacy:
   extends: .deploy-sdk
 
 
 deploy-imagebuilder_zynq-generic:
   extends: .deploy-imagebuilder
 
-deploy-sdk-zynq-generic:
+deploy-sdk_zynq-generic:
   extends: .deploy-sdk
 
