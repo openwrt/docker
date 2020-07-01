@@ -2,7 +2,7 @@
 
 set -ex
 
-export TARGET="${CI_JOB_NAME##*_}"
+TARGET=$(echo "$CI_JOB_NAME" | cut -d _ -f 2-)
 export TARGET="${TARGET:-x86-64}"
 export BRANCH="${BRANCH:-master}"
 export DOCKER_IMAGE="${DOCKER_IMAGE:-openwrt-imagebuilder}"
