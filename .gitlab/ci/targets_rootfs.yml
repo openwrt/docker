@@ -1,17 +1,17 @@
 
-deploy-rootfs-x86-64:
+deploy-rootfs_x86-64:
   extends: .deploy-rootfs
   variables:
     TARGET: x86-64
 
 
-deploy-rootfs-armvirt-32:
+deploy-rootfs_armvirt-32:
   extends: .deploy-rootfs
   variables:
     TARGET: armvirt-32
 
 
-deploy-rootfs-armvirt-64:
+deploy-rootfs_armvirt-64:
   extends: .deploy-rootfs
   variables:
     TARGET: armvirt-64

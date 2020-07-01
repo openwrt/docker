@@ -1,4 +1,15 @@
-build-rootfs:
+.deploy-rootfs:
+  extends: .deploy
+  except:
+    variables:
+      - $SKIP_ROOTFS
+  variables:
+    DOCKER_IMAGE: "openwrtorg/rootfs"
+  script:
+    - bash docker-rootfs.sh
+    - docker push "$DOCKER_IMAGE"
+
+build-rootfs_x86-64:
   extends: .build
   except:
     variables:
@@ -20,13 +31,3 @@ test-rootfs:
     - ls /
     - ping -c 3 1.1.1.1
 
-.deploy-rootfs:
-  extends: .deploy
-  except:
-    variables:
-      - $SKIP_ROOTFS
-  variables:
-    DOCKER_IMAGE: "openwrtorg/rootfs"
-  script:
-    - bash docker-rootfs.sh
-    - docker push "$DOCKER_IMAGE"

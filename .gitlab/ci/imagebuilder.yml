@@ -6,8 +6,7 @@
     - bash docker-imagebuilder.sh
     - docker push "$DOCKER_IMAGE"
 
-deploy-imagebuilder-x86-64:
-  stage: build
+build-imagebuilder_x86-64:
   extends: .build
   variables:
     DOCKER_IMAGE: "$CI_REGISTRY_IMAGE"

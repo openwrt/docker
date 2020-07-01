@@ -2,7 +2,7 @@
 
 set -ex
 
-export TARGET="${TARGET:-x86-64}"
+export TARGET="${CI_JOB_NAME##*_}"
 export BRANCH="${BRANCH:-master}"
 export DOCKER_IMAGE="${DOCKER_IMAGE:-openwrt-rootfs}"
 export DOWNLOAD_FILE="openwrt-*-rootfs.tar.gz"
