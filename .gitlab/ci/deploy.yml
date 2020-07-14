@@ -1,0 +1,36 @@
+.deploy:
+  image: "$CI_REGISTRY_IMAGE:deploy"
+  stage: deploy
+  only:
+    - master
+  services:
+    - docker:dind
+  before_script:
+    - docker login -u "$DOCKER_USER" -p "$DOCKER_PASS"
+
+.deploy-rootfs:
+  extends: .deploy
+  except:
+    variables:
+      - $SKIP_ROOTFS
+  variables:
+    DOCKER_IMAGE: "openwrtorg/rootfs"
+  script:
+    - bash docker-rootfs.sh
+    - docker push "$DOCKER_IMAGE"
+
+.deploy-imagebuilder:
+  extends: .deploy
+  variables:
+    DOCKER_IMAGE: "openwrtorg/imagebuilder"
+  script:
+    - bash docker-imagebuilder.sh
+    - docker push "$DOCKER_IMAGE"
+
+.deploy-sdk:
+  extends: .deploy
+  variables:
+    DOCKER_IMAGE: "openwrtorg/sdk"
+  script:
+    - bash docker-sdk.sh
+    - docker push "$DOCKER_IMAGE"

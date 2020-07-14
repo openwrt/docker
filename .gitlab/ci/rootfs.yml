@@ -1,13 +1,3 @@
-.deploy-rootfs:
-  extends: .deploy
-  except:
-    variables:
-      - $SKIP_ROOTFS
-  variables:
-    DOCKER_IMAGE: "openwrtorg/rootfs"
-  script:
-    - bash docker-rootfs.sh
-    - docker push "$DOCKER_IMAGE"
 
 build-rootfs_x86-64:
   extends: .build

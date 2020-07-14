@@ -1,10 +1,3 @@
-.deploy-imagebuilder:
-  extends: .deploy
-  variables:
-    DOCKER_IMAGE: "openwrtorg/imagebuilder"
-  script:
-    - bash docker-imagebuilder.sh
-    - docker push "$DOCKER_IMAGE"
 
 build-imagebuilder_x86-64:
   extends: .build
