@@ -16,12 +16,21 @@
   before_script:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
 
-.deploy:
-  image: "$CI_REGISTRY_IMAGE:deploy"
+
+generate-targets:
+  stage: generate_targets
+  script: |
+    git clone --depth 1 https://github.com/openwrt/openwrt.git
+    cd openwrt/
+    git checkout "$BRANCH"
+    bash ../generate_targets.sh
+  artifacts:
+    paths:
+      - targets.yml
+
+trigger-deploy:
   stage: deploy
-  only:
-    - master
-  services:
-    - docker:dind
-  before_script:
-    - docker login -u "$DOCKER_USER" -p "$DOCKER_PASS"
+  trigger:
+    include:
+      - artifact: targets.yml
+        job: generate-targets

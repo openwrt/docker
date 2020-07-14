@@ -3,10 +3,10 @@ variables:
 
 include:
   - local: .gitlab/ci/base.yml
+  - local: .gitlab/ci/deploy.yml
   - local: .gitlab/ci/imagebuilder.yml
   - local: .gitlab/ci/sdk.yml
   - local: .gitlab/ci/rootfs.yml
-  - local: .gitlab/ci/targets.yml
   - local: .gitlab/ci/targets_rootfs.yml
   - remote: https://gitlab.com/ynezz/openwrt-ci/raw/master/openwrt-ci/gitlab/main.yml
 
@@ -15,6 +15,7 @@ stages:
   - build-deploy-container
   - build
   - test
+  - generate_targets
   - deploy
 
 build deploy container:
