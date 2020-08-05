@@ -37,6 +37,7 @@ if [ "$ARCH" == "x86_64" ]; then
 fi
 
 for TARGET_TAG in $TARGETS; do
+    TARGET_TAG=$(echo "$TARGET_TAG" | tr '/' '-')
     docker tag "$DOCKER_IMAGE:$ARCH-$BRANCH" "$DOCKER_IMAGE:$TARGET_TAG-$BRANCH"
 done
 
