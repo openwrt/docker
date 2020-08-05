@@ -1,6 +1,7 @@
 .deploy:
   image: "$CI_REGISTRY_IMAGE:deploy"
   stage: deploy
+  retry: 2
   only:
     - master
   services:
