@@ -7,9 +7,9 @@
 This repository contains scripts to create Docker containers for OpenWrt. The
 scripts are run via an CI and upload such containers to docker.io.
 
-Used variables are `BRANCH`, `TARGET`, `DOCKER_USER`, `DOCKER_PASS` and `DOCKER_IMAGE`.
+Used variables are `VERSION`, `TARGET`, `DOCKER_USER`, `DOCKER_PASS` and `DOCKER_IMAGE`.
 
-`$BRANCH`: OpenWrt branch to build (e.g. "master")
+`$VERSION`: OpenWrt version to build (e.g. "snapshot" or "19.07.4")
 `$TARGET`: OpenWrt target to build (e.g. "x86-64")
 `$DOCKER_USER`: user to upload
 `$DOCKER_PASS`: passwort to upload
