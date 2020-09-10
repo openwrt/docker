@@ -6,11 +6,11 @@ build-sdk_x86-64:
     DOCKER_IMAGE: "$CI_REGISTRY_IMAGE"
   script:
     - bash docker-sdk.sh
-    - docker tag "$DOCKER_IMAGE:x86-64-$BRANCH" "$DOCKER_IMAGE:sdk-$BRANCH-$CI_COMMIT_REF_SLUG"
-    - docker push "$DOCKER_IMAGE:sdk-$BRANCH-$CI_COMMIT_REF_SLUG"
+    - docker tag "$DOCKER_IMAGE:x86-64-$VERSION" "$DOCKER_IMAGE:sdk-$VERSION-$CI_COMMIT_REF_SLUG"
+    - docker push "$DOCKER_IMAGE:sdk-$VERSION-$CI_COMMIT_REF_SLUG"
 
 test-sdk:
-  image: "$CI_REGISTRY_IMAGE:sdk-$BRANCH-$CI_COMMIT_REF_SLUG"
+  image: "$CI_REGISTRY_IMAGE:sdk-$VERSION-$CI_COMMIT_REF_SLUG"
   stage: test
   script:
     - cd ~/openwrt

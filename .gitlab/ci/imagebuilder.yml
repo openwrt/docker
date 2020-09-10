@@ -5,11 +5,11 @@ build-imagebuilder_x86-64:
     DOCKER_IMAGE: "$CI_REGISTRY_IMAGE"
   script:
     - bash docker-imagebuilder.sh
-    - docker tag "$DOCKER_IMAGE:x86-64-$BRANCH" "$DOCKER_IMAGE:imagebuilder-$BRANCH-$CI_COMMIT_REF_SLUG"
-    - docker push "$DOCKER_IMAGE:imagebuilder-$BRANCH-$CI_COMMIT_REF_SLUG"
+    - docker tag "$DOCKER_IMAGE:x86-64-$VERSION" "$DOCKER_IMAGE:imagebuilder-$VERSION-$CI_COMMIT_REF_SLUG"
+    - docker push "$DOCKER_IMAGE:imagebuilder-$VERSION-$CI_COMMIT_REF_SLUG"
 
 test-imagebuilder:
-  image: "$CI_REGISTRY_IMAGE:imagebuilder-$BRANCH-$CI_COMMIT_REF_SLUG"
+  image: "$CI_REGISTRY_IMAGE:imagebuilder-$VERSION-$CI_COMMIT_REF_SLUG"
   stage: test
   script:
     - cd /home/build/openwrt/

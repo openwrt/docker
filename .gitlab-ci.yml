@@ -1,5 +1,5 @@
 variables:
-  BRANCH: master
+  VERSION: snapshot
 
 include:
   - local: .gitlab/ci/base.yml
