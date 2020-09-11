@@ -17,6 +17,7 @@ gen_targets_sdk() {
 deploy-sdk_$ARCH:
   extends: .deploy-sdk
   variables:
+    VERSION: $VERSION
     TARGETS: $TARGETS"
 	done
 }
@@ -26,15 +27,14 @@ gen_targets_imagebuilder() {
 		TARGET=$(echo "$LINE" | cut -d ' ' -f 1 | tr '/' '-')
 		echo "
 deploy-imagebuilder_$TARGET:
-  extends: .deploy-imagebuilder"
+  extends: .deploy-imagebuilder
+  variables:
+    VERSION: $VERSION"
 	done
 }
 
 echo "include:
   - local: .gitlab/ci/deploy.yml
-
-variables:
-  VERSION: $VERSION
 " > ../targets.yml
 gen_targets_sdk >> ../targets.yml
 gen_targets_imagebuilder >> ../targets.yml
