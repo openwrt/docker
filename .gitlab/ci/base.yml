@@ -19,10 +19,8 @@
 
 generate-targets:
   stage: generate_targets
-  script: |
-    git clone --depth 1 --branch "$BRANCH" https://github.com/openwrt/openwrt.git
-    cd openwrt/
-    bash ../generate_targets.sh
+  script:
+    - bash ./generate_targets.sh
   artifacts:
     paths:
       - targets.yml

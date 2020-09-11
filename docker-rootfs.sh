@@ -11,10 +11,8 @@ export DOCKERFILE="Dockerfile.rootfs"
 
 if [ "$VERSION" = "snapshot" ]; then
 	DOWNLOAD_PATH="snapshots/targets/$(echo "$TARGET" | tr '-' '/')"
-	export BRANCH="master"
 else
 	DOWNLOAD_PATH="releases/$VERSION/targets/$(echo "$TARGET" | tr '-' '/')"
-	export BRANCH="openwrt-$VERSION"
 fi
 export DOWNLOAD_PATH
 

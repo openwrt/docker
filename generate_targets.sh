@@ -1,5 +1,14 @@
 #!/bin/sh
 
+if [ "$VERSION" = "snapshot" ]; then
+	export BRANCH="master"
+else
+	export BRANCH="openwrt-$VERSION"
+fi
+
+git clone --depth 1 --branch "$BRANCH" https://github.com/openwrt/openwrt.git
+cd openwrt/ || exit 1
+
 gen_targets_sdk() {
 	perl ./scripts/dump-target-info.pl architectures | while read -r LINE; do
 		ARCH=$(echo "$LINE" | cut -d ' ' -f 1)
