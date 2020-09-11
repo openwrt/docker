@@ -1,9 +1,9 @@
-#!/bin/sh
+#!/bin/bash
 
 if [ "$VERSION" = "snapshot" ]; then
 	export BRANCH="master"
 else
-	export BRANCH="openwrt-$VERSION"
+	export BRANCH="openwrt-${VERSION%.*}"
 fi
 
 git clone --depth 1 --branch "$BRANCH" https://github.com/openwrt/openwrt.git
