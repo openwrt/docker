@@ -32,6 +32,9 @@ deploy-imagebuilder_$TARGET:
 
 echo "include:
   - local: .gitlab/ci/deploy.yml
+
+variables:
+  VERSION: $VERSION
 " > ../targets.yml
 gen_targets_sdk >> ../targets.yml
 gen_targets_imagebuilder >> ../targets.yml
