@@ -17,8 +17,8 @@ gen_targets_sdk() {
 deploy-sdk_$ARCH:
   extends: .deploy-sdk
   variables:
-    VERSION: $VERSION
-    TARGETS: $TARGETS"
+    VERSION: \"$VERSION\"
+    TARGETS: \"$TARGETS\""
 	done
 }
 
@@ -29,7 +29,7 @@ gen_targets_imagebuilder() {
 deploy-imagebuilder_$TARGET:
   extends: .deploy-imagebuilder
   variables:
-    VERSION: $VERSION"
+    VERSION: \"$VERSION\""
 	done
 }
 

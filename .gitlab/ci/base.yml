@@ -26,8 +26,11 @@ generate-targets:
       - targets.yml
 
 trigger-deploy:
+  variables:
+    VERSION: "$VERSION"
   stage: deploy
   trigger:
+    strategy: depend
     include:
       - artifact: targets.yml
         job: generate-targets
