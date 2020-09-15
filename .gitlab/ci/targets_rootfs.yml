@@ -13,3 +13,7 @@ deploy-rootfs_armvirt-64:
   variables:
     ARCH: aarch64_generic
 
+deploy-rootfs_malta-be:
+  extends: .deploy-rootfs
+  variables:
+    ARCH: mips_24kc
