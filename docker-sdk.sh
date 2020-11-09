@@ -21,6 +21,8 @@ export DOWNLOAD_PATH
 
 ./docker-download.sh || exit 1
 
+echo "Using SDK from revision $(sed -ne 's/REVISION:=//p' ./build/include/version.mk)"
+
 DOCKERFILE="${DOCKERFILE:-Dockerfile}"
 # Copy Dockerfile inside build context to support older Docker versions
 # See https://github.com/docker/cli/pull/886
