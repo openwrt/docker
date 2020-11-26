@@ -36,9 +36,14 @@ removed.
 
 ### Tags
 
-* x86-64
+* x86_64
 * armvirt-32
 * armvirt-64
+* arm_cortex-a15_neon-vfpv4
+* aarch64_generic
+* mips_24kc
+* malta-be
+* i386_pentium4
 
 ## `sdk`
 
