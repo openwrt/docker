@@ -8,6 +8,11 @@ deploy-rootfs_x86-generic:
   variables:
     ARCH: i386_pentium4
 
+deploy-rootfs_x86-geode:
+  extends: .deploy-rootfs
+  variables:
+    ARCH: i386_pentium-mmx
+
 deploy-rootfs_armvirt-32:
   extends: .deploy-rootfs
   variables:
