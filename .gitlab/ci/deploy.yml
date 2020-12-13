@@ -18,7 +18,7 @@
     DOCKER_IMAGE: "openwrtorg/rootfs"
   script:
     - bash docker-rootfs.sh
-    - docker push "$DOCKER_IMAGE"
+    - docker push --all-tags "$DOCKER_IMAGE"
 
 .deploy-imagebuilder:
   extends: .deploy
@@ -26,7 +26,7 @@
     DOCKER_IMAGE: "openwrtorg/imagebuilder"
   script:
     - bash docker-imagebuilder.sh
-    - docker push "$DOCKER_IMAGE"
+    - docker push --all-tags "$DOCKER_IMAGE"
 
 .deploy-sdk:
   extends: .deploy
@@ -34,4 +34,4 @@
     DOCKER_IMAGE: "openwrtorg/sdk"
   script:
     - bash docker-sdk.sh
-    - docker push "$DOCKER_IMAGE"
+    - docker push --all-tags "$DOCKER_IMAGE"
