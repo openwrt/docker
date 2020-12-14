@@ -21,7 +21,7 @@ deploy-rootfs_armvirt-32:
 deploy-rootfs_armvirt-64:
   extends: .deploy-rootfs
   variables:
-    ARCH: aarch64_generic
+    ARCH: aarch64_cortex-a53
 
 deploy-rootfs_malta-be:
   extends: .deploy-rootfs
