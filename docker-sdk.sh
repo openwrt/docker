@@ -12,6 +12,12 @@ export VERSION="${VERSION:-snapshot}"
 export DOCKER_IMAGE="${DOCKER_IMAGE:-openwrt-sdk}"
 export DOWNLOAD_FILE="openwrt-sdk-*.Linux-x86_64.tar.xz"
 
+if [ "$VERSION" = "snapshot" ]; then
+	export BRANCH="master"
+else
+	export BRANCH="openwrt-${VERSION%.*}"
+fi
+
 if [ "$VERSION" == "snapshot" ]; then
 	DOWNLOAD_PATH="snapshots/targets/$(echo "$TARGET" | tr '-' '/')"
 else
@@ -30,14 +36,11 @@ cp "$DOCKERFILE" ./build/
 docker build -t "$DOCKER_IMAGE:$ARCH-$VERSION" -f "./build/$DOCKERFILE" ./build
 
 if [ "$VERSION" == "snapshot" ]; then
-    # backwards compatibility. New setups should use snapshot instead
-    docker tag "$DOCKER_IMAGE:$ARCH-$VERSION" "$DOCKER_IMAGE:$ARCH-master"
+    docker tag "$DOCKER_IMAGE:$ARCH-$VERSION" "$DOCKER_IMAGE:$ARCH-$BRANCH"
 
     docker tag "$DOCKER_IMAGE:$ARCH-$VERSION" "$DOCKER_IMAGE:$ARCH"
     if [ "$ARCH" == "x86_64" ]; then
-        # backwards compatibility. New setups should use snapshot instead
-        docker tag "$DOCKER_IMAGE:$ARCH-$VERSION" "$DOCKER_IMAGE:master"
-
+        docker tag "$DOCKER_IMAGE:$ARCH-$VERSION" "$DOCKER_IMAGE:$BRANCH"
         docker tag "$DOCKER_IMAGE:$ARCH-$VERSION" "$DOCKER_IMAGE:latest"
     fi
 fi

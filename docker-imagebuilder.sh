@@ -8,6 +8,12 @@ export VERSION="${VERSION:-snapshot}"
 export DOCKER_IMAGE="${DOCKER_IMAGE:-openwrt-imagebuilder}"
 export DOWNLOAD_FILE="openwrt-imagebuilder*x86_64.tar.xz"
 
+if [ "$VERSION" = "snapshot" ]; then
+	export BRANCH="master"
+else
+	export BRANCH="openwrt-${VERSION%.*}"
+fi
+
 if [ "$VERSION" == "snapshot" ]; then
 	DOWNLOAD_PATH="snapshots/targets/$(echo "$TARGET" | tr '-' '/')"
 else

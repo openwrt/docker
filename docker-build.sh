@@ -13,8 +13,7 @@ if [ -n "$ARCH" ]; then
 fi
 
 if [ "$VERSION" == "snapshot" ]; then
-    # backwards compatibility. New setups should use snapshot instead
-    docker tag "$DOCKER_IMAGE:$TARGET-$VERSION" "$DOCKER_IMAGE:$TARGET-master"
+    docker tag "$DOCKER_IMAGE:$TARGET-$VERSION" "$DOCKER_IMAGE:$TARGET-$BRANCH"
 
     if [ -n "$ARCH" ]; then
         docker tag "$DOCKER_IMAGE:$TARGET-$VERSION" "$DOCKER_IMAGE:$ARCH"
@@ -22,9 +21,7 @@ if [ "$VERSION" == "snapshot" ]; then
     docker tag "$DOCKER_IMAGE:$TARGET-$VERSION" "$DOCKER_IMAGE:$TARGET"
 
     if [ "$TARGET" == "x86-64" ]; then
-        # backwards compatibility. New setups should use snapshot instead
-        docker tag "$DOCKER_IMAGE:$TARGET-$VERSION" "$DOCKER_IMAGE:master"
-
+        docker tag "$DOCKER_IMAGE:$TARGET-$VERSION" "$DOCKER_IMAGE:$BRANCH"
         docker tag "$DOCKER_IMAGE:$TARGET-$VERSION" "$DOCKER_IMAGE:latest"
     fi
 fi
