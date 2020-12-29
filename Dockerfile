@@ -19,6 +19,7 @@ RUN apt-get update -qq &&\
         sudo \
         swig \
         unzip \
+        vim-tiny \
         wget \
         zlib1g-dev \
         && apt-get -y autoremove \
