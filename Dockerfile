@@ -8,6 +8,7 @@ RUN apt-get update -qq &&\
         curl \
         file \
         gawk \
+        gcc-multilib \
         gettext \
         git \
         libncurses5-dev \
