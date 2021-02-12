@@ -6,7 +6,7 @@ TARGET=$(echo "$CI_JOB_NAME" | cut -d _ -f 2-)
 export TARGET="${TARGET:-x86-64}"
 export VERSION="${VERSION:-snapshot}"
 export DOCKER_IMAGE="${DOCKER_IMAGE:-openwrt-rootfs}"
-export DOWNLOAD_FILE="openwrt-*-rootfs.tar.gz"
+export DOWNLOAD_FILE="openwrt-.*-rootfs.tar.gz"
 export DOCKERFILE="Dockerfile.rootfs"
 
 if [ "$VERSION" = "snapshot" ]; then

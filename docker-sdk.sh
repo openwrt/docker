@@ -10,7 +10,7 @@ export TARGET="${TARGET:-x86-64}"
 export ARCH="${ARCH:-x86_64}"
 export VERSION="${VERSION:-snapshot}"
 export DOCKER_IMAGE="${DOCKER_IMAGE:-openwrt-sdk}"
-export DOWNLOAD_FILE="openwrt-sdk-*.Linux-x86_64.tar.xz"
+export DOWNLOAD_FILE="openwrt-sdk-.*.Linux-x86_64.tar.xz"
 
 if [ "$VERSION" = "snapshot" ]; then
 	export BRANCH="master"

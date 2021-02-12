@@ -6,7 +6,7 @@ TARGET=$(echo "$CI_JOB_NAME" | cut -d _ -f 2-)
 export TARGET="${TARGET:-x86-64}"
 export VERSION="${VERSION:-snapshot}"
 export DOCKER_IMAGE="${DOCKER_IMAGE:-openwrt-imagebuilder}"
-export DOWNLOAD_FILE="openwrt-imagebuilder*x86_64.tar.xz"
+export DOWNLOAD_FILE="openwrt-imagebuilder.*x86_64.tar.xz"
 
 if [ "$VERSION" = "snapshot" ]; then
 	export BRANCH="master"
