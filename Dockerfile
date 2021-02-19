@@ -5,6 +5,7 @@ MAINTAINER Paul Spooren <mail@aparcar.org>
 RUN apt-get update -qq &&\
     apt-get install -y \
         build-essential \
+        clang \
         curl \
         file \
         gawk \
