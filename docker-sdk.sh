@@ -33,25 +33,33 @@ DOCKERFILE="${DOCKERFILE:-Dockerfile}"
 # Copy Dockerfile inside build context to support older Docker versions
 # See https://github.com/docker/cli/pull/886
 cp "$DOCKERFILE" ./build/
-docker build -t "$DOCKER_IMAGE:$ARCH-$VERSION" -f "./build/$DOCKERFILE" ./build
 
-if [ "$VERSION" == "snapshot" ]; then
-    docker tag "$DOCKER_IMAGE:$ARCH-$VERSION" "$DOCKER_IMAGE:$ARCH-$BRANCH"
+TMP_IMAGE_NAME=$(tr -dc '[:lower:]' < /dev/urandom | fold -w 32 | head -n 1)
+docker build -t "$TMP_IMAGE_NAME" -f "./build/$DOCKERFILE" ./build
 
-    docker tag "$DOCKER_IMAGE:$ARCH-$VERSION" "$DOCKER_IMAGE:$ARCH"
-    if [ "$ARCH" == "x86_64" ]; then
-        docker tag "$DOCKER_IMAGE:$ARCH-$VERSION" "$DOCKER_IMAGE:$BRANCH"
-        docker tag "$DOCKER_IMAGE:$ARCH-$VERSION" "$DOCKER_IMAGE:latest"
-    fi
-fi
+for IMAGE in $DOCKER_IMAGE; do
+	docker tag "$TMP_IMAGE_NAME" "$IMAGE:$ARCH-$VERSION"
 
-if [ "$ARCH" == "x86_64" ]; then
-    docker tag "$DOCKER_IMAGE:$ARCH-$VERSION" "$DOCKER_IMAGE:$VERSION"
-fi
+	if [ "$VERSION" == "snapshot" ]; then
+	    docker tag "$IMAGE:$ARCH-$VERSION" "$IMAGE:$ARCH-$BRANCH"
 
-for TARGET_TAG in $TARGETS; do
-    TARGET_TAG=$(echo "$TARGET_TAG" | tr '/' '-')
-    docker tag "$DOCKER_IMAGE:$ARCH-$VERSION" "$DOCKER_IMAGE:$TARGET_TAG-$VERSION"
+	    docker tag "$IMAGE:$ARCH-$VERSION" "$IMAGE:$ARCH"
+	    if [ "$ARCH" == "x86_64" ]; then
+		docker tag "$IMAGE:$ARCH-$VERSION" "$IMAGE:$BRANCH"
+		docker tag "$IMAGE:$ARCH-$VERSION" "$IMAGE:latest"
+	    fi
+	fi
+
+	if [ "$ARCH" == "x86_64" ]; then
+	    docker tag "$IMAGE:$ARCH-$VERSION" "$IMAGE:$VERSION"
+	fi
+
+	for TARGET_TAG in $TARGETS; do
+	    TARGET_TAG=$(echo "$TARGET_TAG" | tr '/' '-')
+	    docker tag "$IMAGE:$ARCH-$VERSION" "$IMAGE:$TARGET_TAG-$VERSION"
+	done
 done
+
+docker rmi "$TMP_IMAGE_NAME"
 
 rm -rf ./build
