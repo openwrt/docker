@@ -15,7 +15,7 @@
     variables:
       - $SKIP_ROOTFS
   variables:
-    DOCKER_IMAGE: "openwrtorg/rootfs"
+    DOCKER_IMAGE: "openwrtorg/rootfs openwrt/rootfs"
   script:
     - bash docker-rootfs.sh
     - docker push --all-tags "$DOCKER_IMAGE"
@@ -23,7 +23,7 @@
 .deploy-imagebuilder:
   extends: .deploy
   variables:
-    DOCKER_IMAGE: "openwrtorg/imagebuilder"
+    DOCKER_IMAGE: "openwrtorg/imagebuilder openwrt/imagebuilder"
   script:
     - bash docker-imagebuilder.sh
     - docker push --all-tags "$DOCKER_IMAGE"
@@ -31,7 +31,7 @@
 .deploy-sdk:
   extends: .deploy
   variables:
-    DOCKER_IMAGE: "openwrtorg/sdk"
+    DOCKER_IMAGE: "openwrtorg/sdk openwrt/sdk"
   script:
     - bash docker-sdk.sh
     - docker push --all-tags "$DOCKER_IMAGE"
