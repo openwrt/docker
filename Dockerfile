@@ -14,6 +14,7 @@ RUN apt-get update -qq &&\
         git \
         libncurses5-dev \
         libssl-dev \
+        llvm \
         python2.7 \
         python3 \
         rsync \
