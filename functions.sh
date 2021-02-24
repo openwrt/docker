@@ -3,9 +3,6 @@
 set -ex
 
 export_variables() {
-	ARCH=$(echo "$CI_JOB_NAME" | cut -d _ -f 2-)
-	export TARGET="${TARGET:-x86-64}"
-	export ARCH="${ARCH:-x86_64}"
 	export VERSION="${VERSION:-snapshot}"
 	export DOCKERFILE="${DOCKERFILE:-Dockerfile}"
 
