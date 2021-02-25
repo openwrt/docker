@@ -1,18 +1,27 @@
-
-build-sdk_x86-64:
+.build-sdk:
   stage: build
   extends: .build
   variables:
     DOCKER_IMAGE: "$CI_REGISTRY_IMAGE"
-  script:
-    - bash docker-sdk.sh
-    - docker tag "$DOCKER_IMAGE:x86-64-$VERSION" "$DOCKER_IMAGE:sdk-$VERSION-$CI_COMMIT_REF_SLUG"
-    - docker push "$DOCKER_IMAGE:sdk-$VERSION-$CI_COMMIT_REF_SLUG"
+  script: |
+    bash docker-sdk.sh
+    docker tag "$DOCKER_IMAGE:$TARGETS-$VERSION" \
+      "$DOCKER_IMAGE:sdk-$TARGETS-$VERSION-$CI_COMMIT_REF_SLUG"
+    docker push "$DOCKER_IMAGE:sdk-$TARGETS-$VERSION-$CI_COMMIT_REF_SLUG"
 
-test-sdk:
-  image: "$CI_REGISTRY_IMAGE:sdk-$VERSION-$CI_COMMIT_REF_SLUG"
+build-sdk_x86-64:
+  extends: .build-sdk
+  variables:
+    TARGETS: x86-64
+
+build-sdk_ath79-generic:
+  extends: .build-sdk
+  variables:
+    TARGETS: ath79-generic
+
+.test-sdk:
   stage: test
-  script:
+  before_script:
     - cd ~/openwrt
     - touch .config
     - make prepare-tmpinfo scripts/config/conf
@@ -27,4 +36,15 @@ test-sdk:
     - make package/busybox/compile V=s
     - sync
     - sleep 1
+
+test-sdk_x86-64:
+  extends: .test-sdk
+  image: "$CI_REGISTRY_IMAGE:sdk-x86-64-$VERSION-$CI_COMMIT_REF_SLUG"
+  script:
     - ls ./bin/packages/x86_64/base/busybox*
+
+test-sdk_ath79-generic:
+  extends: .test-sdk
+  image: "$CI_REGISTRY_IMAGE:sdk-ath79-generic-$VERSION-$CI_COMMIT_REF_SLUG"
+  script:
+    - ls ./bin/packages/mips_24kc/base/busybox*
