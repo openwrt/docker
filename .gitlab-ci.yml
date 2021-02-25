@@ -1,6 +1,3 @@
-variables:
-  VERSION: snapshot
-
 include:
   - local: .gitlab/ci/base.yml
   - local: .gitlab/ci/deploy.yml

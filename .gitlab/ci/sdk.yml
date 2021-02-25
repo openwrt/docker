@@ -5,19 +5,19 @@
     DOCKER_IMAGE: "$CI_REGISTRY_IMAGE"
   script: |
     bash docker-sdk.sh
-    docker tag "$DOCKER_IMAGE:$TARGETS-$VERSION" \
-      "$DOCKER_IMAGE:sdk-$TARGETS-$VERSION-$CI_COMMIT_REF_SLUG"
-    docker push "$DOCKER_IMAGE:sdk-$TARGETS-$VERSION-$CI_COMMIT_REF_SLUG"
+    docker tag "$DOCKER_IMAGE:$TARGETS-snapshot" \
+      "$DOCKER_IMAGE:sdk-$TARGETS-$CI_COMMIT_REF_SLUG"
+    docker push "$DOCKER_IMAGE:sdk-$TARGETS-$CI_COMMIT_REF_SLUG"
 
-build-sdk_x86-64:
-  extends: .build-sdk
+build-sdk_x86_64:
   variables:
-    TARGETS: x86-64
+    TARGETS: "x86-64"
+  extends: .build-sdk
 
-build-sdk_ath79-generic:
-  extends: .build-sdk
+build-sdk_mips_24kc:
   variables:
-    TARGETS: ath79-generic
+    TARGETS: "ath79-generic"
+  extends: .build-sdk
 
 .test-sdk:
   stage: test
@@ -37,14 +37,14 @@ build-sdk_ath79-generic:
     - sync
     - sleep 1
 
-test-sdk_x86-64:
+test-sdk_x86_64:
   extends: .test-sdk
-  image: "$CI_REGISTRY_IMAGE:sdk-x86-64-$VERSION-$CI_COMMIT_REF_SLUG"
+  image: "$CI_REGISTRY_IMAGE:sdk-x86-64-$CI_COMMIT_REF_SLUG"
   script:
     - ls ./bin/packages/x86_64/base/busybox*
 
-test-sdk_ath79-generic:
+test-sdk_mips_24kc:
   extends: .test-sdk
-  image: "$CI_REGISTRY_IMAGE:sdk-ath79-generic-$VERSION-$CI_COMMIT_REF_SLUG"
+  image: "$CI_REGISTRY_IMAGE:sdk-ath79-generic-$CI_COMMIT_REF_SLUG"
   script:
     - ls ./bin/packages/mips_24kc/base/busybox*

@@ -9,11 +9,11 @@ TMP_IMAGE_NAME=$(tr -dc '[:lower:]' </dev/urandom | fold -w 32 | head -n 1)
 docker build -t "$TMP_IMAGE_NAME" -f "./build/Dockerfile" ./build
 
 for IMAGE in $DOCKER_IMAGE; do
-	if [ -n "$TARGET" ]; then
+	if [ "$TYPE" = "imagebuilder" ] || [ "$TYPE" = "rootfs" ]; then
 		docker tag "$TMP_IMAGE_NAME" "$IMAGE:$TARGET-$VERSION"
 	fi
 
-	if [ -n "$ARCH" ]; then
+	if [ "$TYPE" = "sdk" ]; then
 		docker tag "$TMP_IMAGE_NAME" "$IMAGE:$ARCH-$VERSION"
 		docker tag "$TMP_IMAGE_NAME" "$IMAGE:$ARCH-$BRANCH"
 
@@ -27,6 +27,7 @@ for IMAGE in $DOCKER_IMAGE; do
 		docker tag "$TMP_IMAGE_NAME" "$IMAGE:$BRANCH"
 
 		if [ "$VERSION" == "snapshot" ]; then
+			docker tag "$TMP_IMAGE_NAME" "$IMAGE:$TARGET"
 			docker tag "$TMP_IMAGE_NAME" "$IMAGE:latest"
 		fi
 	fi

@@ -3,6 +3,12 @@
 set -ex
 
 export_variables() {
+	JOB=$(echo "$CI_JOB_NAME" | cut -d _ -f 2-)
+	export JOB
+	TARGET="${TARGET:-$JOB}"
+	export TARGET
+	TYPE=$(echo "$CI_JOB_NAME" | cut -d _ -f 1)
+	export TYPE
 	export VERSION="${VERSION:-snapshot}"
 	export DOCKERFILE="${DOCKERFILE:-Dockerfile}"
 
