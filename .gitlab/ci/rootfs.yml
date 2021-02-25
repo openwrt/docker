@@ -5,14 +5,16 @@ build-rootfs_x86-64:
     variables:
       - $SKIP_ROOTFS
   variables:
+    TARGET: "x86-64"
     DOCKER_IMAGE: "$CI_REGISTRY_IMAGE"
-  script:
-    - bash docker-rootfs.sh
-    - docker tag "$DOCKER_IMAGE:x86-64-$VERSION" "$DOCKER_IMAGE:rootfs-$VERSION-$CI_COMMIT_REF_SLUG"
-    - docker push "$DOCKER_IMAGE:rootfs-$VERSION-$CI_COMMIT_REF_SLUG"
+  script: |
+    bash docker-rootfs.sh
+    docker tag "$DOCKER_IMAGE:$TARGET-$VERSION" \
+      "$DOCKER_IMAGE:rootfs-$TARGET-$VERSION-$CI_COMMIT_REF_SLUG"
+    docker push "$DOCKER_IMAGE:rootfs-$TARGET-$VERSION-$CI_COMMIT_REF_SLUG"
 
 test-rootfs:
-  image: "$CI_REGISTRY_IMAGE:rootfs-$VERSION-$CI_COMMIT_REF_SLUG"
+  image: "$CI_REGISTRY_IMAGE:rootfs-x86-64-$VERSION-$CI_COMMIT_REF_SLUG"
   stage: test
   except:
     variables:
