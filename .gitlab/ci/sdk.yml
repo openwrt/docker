@@ -5,7 +5,8 @@
     DOCKER_IMAGE: "$CI_REGISTRY_IMAGE"
   script: |
     bash docker-sdk.sh
-    docker tag "$DOCKER_IMAGE:$TARGETS-snapshot" \
+    VERSION="${VERSION:-snapshot}"
+    docker tag "$DOCKER_IMAGE:$TARGETS-$VERSION" \
       "$DOCKER_IMAGE:sdk-$TARGETS-$CI_COMMIT_REF_SLUG"
     docker push "$DOCKER_IMAGE:sdk-$TARGETS-$CI_COMMIT_REF_SLUG"
 
