@@ -12,7 +12,7 @@ gen_targets_sdk() {
 		ARCH=$(echo "$LINE" | cut -d ' ' -f 1)
 		TARGETS=$(echo "$LINE" | cut -d ' ' -f 2-)
 		echo "
-sdk_$ARCH:
+deploy-sdk_$ARCH:
   extends: .deploy-sdk
   variables:
     TARGETS: \"$TARGETS\""
@@ -23,7 +23,7 @@ gen_targets_imagebuilder() {
 	perl ./scripts/dump-target-info.pl targets | while read -r LINE; do
 		TARGET=$(echo "$LINE" | cut -d ' ' -f 1 | tr '/' '-')
 		echo "
-imagebuilder_$TARGET:
+deploy-imagebuilder_$TARGET:
   extends: .deploy-imagebuilder"
 	done
 }

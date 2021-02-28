@@ -7,7 +7,7 @@ export_variables() {
 	export JOB
 	TARGET="${TARGET:-$JOB}"
 	export TARGET
-	TYPE=$(echo "$CI_JOB_NAME" | cut -d _ -f 1)
+	TYPE=$(echo "$CI_JOB_NAME" | cut -d _ -f 1 | cut -d - -f 2)
 	export TYPE
 	export VERSION="${VERSION:-snapshot}"
 	export DOCKERFILE="${DOCKERFILE:-Dockerfile}"

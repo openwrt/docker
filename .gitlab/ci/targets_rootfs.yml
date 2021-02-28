@@ -1,29 +1,29 @@
-rootfs_x86-64:
+deploy-rootfs_x86-64:
   extends: .deploy-rootfs
   variables:
     ARCH: x86_64
 
-rootfs_x86-generic:
+deploy-rootfs_x86-generic:
   extends: .deploy-rootfs
   variables:
     ARCH: i386_pentium4
 
-rootfs_x86-geode:
+deploy-rootfs_x86-geode:
   extends: .deploy-rootfs
   variables:
     ARCH: i386_pentium-mmx
 
-rootfs_armvirt-32:
+deploy-rootfs_armvirt-32:
   extends: .deploy-rootfs
   variables:
     ARCH: arm_cortex-a15_neon-vfpv4
 
-rootfs_armvirt-64:
+deploy-rootfs_armvirt-64:
   extends: .deploy-rootfs
   variables:
     ARCH: aarch64_cortex-a53
 
-rootfs_malta-be:
+deploy-rootfs_malta-be:
   extends: .deploy-rootfs
   variables:
     ARCH: mips_24kc
