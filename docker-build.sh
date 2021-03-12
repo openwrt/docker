@@ -27,7 +27,8 @@ for IMAGE in $DOCKER_IMAGE; do
 		docker tag "$TMP_IMAGE_NAME" "$IMAGE:$BRANCH"
 
 		if [ "$VERSION" == "snapshot" ]; then
-			docker tag "$TMP_IMAGE_NAME" "$IMAGE:$TARGET"
+			docker tag "$TMP_IMAGE_NAME" \
+				"$IMAGE":"$(echo "$TARGET" | tr '/' '-')"
 			docker tag "$TMP_IMAGE_NAME" "$IMAGE:latest"
 		fi
 	fi
