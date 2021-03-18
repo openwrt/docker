@@ -13,6 +13,13 @@ for IMAGE in $DOCKER_IMAGE; do
 		docker tag "$TMP_IMAGE_NAME" "$IMAGE:$TARGET-$VERSION"
 	fi
 
+	if [ "$TYPE" = "rootfs" ]; then
+		docker tag "$TMP_IMAGE_NAME" "$IMAGE:$ARCH-$VERSION"
+		if [ "$VERSION" == "snapshot" ]; then
+			docker tag "$TMP_IMAGE_NAME" "$IMAGE:$ARCH"
+		fi
+	fi
+
 	if [ "$TYPE" = "sdk" ]; then
 		docker tag "$TMP_IMAGE_NAME" "$IMAGE:$ARCH-$VERSION"
 		docker tag "$TMP_IMAGE_NAME" "$IMAGE:$ARCH-$BRANCH"
