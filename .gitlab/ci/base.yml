@@ -1,12 +1,22 @@
 .build-deploy-container:
   image: docker:latest
-  stage: build-deploy-container
+  stage: build-work-containers
   services:
     - docker:dind
   script:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
     - docker build -t "$CI_REGISTRY_IMAGE:deploy" -f Dockerfile.deploy .
     - docker push "$CI_REGISTRY_IMAGE:deploy"
+
+.build-base-container:
+  image: docker:latest
+  stage: build-work-containers
+  services:
+    - docker:dind
+  script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
+    - docker build -t "$CI_REGISTRY_IMAGE:base" -f Dockerfile.base .
+    - docker push "$CI_REGISTRY_IMAGE:base"
 
 .build:
   image: "$CI_REGISTRY_IMAGE:deploy"

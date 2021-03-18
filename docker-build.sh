@@ -6,7 +6,11 @@ set -ex
 # See https://github.com/docker/cli/pull/886
 cp "$DOCKERFILE" ./build/Dockerfile
 TMP_IMAGE_NAME=$(tr -dc '[:lower:]' </dev/urandom | fold -w 32 | head -n 1)
-docker build -t "$TMP_IMAGE_NAME" -f "./build/Dockerfile" ./build
+docker build \
+	--build-arg CI_REGISTRY_IMAGE \
+	--file "./build/Dockerfile" \
+	--tag "$TMP_IMAGE_NAME" \
+	./build
 
 for IMAGE in $DOCKER_IMAGE; do
 	if [ "$TYPE" = "imagebuilder" ] || [ "$TYPE" = "rootfs" ]; then

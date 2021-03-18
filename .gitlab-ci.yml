@@ -9,7 +9,7 @@ include:
 
 stages:
   - pre-build
-  - build-deploy-container
+  - build-work-containers
   - build
   - test
   - generate_targets
@@ -17,6 +17,9 @@ stages:
 
 build deploy container:
   extends: .build-deploy-container
+
+build base container:
+  extends: .build-base-container
 
 check scripts with shellcheck:
   stage: pre-build
