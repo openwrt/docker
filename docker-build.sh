@@ -15,6 +15,7 @@ docker build \
 for IMAGE in $DOCKER_IMAGE; do
 	if [ "$TYPE" = "imagebuilder" ] || [ "$TYPE" = "rootfs" ]; then
 		docker tag "$TMP_IMAGE_NAME" "$IMAGE:$TARGET-$VERSION"
+		docker tag "$TMP_IMAGE_NAME" "$IMAGE:$TARGET-$BRANCH"
 	fi
 
 	if [ "$TYPE" = "rootfs" ]; then
