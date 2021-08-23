@@ -3,6 +3,7 @@ FROM debian:10
 RUN apt-get update -qq &&\
     apt-get install -y \
         build-essential \
+        ccache \
         clang \
         curl \
         file \
@@ -10,11 +11,18 @@ RUN apt-get update -qq &&\
         gcc-multilib \
         gettext \
         git \
+        libdw-dev \
+        libelf-dev \
         libncurses5-dev \
-        libssl-dev \
-        python2.7 \
+        locales \
+        pv \
+        pwgen \
+        python \
         python3 \
+        python3-pip \
+        qemu-utils \
         rsync \
+        signify-openbsd \
         subversion \
         sudo \
         swig \
