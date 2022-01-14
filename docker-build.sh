@@ -20,6 +20,7 @@ for IMAGE in $DOCKER_IMAGE; do
 
 	if [ "$TYPE" = "rootfs" ]; then
 		docker tag "$TMP_IMAGE_NAME" "$IMAGE:$ARCH-$VERSION"
+		docker tag "$TMP_IMAGE_NAME" "$IMAGE:$ARCH-$BRANCH"
 		if [ "$VERSION" == "snapshot" ]; then
 			docker tag "$TMP_IMAGE_NAME" "$IMAGE:$ARCH"
 		fi
