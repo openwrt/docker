@@ -40,6 +40,7 @@ removed.
 * armvirt-32
 * armvirt-64
 * arm_cortex-a15_neon-vfpv4
+* arm_cortex-a9_vfpv3-d16
 * aarch64_generic
 * mips_24kc
 * malta-be

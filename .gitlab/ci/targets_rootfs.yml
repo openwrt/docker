@@ -27,3 +27,8 @@ deploy-rootfs_malta-be:
   extends: .deploy-rootfs
   variables:
     ARCH: mips_24kc
+
+deploy-rootfs_mvebu-cortexa9:
+  extends: .deploy-rootfs
+  variables:
+    ARCH: arm_cortex-a9_vfpv3-d16
