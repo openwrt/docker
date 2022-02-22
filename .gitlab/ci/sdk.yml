@@ -7,8 +7,8 @@
     bash docker-sdk.sh
     VERSION="${VERSION:-snapshot}"
     docker tag "$DOCKER_IMAGE:$TARGETS-$VERSION" \
-      "$DOCKER_IMAGE:sdk-$TARGETS-$CI_COMMIT_REF_SLUG"
-    docker push "$DOCKER_IMAGE:sdk-$TARGETS-$CI_COMMIT_REF_SLUG"
+      "$DOCKER_IMAGE:sdk-$TARGETS-$CI_COMMIT_REF_SLUG-$CI_PIPELINE_ID"
+    docker push "$DOCKER_IMAGE:sdk-$TARGETS-$CI_COMMIT_REF_SLUG-$CI_PIPELINE_ID"
 
 build-sdk_x86_64:
   variables:
@@ -40,12 +40,12 @@ build-sdk_mips_24kc:
 
 test-sdk_x86_64:
   extends: .test-sdk
-  image: "$CI_REGISTRY_IMAGE:sdk-x86-64-$CI_COMMIT_REF_SLUG"
+  image: "$CI_REGISTRY_IMAGE:sdk-x86-64-$CI_COMMIT_REF_SLUG-$CI_PIPELINE_ID"
   script:
     - ls ./bin/packages/x86_64/base/busybox*
 
 test-sdk_mips_24kc:
   extends: .test-sdk
-  image: "$CI_REGISTRY_IMAGE:sdk-ath79-generic-$CI_COMMIT_REF_SLUG"
+  image: "$CI_REGISTRY_IMAGE:sdk-ath79-generic-$CI_COMMIT_REF_SLUG-$CI_PIPELINE_ID"
   script:
     - ls ./bin/packages/mips_24kc/base/busybox*
