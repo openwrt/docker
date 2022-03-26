@@ -40,6 +40,11 @@ curl 'https://git.openwrt.org/?p=keyring.git;a=blob_plain;f=gpg/88CA59E8.asc' | 
  && gpg --fingerprint --with-colons '<pgpsign-21.02@openwrt.org>' | grep '^fpr:::::::::667205E379BAF348863A5C6688CA59E88F681580:$' \
  && echo '667205E379BAF348863A5C6688CA59E88F681580:6:' | gpg --import-ownertrust
 
+# OpenWrt Build System (GnuPGP key for 22.03 release builds)
+curl 'https://git.openwrt.org/?p=keyring.git;a=blob_plain;f=gpg/CD54E82DADB3684D.asc' | gpg --import \
+ && gpg --fingerprint --with-colons '<pgpsign-22.03@openwrt.org>' | grep '^fpr:::::::::1FDFCF69F6FB7776B14DD61DAB3F404913AA0D5A:$' \
+ && echo '1FDFCF69F6FB7776B14DD61DAB3F404913AA0D5A:6:' | gpg --import-ownertrust
+
 # untrusted comment: Public usign key for unattended snapshot builds
 curl 'https://git.openwrt.org/?p=keyring.git;a=blob_plain;f=usign/b5043e70f9a75cde' --create-dirs -o "$USIGNHOME/b5043e70f9a75cde" \
  && echo "d7ac10f9ed1b38033855f3d27c9327d558444fca804c685b17d9dcfb0648228f *$USIGNHOME/b5043e70f9a75cde" | sha256sum -c
@@ -55,3 +60,7 @@ curl 'https://git.openwrt.org/?p=keyring.git;a=blob_plain;f=usign/f94b9dd6febac9
 # untrusted comment: Public usign key for 21.02 release builds
 curl 'https://git.openwrt.org/?p=keyring.git;a=blob_plain;f=usign/2f8b0b98e08306bf' --create-dirs -o "$USIGNHOME/2f8b0b98e08306bf" \
  && echo "d102bdd75421c62490b97f520f9db06aadb44ad408b244755d26e96ea5cd3b7f *$USIGNHOME/2f8b0b98e08306bf" | sha256sum -c
+
+# untrusted comment: Public usign key for 22.03 release builds
+curl 'https://git.openwrt.org/?p=keyring.git;a=blob_plain;f=usign/4d017e6f1ed5d616' --create-dirs -o "$USIGNHOME/4d017e6f1ed5d616" \
+ && echo "f3c5fdf447d7c2743442e68077d60acc7c3e91754849e1f4b6be837b4204b7e2 *$USIGNHOME/4d017e6f1ed5d616" | sha256sum -c
