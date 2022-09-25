@@ -2,6 +2,7 @@ FROM debian:11
 
 RUN apt-get update -qq &&\
     apt-get install -y \
+        aria2 \
         build-essential \
         ccache \
         clang \
