@@ -48,9 +48,10 @@ removed.
 
 ## `sdk`
 
-Contains the OpenWrt SDK based on a `debian:latest` container with required
-packages preinstalled. This can be useful when building packages on MacOS X,
-Windows or via CI.
+Contains the [OpenWrt
+SDK](https://openwrt.org/docs/guide-developer/toolchain/using_the_sdk) based on
+a `debian:latest` container with required packages preinstalled. This can be
+useful when building packages on MacOS X, Windows or via CI.
 
 ### Example
 
@@ -72,9 +73,10 @@ appending `19.07-SNAPSHOT` or `18.06.4` let's you build other than snapshots.
 
 ## `imagebuilder`
 
-Contains the OpenWrt ImageBuilder based on a `debian:latest` container with
-required packages preinstalled. This can be useful when creating images on
-MacOS X, Windows or via CI.
+Contains the [OpenWrt
+ImageBuilder](https://openwrt.org/docs/guide-user/additional-software/imagebuilder)
+based on a `debian:latest` container with required packages preinstalled. This
+can be useful when creating images on MacOS X, Windows or via CI.
 
 ### Example
 
