@@ -28,6 +28,7 @@
 
 
 generate-targets:
+  image: debian:11
   stage: generate_targets
   script:
     - apt-get update && apt-get install -y git make
