@@ -30,6 +30,7 @@
 generate-targets:
   stage: generate_targets
   script:
+    - apt-get update && apt-get install -y git
     - bash ./generate_targets.sh
   artifacts:
     paths:
