@@ -1,0 +1,243 @@
+name: Build and push containers
+
+on:
+  # push:
+  # pull_request:
+  workflow_dispatch:
+    inputs:
+      release:
+        description: "Release to deploy (empty for snapshots)"
+        required: false
+
+  schedule:
+    - cron: "0 5 * * *" # daily snapshot
+    - cron: "0 6 * * 0" # weekly 22.03-SNAPSHOT
+    - cron: "0 7 * * 0" # weekly 21.02-SNAPSHOT
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
+jobs:
+  generate_matrix:
+    name: Set matrix for SDKs
+    runs-on: ubuntu-latest
+    outputs:
+      imagebuilders: ${{ steps.find_targets.outputs.imagebuilders }}
+      sdks: ${{ steps.find_targets.outputs.sdks }}
+      release: ${{ steps.find_targets.outputs.release }}
+      owner: ${{ steps.find_targets.outputs.owner }}
+      suffix: ${{ steps.find_targets.outputs.suffix }}
+
+    steps:
+      - name: Set relase to 22.03-SNAPSHOT
+        if: github.event.schedule == '0 6 * * 0'
+        run: |
+          echo "RELEASE=22.03-SNAPSHOT" >> "$GITHUB_ENV"
+          echo "REF=openwrt-22.03" >> "$GITHUB_ENV"
+
+      - name: Set relase to 21.02-SNAPSHOT
+        if: github.event.schedule == '0 7 * * 0'
+        run: |
+          echo "RELEASE=21.02-SNAPSHOT" >> "$GITHUB_ENV"
+          echo "REF=openwrt-21.02" >> "$GITHUB_ENV"
+
+      - name: Set relase manually
+        if: github.event.inputs.release != ''
+        run: |
+          echo "RELEASE=${{ github.event.inputs.release }}" >> "$GITHUB_ENV"
+          echo "REF=v${{ github.event.inputs.release }}" >> "$GITHUB_ENV"
+
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          repository: openwrt/openwrt
+          ref: ${{ env.REF}}
+
+      - name: Set targets and release
+        id: find_targets
+        run: |
+          JSON='['
+          FIRST=1
+
+          while read -r line;
+          do
+            TARGET=$(echo "$line" | cut -d " " -f 1)
+
+            [[ $FIRST -ne 1 ]] && JSON="$JSON"','
+            
+            JSON="$JSON"'{"target":"'"$TARGET"'","tags":"'"${TARGET/\//-}"'"}'
+            FIRST=0
+          done <<< "$(perl ./scripts/dump-target-info.pl targets 2>/dev/null)"
+
+          JSON='{"include":'"$JSON"']}'
+          echo -e "\n---- imagebuilders ----\n"
+          echo "$JSON"
+          echo -e "\n---- imagebuilders ----\n"
+          echo "imagebuilders=$JSON" >> "$GITHUB_OUTPUT"
+
+          JSON='['
+          FIRST=1
+
+          while read -r line;
+          do
+            ARCH=$(echo "$line" | cut -d " " -f 1)
+            TARGET=$(echo "$line" | cut -d " " -f 2)
+            TARGETS=$(echo "$line" | cut -d " " -f 2- | sed -e 's/ /\\n/g')
+
+            [[ $FIRST -ne 1 ]] && JSON="$JSON"','
+            
+            JSON="$JSON"'{"arch":"'"$ARCH"'","target":"'"$TARGET"'","tags":"'"$ARCH"'\\n'"$TARGETS"'"}'
+            FIRST=0
+          done <<< "$(perl ./scripts/dump-target-info.pl architectures 2>/dev/null)"
+
+          JSON='{"include":'"$JSON"']}'
+          echo -e "\n---- sdks ----\n"
+          echo "$JSON"
+          echo -e "\n---- sdks ----\n"
+          echo "sdks=$JSON" >> "$GITHUB_OUTPUT"
+
+          echo "release=$RELEASE" >> "$GITHUB_OUTPUT"
+          SUFFIX=${REF:+-$REF}
+          SUFFIX=${SUFFIX:--master}
+          echo "suffix=$SUFFIX" >> "$GITHUB_OUTPUT"
+          echo "owner=${GITHUB_REPOSITORY_OWNER,,}" >> "$GITHUB_OUTPUT"
+
+  push-imagebuilder-container:
+    name: ImageBuilder
+    runs-on: ubuntu-latest
+    needs: generate_matrix
+    strategy:
+      fail-fast: False
+      matrix: ${{fromJson(needs.generate_matrix.outputs.imagebuilders)}}
+
+    steps:
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: |
+            ghcr.io/${{ needs.generate_matrix.outputs.owner }}/imagebuilder
+          flavor: |
+            latest=false
+            suffix=${{ needs.generate_matrix.outputs.suffix }}
+          tags: ${{ matrix.tags }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v3
+        with:
+          file: Dockerfile.unify
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            DOWNLOAD_FILE=imagebuilder-.*x86_64.tar.xz
+            RELEASE=${{ needs.generate_matrix.outputs.release }}
+            TARGET=${{ matrix.target }}
+
+  push-sdk-container:
+    name: SDK
+    runs-on: ubuntu-latest
+    needs: generate_matrix
+    strategy:
+      fail-fast: False
+      matrix: ${{fromJson(needs.generate_matrix.outputs.sdks)}}
+
+    steps:
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: |
+            ghcr.io/${{ needs.generate_matrix.outputs.owner }}/sdk
+          flavor: |
+            latest=false
+            suffix=${{ needs.generate_matrix.outputs.suffix }}
+          tags: ${{ matrix.tags }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v3
+        with:
+          file: Dockerfile.unify
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          build-args: |
+            DOWNLOAD_FILE=sdk-.*.Linux-x86_64.tar.xz
+            RELEASE=${{ needs.generate_matrix.outputs.release }}
+            TARGET=${{ matrix.target }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+  push-rootfs-container:
+    name: RootFS
+    runs-on: ubuntu-latest
+    needs: generate_matrix
+    strategy:
+      fail-fast: False
+      matrix:
+        include:
+          - target: x86/64
+            arch: x86_64
+          - target: x86/generic
+            arch: i386_pentium4
+          - target: x86/geode
+            arch: i386_pentium-mmx
+          - target: armvirt/32
+            arch: arm_cortex-a15_neon-vfpv4
+          - target: armvirt/64
+            arch: aarch64_cortex-a53
+          - target: malta/be
+            arch: mips_24kc
+          - target: mvebu/cortexa9
+            arch: arm_cortex-a9_vfpv3-d16
+
+    steps:
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: |
+            ghcr.io/${{ needs.generate_matrix.outputs.owner }}/rootfs
+          flavor: |
+            latest=false
+            suffix=${{ needs.generate_matrix.outputs.suffix }}
+          tags: |
+            ${{ matrix.target }}
+            ${{ matrix.arch }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v3
+        with:
+          file: Dockerfile.unify
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          build-args: |
+            DOWNLOAD_FILE=openwrt-.*-rootfs.tar.gz
+            WORKDIR=/
+            USER=root
+            RELEASE=${{ needs.generate_matrix.outputs.release }}
+            TARGET=${{ matrix.target }}
+            BASE_IMAGE=scratch
+            CMD=ash
+          labels: ${{ steps.meta.outputs.labels }}
