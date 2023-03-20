@@ -18,10 +18,11 @@ concurrency:
   group: ${{ github.workflow }}
   cancel-in-progress: true
 
+
 jobs:
   generate_matrix:
     name: Set matrix for SDKs
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     outputs:
       imagebuilders: ${{ steps.find_targets.outputs.imagebuilders }}
       sdks: ${{ steps.find_targets.outputs.sdks }}
@@ -106,7 +107,7 @@ jobs:
 
   push-imagebuilder-container:
     name: ImageBuilder
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: generate_matrix
     strategy:
       fail-fast: False
@@ -145,7 +146,7 @@ jobs:
 
   push-sdk-container:
     name: SDK
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: generate_matrix
     strategy:
       fail-fast: False
@@ -184,7 +185,7 @@ jobs:
 
   push-rootfs-container:
     name: RootFS
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: generate_matrix
     strategy:
       fail-fast: False
