@@ -120,12 +120,19 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Login to Docker.io Container Registry
+        uses: docker/login-action@v2
+        with:
+          username: ${{ github.actor }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
       - name: Docker meta
         id: meta
         uses: docker/metadata-action@v4
         with:
           images: |
             ghcr.io/${{ needs.generate_matrix.outputs.owner }}/imagebuilder
+            docker.io/${{ needs.generate_matrix.outputs.owner }}/imagebuilder
           flavor: |
             latest=false
             suffix=${{ needs.generate_matrix.outputs.suffix }}
@@ -159,12 +166,19 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Login to Docker.io Container Registry
+        uses: docker/login-action@v2
+        with:
+          username: ${{ github.actor }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
       - name: Docker meta
         id: meta
         uses: docker/metadata-action@v4
         with:
           images: |
             ghcr.io/${{ needs.generate_matrix.outputs.owner }}/sdk
+            docker.io/${{ needs.generate_matrix.outputs.owner }}/sdk
           flavor: |
             latest=false
             suffix=${{ needs.generate_matrix.outputs.suffix }}
@@ -213,12 +227,19 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Login to Docker.io Container Registry
+        uses: docker/login-action@v2
+        with:
+          username: ${{ github.actor }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
       - name: Docker meta
         id: meta
         uses: docker/metadata-action@v4
         with:
           images: |
             ghcr.io/${{ needs.generate_matrix.outputs.owner }}/rootfs
+            docker.io/${{ needs.generate_matrix.outputs.owner }}/rootfs
           flavor: |
             latest=false
             suffix=${{ needs.generate_matrix.outputs.suffix }}
