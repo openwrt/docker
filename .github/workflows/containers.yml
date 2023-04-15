@@ -88,7 +88,7 @@ jobs:
 
             [[ $FIRST -ne 1 ]] && JSON="$JSON"','
             
-            JSON="$JSON"'{"arch":"'"$ARCH"'","target":"'"$TARGET"'","tags":"'"$ARCH"'\\n'"$TARGETS"'"}'
+            JSON="$JSON"'{"arch":"'"$ARCH"'","target":"'"$TARGET"'","tags":"'"$ARCH"'\n'"$TARGETS"'"}'
             FIRST=0
           done <<< "$(perl ./scripts/dump-target-info.pl architectures 2>/dev/null)"
 
