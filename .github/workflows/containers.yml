@@ -8,6 +8,9 @@ on:
       release:
         description: "Release to deploy (empty for snapshots)"
         required: false
+      target:
+        description: "Single target to build (empty for all)"
+        required: false
 
   schedule:
     - cron: "0 5 * * *" # daily snapshot
@@ -57,6 +60,12 @@ jobs:
           JSON='['
           FIRST=1
 
+          if [ "${{ github.event.inputs.target }}" != "" ]; then
+            TARGET_FILTER="${{ github.event.inputs.target }}"
+          else
+            TARGET_FILTER=""
+          fi
+
           while read -r line;
           do
             TARGET=$(echo "$line" | cut -d " " -f 1)
@@ -65,7 +74,7 @@ jobs:
             
             JSON="$JSON"'{"target":"'"$TARGET"'","tags":"'"${TARGET/\//-}"'"}'
             FIRST=0
-          done <<< "$(perl ./scripts/dump-target-info.pl targets 2>/dev/null)"
+          done <<< "$(perl ./scripts/dump-target-info.pl targets 2>/dev/null | grep $TARGET_FILTER)"
 
           JSON='{"include":'"$JSON"']}'
           echo -e "\n---- imagebuilders ----\n"
@@ -86,7 +95,7 @@ jobs:
             
             JSON="$JSON"'{"arch":"'"$ARCH"'","target":"'"$TARGET"'","tags":"'"$ARCH"'\n'"$TARGETS"'"}'
             FIRST=0
-          done <<< "$(perl ./scripts/dump-target-info.pl architectures 2>/dev/null)"
+          done <<< "$(perl ./scripts/dump-target-info.pl architectures 2>/dev/null | grep $TARGET_FILTER)"
 
           JSON='{"include":'"$JSON"']}'
           echo -e "\n---- sdks ----\n"
