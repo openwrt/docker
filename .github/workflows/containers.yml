@@ -26,7 +26,6 @@ jobs:
       rootfs: ${{ steps.find_targets.outputs.rootfs }}
       sdks: ${{ steps.find_targets.outputs.sdks }}
       release: ${{ steps.find_targets.outputs.release }}
-      owner: ${{ steps.find_targets.outputs.owner }}
       suffix: ${{ steps.find_targets.outputs.suffix }}
 
     steps:
@@ -123,7 +122,6 @@ jobs:
           SUFFIX=${REF:+-$REF}
           SUFFIX=${SUFFIX:--master}
           echo "suffix=$SUFFIX" >> "$GITHUB_OUTPUT"
-          echo "owner=${GITHUB_REPOSITORY_OWNER,,}" >> "$GITHUB_OUTPUT"
 
   push-imagebuilder-container:
     name: ImageBuilder
@@ -142,18 +140,28 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Login to Docker.io Container Registry
+        if: ${{ github.repository_owner  == 'openwrt' }}
         uses: docker/login-action@v2
         with:
-          username: ${{ github.actor }}
+          username: openwrt
           password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Login to Quay.io Container Registry
+        if: ${{ github.repository_owner  == 'openwrt' }}
+        uses: docker/login-action@v2
+        with:
+          registry: quay.io
+          username: openwrt+github
+          password: ${{ secrets.QUAY_TOKEN }}
 
       - name: Docker meta
         id: meta
         uses: docker/metadata-action@v4
         with:
           images: |
-            ghcr.io/${{ needs.generate_matrix.outputs.owner }}/imagebuilder
-            docker.io/${{ needs.generate_matrix.outputs.owner }}/imagebuilder
+            ghcr.io/${{ github.repository_owner }}/imagebuilder
+            docker.io/openwrt/imagebuilder,enabled=${{ github.repository_owner  == 'openwrt' }}
+            quay.io/openwrt/imagebuilder,enabled=${{ github.repository_owner  == 'openwrt' }}
           flavor: |
             latest=false
             suffix=${{ needs.generate_matrix.outputs.suffix }}
@@ -188,18 +196,28 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Login to Docker.io Container Registry
+        if: ${{ github.repository_owner  == 'openwrt' }}
         uses: docker/login-action@v2
         with:
-          username: ${{ github.actor }}
+          username: openwrt
           password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Login to Quay.io Container Registry
+        if: ${{ github.repository_owner  == 'openwrt' }}
+        uses: docker/login-action@v2
+        with:
+          registry: quay.io
+          username: openwrt+github
+          password: ${{ secrets.QUAY_TOKEN }}
 
       - name: Docker meta
         id: meta
         uses: docker/metadata-action@v4
         with:
           images: |
-            ghcr.io/${{ needs.generate_matrix.outputs.owner }}/sdk
-            docker.io/${{ needs.generate_matrix.outputs.owner }}/sdk
+            ghcr.io/${{ github.repository_owner }}/sdk
+            docker.io/openwrt/sdk,enabled=${{ github.repository_owner  == 'openwrt' }}
+            quay.io/openwrt/sdk,enabled=${{ github.repository_owner  == 'openwrt' }}
           flavor: |
             latest=false
             suffix=${{ needs.generate_matrix.outputs.suffix }}
@@ -234,18 +252,28 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Login to Docker.io Container Registry
+        if: ${{ github.repository_owner  == 'openwrt' }}
         uses: docker/login-action@v2
         with:
-          username: ${{ github.actor }}
+          username: openwrt
           password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Login to Quay.io Container Registry
+        if: ${{ github.repository_owner  == 'openwrt' }}
+        uses: docker/login-action@v2
+        with:
+          registry: quay.io
+          username: openwrt+github
+          password: ${{ secrets.QUAY_TOKEN }}
 
       - name: Docker meta
         id: meta
         uses: docker/metadata-action@v4
         with:
           images: |
-            ghcr.io/${{ needs.generate_matrix.outputs.owner }}/rootfs
-            docker.io/${{ needs.generate_matrix.outputs.owner }}/rootfs
+            ghcr.io/${{ github.repository_owner }}/rootfs
+            docker.io/openwrt/rootfs,enabled=${{ github.repository_owner  == 'openwrt' }}
+            quay.io/openwrt/rootfs,enabled=${{ github.repository_owner  == 'openwrt' }}
           flavor: |
             latest=false
             suffix=${{ needs.generate_matrix.outputs.suffix }}
