@@ -58,11 +58,7 @@ jobs:
       - name: Set targets and release
         id: find_targets
         run: |
-          if [ "${{ github.event.inputs.target }}" != "" ]; then
-            TARGET_FILTER="${{ github.event.inputs.target }}"
-          else
-            TARGET_FILTER=""
-          fi
+          TARGET_FILTER="${{ github.event.inputs.target }}"
 
           # imagebuilders & rootfs
           JSON_IB='['
