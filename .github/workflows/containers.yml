@@ -142,7 +142,7 @@ jobs:
         if: ${{ github.repository_owner  == 'openwrt' }}
         uses: docker/login-action@v2
         with:
-          username: openwrt
+          username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_TOKEN }}
 
       - name: Login to Quay.io Container Registry
@@ -150,7 +150,7 @@ jobs:
         uses: docker/login-action@v2
         with:
           registry: quay.io
-          username: openwrt+github
+          username: ${{ secrets.QUAT_USER }}
           password: ${{ secrets.QUAY_TOKEN }}
 
       - name: Docker meta
@@ -198,7 +198,7 @@ jobs:
         if: ${{ github.repository_owner  == 'openwrt' }}
         uses: docker/login-action@v2
         with:
-          username: openwrt
+          username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_TOKEN }}
 
       - name: Login to Quay.io Container Registry
@@ -206,7 +206,7 @@ jobs:
         uses: docker/login-action@v2
         with:
           registry: quay.io
-          username: openwrt+github
+          username: ${{ secrets.QUAT_USER }}
           password: ${{ secrets.QUAY_TOKEN }}
 
       - name: Docker meta
@@ -254,7 +254,7 @@ jobs:
         if: ${{ github.repository_owner  == 'openwrt' }}
         uses: docker/login-action@v2
         with:
-          username: openwrt
+          username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_TOKEN }}
 
       - name: Login to Quay.io Container Registry
@@ -262,7 +262,7 @@ jobs:
         uses: docker/login-action@v2
         with:
           registry: quay.io
-          username: openwrt+github
+          username: ${{ secrets.QUAT_USER }}
           password: ${{ secrets.QUAY_TOKEN }}
 
       - name: Docker meta
