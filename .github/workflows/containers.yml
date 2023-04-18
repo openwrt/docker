@@ -81,7 +81,7 @@ jobs:
             
             JSON_IB="$JSON_IB"'{"target":"'"$TARGET"'","tags":"'"${TARGET/\//-}"'"}'
 
-            if grep -E "x86/64|x86/generic|x86/geode|armvirt/32|armvirt/64|malta/be|mvebu/cortexa9"; then
+            if echo "$TARGET" | grep -E "x86/64|x86/generic|x86/geode|armvirt/32|armvirt/64|malta/be|mvebu/cortexa9"; then
               [[ $FIRST_ROOTFS -ne 1 ]] && JSON_ROOTFS="$JSON_ROOTFS"','
               FIRST_ROOTFS=0
 
