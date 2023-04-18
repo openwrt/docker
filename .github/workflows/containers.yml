@@ -23,6 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       imagebuilders: ${{ steps.find_targets.outputs.imagebuilders }}
+      rootfs: ${{ steps.find_targets.outputs.rootfs }}
       sdks: ${{ steps.find_targets.outputs.sdks }}
       release: ${{ steps.find_targets.outputs.release }}
       owner: ${{ steps.find_targets.outputs.owner }}
@@ -57,31 +58,50 @@ jobs:
       - name: Set targets and release
         id: find_targets
         run: |
-          JSON='['
-          FIRST=1
-
           if [ "${{ github.event.inputs.target }}" != "" ]; then
             TARGET_FILTER="${{ github.event.inputs.target }}"
           else
             TARGET_FILTER=""
           fi
 
+          # imagebuilders & rootfs
+          JSON_IB='['
+          FIRST_IB=1
+
+          JSON_ROOTFS='['
+          FIRST_ROOTFS=1
+
           while read -r line;
           do
             TARGET=$(echo "$line" | cut -d " " -f 1)
+            ARCH=$(echo "$line" | cut -d " " -f 2)
 
-            [[ $FIRST -ne 1 ]] && JSON="$JSON"','
+            [[ $FIRST_IB -ne 1 ]] && JSON_IB="$JSON_IB"','
+            FIRST_IB=0
             
-            JSON="$JSON"'{"target":"'"$TARGET"'","tags":"'"${TARGET/\//-}"'"}'
-            FIRST=0
+            JSON_IB="$JSON_IB"'{"target":"'"$TARGET"'","tags":"'"${TARGET/\//-}"'"}'
+
+            if grep -E "x86/64|x86/generic|x86/geode|armvirt/32|armvirt/64|malta/be|mvebu/cortexa9"; then
+              [[ $FIRST_ROOTFS -ne 1 ]] && JSON_ROOTFS="$JSON_ROOTFS"','
+              FIRST_ROOTFS=0
+
+              JSON_ROOTFS="$JSON_ROOTFS"'{"target":"'"$TARGET"'","arch":"'"$ARCH"'"}'
+            fi
           done <<< "$(perl ./scripts/dump-target-info.pl targets 2>/dev/null | grep $TARGET_FILTER)"
 
-          JSON='{"include":'"$JSON"']}'
+          JSON_IB='{"include":'"$JSON_IB"']}'
           echo -e "\n---- imagebuilders ----\n"
-          echo "$JSON"
+          echo "$JSON_IB"
           echo -e "\n---- imagebuilders ----\n"
-          echo "imagebuilders=$JSON" >> "$GITHUB_OUTPUT"
+          echo "imagebuilders=$JSON_IB" >> "$GITHUB_OUTPUT"
 
+          JSON_ROOTFS='{"include":'"$JSON_ROOTFS"']}'
+          echo -e "\n---- rootfs ----\n"
+          echo "$JSON_ROOTFS"
+          echo -e "\n---- rootfs ----\n"
+          echo "rootfs=$JSON_ROOTFS" >> "$GITHUB_OUTPUT"
+
+          # sdks
           JSON='['
           FIRST=1
 
@@ -92,9 +112,9 @@ jobs:
             TARGETS=$(echo "$line" | cut -d " " -f 2- | sed -e 's/ /\\n/g')
 
             [[ $FIRST -ne 1 ]] && JSON="$JSON"','
-            
-            JSON="$JSON"'{"arch":"'"$ARCH"'","target":"'"$TARGET"'","tags":"'"$ARCH"'\n'"$TARGETS"'"}'
             FIRST=0
+
+            JSON="$JSON"'{"arch":"'"$ARCH"'","target":"'"$TARGET"'","tags":"'"$ARCH"'\n'"$TARGETS"'"}'
           done <<< "$(perl ./scripts/dump-target-info.pl architectures 2>/dev/null | grep $TARGET_FILTER)"
 
           JSON='{"include":'"$JSON"']}'
@@ -207,22 +227,7 @@ jobs:
     needs: generate_matrix
     strategy:
       fail-fast: False
-      matrix:
-        include:
-          - target: x86/64
-            arch: x86_64
-          - target: x86/generic
-            arch: i386_pentium4
-          - target: x86/geode
-            arch: i386_pentium-mmx
-          - target: armvirt/32
-            arch: arm_cortex-a15_neon-vfpv4
-          - target: armvirt/64
-            arch: aarch64_cortex-a53
-          - target: malta/be
-            arch: mips_24kc
-          - target: mvebu/cortexa9
-            arch: arm_cortex-a9_vfpv3-d16
+      matrix: ${{fromJson(needs.generate_matrix.outputs.rootfs)}}
 
     steps:
       - name: Login to GitHub Container Registry
