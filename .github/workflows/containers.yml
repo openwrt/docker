@@ -159,8 +159,8 @@ jobs:
         with:
           images: |
             ghcr.io/${{ github.repository_owner }}/imagebuilder
-            docker.io/openwrt/imagebuilder,enabled=${{ github.repository_owner  == 'openwrt' }}
-            quay.io/openwrt/imagebuilder,enabled=${{ github.repository_owner  == 'openwrt' }}
+            docker.io/openwrt/imagebuilder,enable=${{ github.repository_owner  == 'openwrt' }}
+            quay.io/openwrt/imagebuilder,enable=${{ github.repository_owner  == 'openwrt' }}
           flavor: |
             latest=false
             suffix=${{ needs.generate_matrix.outputs.suffix }}
@@ -215,8 +215,8 @@ jobs:
         with:
           images: |
             ghcr.io/${{ github.repository_owner }}/sdk
-            docker.io/openwrt/sdk,enabled=${{ github.repository_owner  == 'openwrt' }}
-            quay.io/openwrt/sdk,enabled=${{ github.repository_owner  == 'openwrt' }}
+            docker.io/openwrt/sdk,enable=${{ github.repository_owner  == 'openwrt' }}
+            quay.io/openwrt/sdk,enable=${{ github.repository_owner  == 'openwrt' }}
           flavor: |
             latest=false
             suffix=${{ needs.generate_matrix.outputs.suffix }}
@@ -271,8 +271,8 @@ jobs:
         with:
           images: |
             ghcr.io/${{ github.repository_owner }}/rootfs
-            docker.io/openwrt/rootfs,enabled=${{ github.repository_owner  == 'openwrt' }}
-            quay.io/openwrt/rootfs,enabled=${{ github.repository_owner  == 'openwrt' }}
+            docker.io/openwrt/rootfs,enable=${{ github.repository_owner  == 'openwrt' }}
+            quay.io/openwrt/rootfs,enable=${{ github.repository_owner  == 'openwrt' }}
           flavor: |
             latest=false
             suffix=${{ needs.generate_matrix.outputs.suffix }}
