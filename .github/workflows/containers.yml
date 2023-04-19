@@ -81,7 +81,7 @@ jobs:
 
               JSON_ROOTFS="$JSON_ROOTFS"'{"target":"'"$TARGET"'","arch":"'"$ARCH"'"}'
             fi
-          done <<< "$(perl ./scripts/dump-target-info.pl targets 2>/dev/null | grep $TARGET_FILTER)"
+          done <<< $(perl ./scripts/dump-target-info.pl targets 2>/dev/null | grep "$TARGET_FILTER")
 
           JSON_IB='{"include":'"$JSON_IB"']}'
           echo -e "\n---- imagebuilders ----\n"
@@ -109,7 +109,7 @@ jobs:
             FIRST=0
 
             JSON="$JSON"'{"arch":"'"$ARCH"'","target":"'"$TARGET"'","tags":"'"$ARCH"'\n'"$TARGETS"'"}'
-          done <<< "$(perl ./scripts/dump-target-info.pl architectures 2>/dev/null | grep $TARGET_FILTER)"
+          done <<< $(perl ./scripts/dump-target-info.pl architectures 2>/dev/null | grep "$TARGET_FILTER")
 
           JSON='{"include":'"$JSON"']}'
           echo -e "\n---- sdks ----\n"
