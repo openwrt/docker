@@ -8,12 +8,11 @@ WORKDIR /build/
 ARG DOWNLOAD_FILE="imagebuilder-.*x86_64.tar.xz"
 ARG TARGET=x86/64
 ARG FILE_HOST=downloads.openwrt.org
-ARG RELEASE
+ARG VERSION_PATH
 
-# if $RELEASE is empty fallback to snapshots
-ENV RELEASE_PATH=${RELEASE:+releases/$RELEASE}
-ENV RELEASE_PATH=${RELEASE_PATH:-snapshots}
-ENV DOWNLOAD_PATH=$RELEASE_PATH/targets/$TARGET
+# if $VERSION is empty fallback to snapshots
+ENV VERSION_PATH=${VERSION_PATH:-snapshots}
+ENV DOWNLOAD_PATH=$VERSION_PATH/targets/$TARGET
 
 RUN curl "https://$FILE_HOST/$DOWNLOAD_PATH/sha256sums" -fs -o sha256sums
 RUN curl "https://$FILE_HOST/$DOWNLOAD_PATH/sha256sums.asc" -fs -o sha256sums.asc || true
