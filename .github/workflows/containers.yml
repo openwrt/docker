@@ -5,8 +5,9 @@ on:
   pull_request:
   workflow_dispatch:
     inputs:
-      release:
-        description: "Release to deploy (empty for snapshots)"
+      ref:
+        description: "Tag or branch to deploy (empty for master)"
+        default: "master"
         required: false
       target:
         description: "Single target to build (empty for all)"
@@ -19,33 +20,57 @@ on:
 
 jobs:
   generate_matrix:
-    name: Set matrix for SDKs
+    name: Set matrix
     runs-on: ubuntu-latest
     outputs:
       imagebuilders: ${{ steps.find_targets.outputs.imagebuilders }}
       rootfs: ${{ steps.find_targets.outputs.rootfs }}
       sdks: ${{ steps.find_targets.outputs.sdks }}
-      release: ${{ steps.find_targets.outputs.release }}
-      suffix: ${{ steps.find_targets.outputs.suffix }}
+      ref: ${{ steps.find_targets.outputs.ref }}
+      version: ${{ steps.find_targets.outputs.version }}
+      versio_path: ${{ steps.find_targets.outputs.version_path }}
 
     steps:
       - name: Set relase to 22.03-SNAPSHOT
         if: github.event.schedule == '0 6 * * 0'
         run: |
-          echo "RELEASE=22.03-SNAPSHOT" >> "$GITHUB_ENV"
+          echo "VERSION=22.03-SNAPSHOT" >> "$GITHUB_ENV"
+          echo "VERSION_PATH=releases/22.03-SNAPSHOT" >> "$GITHUB_ENV"
           echo "REF=openwrt-22.03" >> "$GITHUB_ENV"
 
       - name: Set relase to 21.02-SNAPSHOT
         if: github.event.schedule == '0 7 * * 0'
         run: |
-          echo "RELEASE=21.02-SNAPSHOT" >> "$GITHUB_ENV"
+          echo "VERSION=21.02-SNAPSHOT" >> "$GITHUB_ENV"
+          echo "VERSION_PATH=releases/21.02-SNAPSHOT" >> "$GITHUB_ENV"
           echo "REF=openwrt-21.02" >> "$GITHUB_ENV"
 
       - name: Set relase manually
-        if: github.event.inputs.release != ''
+        if: github.event.inputs.ref != ''
         run: |
-          echo "RELEASE=${{ github.event.inputs.release }}" >> "$GITHUB_ENV"
-          echo "REF=v${{ github.event.inputs.release }}" >> "$GITHUB_ENV"
+          export REF=${{ github.event.inputs.ref }}
+          echo "REF=$REF" >> "$GITHUB_ENV"
+
+          case $REF in
+            master)
+              VERSION=SNAPSHOT
+              echo "VERSION_PATH=snapshots" >> "$GITHUB_ENV"
+            ;;
+            openwrt-)
+              VERSION=${REF//openwrt-/}-SNAPSHOT
+              echo "VERSION_PATH=releases/$VERSION" >> "$GITHUB_ENV"
+            ;;
+            v*)
+              VERSION=${REF//v/}-SNAPSHOT
+              echo "VERSION_PATH=releases/$VERSION" >> "$GITHUB_ENV"
+            ;;
+            *)
+              echo "No tag or branch found"
+              exit 1
+            ;;
+          esac
+          echo "VERSION=$VERSION" >> "$GITHUB_ENV"
+          echo "VERSION_PATH=releases/22.03-SNAPSHOT" >> "$GITHUB_ENV"
 
       - name: Checkout
         uses: actions/checkout@v3
@@ -53,7 +78,7 @@ jobs:
           repository: openwrt/openwrt
           ref: ${{ env.REF}}
 
-      - name: Set targets and release
+      - name: Set targets
         id: find_targets
         run: |
           TARGET_FILTER="${{ github.event.inputs.target }}"
@@ -73,7 +98,7 @@ jobs:
             [[ $FIRST_IB -ne 1 ]] && JSON_IB="$JSON_IB"','
             FIRST_IB=0
             
-            JSON_IB="$JSON_IB"'{"target":"'"$TARGET"'","tags":"'"${TARGET/\//-}"'"}'
+            JSON_IB="$JSON_IB"'{"target":"'"$TARGET"'"}'
 
             if echo "$TARGET" | grep -E "x86/64|x86/generic|x86/geode|armvirt/32|armvirt/64|malta/be|mvebu/cortexa9"; then
               [[ $FIRST_ROOTFS -ne 1 ]] && JSON_ROOTFS="$JSON_ROOTFS"','
@@ -117,10 +142,9 @@ jobs:
           echo -e "\n---- sdks ----\n"
           echo "sdks=$JSON" >> "$GITHUB_OUTPUT"
 
-          echo "release=$RELEASE" >> "$GITHUB_OUTPUT"
-          SUFFIX=${REF:+-$REF}
-          SUFFIX=${SUFFIX:--master}
-          echo "suffix=$SUFFIX" >> "$GITHUB_OUTPUT"
+          echo "ref=${REF:-master}" >> "$GITHUB_OUTPUT"
+          echo "version=${VERSION:-SNAPSHOT}" >> "$GITHUB_OUTPUT"
+          echo "version_path=${VERSION_PATH:-snapshots}" >> "$GITHUB_OUTPUT"
 
   push-imagebuilder-container:
     name: ImageBuilder
@@ -139,14 +163,14 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Login to Docker.io Container Registry
-        if: ${{ github.repository_owner  == 'openwrt' }}
+        if: github.event_name != 'pull_request'
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_TOKEN }}
 
       - name: Login to Quay.io Container Registry
-        if: ${{ github.repository_owner  == 'openwrt' }}
+        if: github.event_name != 'pull_request'
         uses: docker/login-action@v2
         with:
           registry: quay.io
@@ -158,24 +182,25 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: |
-            ghcr.io/${{ github.repository_owner }}/imagebuilder
-            docker.io/openwrt/imagebuilder,enable=${{ github.repository_owner  == 'openwrt' }}
-            quay.io/openwrt/imagebuilder,enable=${{ github.repository_owner  == 'openwrt' }}
-          flavor: |
-            latest=false
-            suffix=${{ needs.generate_matrix.outputs.suffix }}
-          tags: ${{ matrix.tags }}
+            ghcr.io/openwrt/imagebuilder
+            docker.io/openwrt/imagebuilder
+            quay.io/openwrt/imagebuilder
+          flavor: latest=false
+          tags: |
+            ${{ matrix.target }}-${{ needs.generate_matrix.outputs.ref }}
+            ${{ matrix.target }}-${{ needs.generate_matrix.outputs.version }}
+            latest,enable=${{ needs.generate_matrix.outputs.version == 'SNAPSHOT' && matrix.target == 'x86/64'}}
 
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
           file: Dockerfile.unify
-          push: true
+          push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
             DOWNLOAD_FILE=imagebuilder-.*x86_64.tar.xz
-            RELEASE=${{ needs.generate_matrix.outputs.release }}
+            VERSION_PATH=${{ needs.generate_matrix.outputs.version_path }}
             TARGET=${{ matrix.target }}
 
   push-sdk-container:
@@ -188,6 +213,7 @@ jobs:
 
     steps:
       - name: Login to GitHub Container Registry
+        if: github.event_name != 'pull_request'
         uses: docker/login-action@v2
         with:
           registry: ghcr.io
@@ -195,44 +221,59 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Login to Docker.io Container Registry
-        if: ${{ github.repository_owner  == 'openwrt' }}
+        if: github.event_name != 'pull_request'
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_TOKEN }}
 
       - name: Login to Quay.io Container Registry
-        if: ${{ github.repository_owner  == 'openwrt' }}
+        if: github.event_name != 'pull_request'
         uses: docker/login-action@v2
         with:
           registry: quay.io
           username: ${{ secrets.QUAY_USER }}
           password: ${{ secrets.QUAY_TOKEN }}
 
-      - name: Docker meta
-        id: meta
+      - name: Docker meta (tag or branch)
+        id: meta_ref
         uses: docker/metadata-action@v4
         with:
           images: |
-            ghcr.io/${{ github.repository_owner }}/sdk
-            docker.io/openwrt/sdk,enable=${{ github.repository_owner  == 'openwrt' }}
-            quay.io/openwrt/sdk,enable=${{ github.repository_owner  == 'openwrt' }}
+            ghcr.io/openwrt/sdk
+            docker.io/openwrt/sdk
+            quay.io/openwrt/sdk
           flavor: |
             latest=false
-            suffix=${{ needs.generate_matrix.outputs.suffix }}
+            suffix=-${{ needs.generate_matrix.outputs.ref }}
+          tags: ${{ matrix.tags }}
+
+      - name: Docker meta (version)
+        id: meta_version
+        uses: docker/metadata-action@v4
+        with:
+          images: |
+            ghcr.io/openwrt/sdk
+            docker.io/openwrt/sdk
+            quay.io/openwrt/sdk
+          flavor: |
+            latest=false
+            suffix=-${{ needs.generate_matrix.outputs.version }}
           tags: ${{ matrix.tags }}
 
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
           file: Dockerfile.unify
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: |
+            ${{ steps.meta_ref.outputs.tags }}
+            ${{ steps.meta_version.outputs.tags }}
           build-args: |
             DOWNLOAD_FILE=sdk-.*.Linux-x86_64.tar.xz
-            RELEASE=${{ needs.generate_matrix.outputs.release }}
+            VERSION_PATH=${{ needs.generate_matrix.outputs.version_path }}
             TARGET=${{ matrix.target }}
-          labels: ${{ steps.meta.outputs.labels }}
+          labels: ${{ steps.meta_ref.outputs.labels }}
 
   push-rootfs-container:
     name: RootFS
@@ -251,14 +292,14 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Login to Docker.io Container Registry
-        if: ${{ github.repository_owner  == 'openwrt' }}
+        if: github.event_name != 'pull_request'
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_TOKEN }}
 
       - name: Login to Quay.io Container Registry
-        if: ${{ github.repository_owner  == 'openwrt' }}
+        if: github.event_name != 'pull_request'
         uses: docker/login-action@v2
         with:
           registry: quay.io
@@ -270,27 +311,28 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: |
-            ghcr.io/${{ github.repository_owner }}/rootfs
-            docker.io/openwrt/rootfs,enable=${{ github.repository_owner  == 'openwrt' }}
-            quay.io/openwrt/rootfs,enable=${{ github.repository_owner  == 'openwrt' }}
-          flavor: |
-            latest=false
-            suffix=${{ needs.generate_matrix.outputs.suffix }}
+            ghcr.io/openwrt/rootfs
+            docker.io/openwrt/rootfs
+            quay.io/openwrt/rootfs
+          flavor: latest=false
           tags: |
-            ${{ matrix.target }}
-            ${{ matrix.arch }}
+            ${{ matrix.target }}-${{ needs.generate_matrix.outputs.ref }}
+            ${{ matrix.target }}-${{ needs.generate_matrix.outputs.version }}
+            ${{ matrix.arch }}-${{ needs.generate_matrix.outputs.ref }}
+            ${{ matrix.arch }}-${{ needs.generate_matrix.outputs.version }}
+            latest,enable=${{ needs.generate_matrix.outputs.version == 'SNAPSHOT' && matrix.target == 'x86/64'}}
 
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
           file: Dockerfile.unify
-          push: true
+          push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           build-args: |
             DOWNLOAD_FILE=openwrt-.*-rootfs.tar.gz
             WORKDIR=/
             USER=root
-            RELEASE=${{ needs.generate_matrix.outputs.release }}
+            VERSION_PATH=${{ needs.generate_matrix.outputs.version_path }}
             TARGET=${{ matrix.target }}
             BASE_IMAGE=scratch
             CMD=ash
