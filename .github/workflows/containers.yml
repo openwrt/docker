@@ -96,7 +96,7 @@ jobs:
 
             [[ $FIRST_IB -ne 1 ]] && JSON_IB="$JSON_IB"','
             FIRST_IB=0
-            
+
             JSON_IB="$JSON_IB"'{"target":"'"$TARGET"'"}'
 
             if echo "$TARGET" | grep -E "x86/64|x86/generic|x86/geode|armvirt/32|armvirt/64|malta/be|mvebu/cortexa9"; then
@@ -281,6 +281,15 @@ jobs:
       matrix: ${{fromJson(needs.generate_matrix.outputs.rootfs)}}
 
     steps:
+      - name: Set up QEMU
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y qemu-user-static binfmt-support
+          sudo update-binfmts --import
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v2
         with:
@@ -319,12 +328,10 @@ jobs:
             ${{ matrix.arch }}-${{ needs.generate_matrix.outputs.version }}
             latest,enable=${{ needs.generate_matrix.outputs.version == 'SNAPSHOT' && matrix.target == 'x86/64'}}
 
-      - name: Build and push
-        uses: docker/build-push-action@v3
-        with:
-          push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.meta.outputs.tags }}
-          build-args: |
+      - name: Generate build args
+        id: build_args
+        run: |
+          echo 'args<<EOF
             DOWNLOAD_FILE=openwrt-.*-rootfs.tar.gz
             WORKDIR=/
             USER=root
@@ -332,4 +339,27 @@ jobs:
             TARGET=${{ matrix.target }}
             BASE_IMAGE=scratch
             CMD=ash
+          EOF' >> $GITHUB_OUTPUT
+
+      - name: Build
+        id: build
+        uses: docker/build-push-action@v3
+        with:
+          push: false
+          tags: ${{ steps.meta.outputs.tags }}
+          load: true
+          build-args: ${{ steps.build_args.outputs.args }}
           labels: ${{ steps.meta.outputs.labels }}
+          platforms: linux/${{ matrix.arch }}
+
+      - name: Smoke test
+        run: docker run --platform=linux/${{ matrix.arch }} ${{ steps.build.outputs.imageid }} uname -m
+
+      - name: Push
+        uses: docker/build-push-action@v3
+        with:
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          build-args: ${{ steps.build_args.outputs.args }}
+          labels: ${{ steps.meta.outputs.labels }}
+          platforms: linux/${{ matrix.arch }}
