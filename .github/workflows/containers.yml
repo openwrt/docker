@@ -28,7 +28,7 @@ jobs:
       sdks: ${{ steps.find_targets.outputs.sdks }}
       ref: ${{ steps.find_targets.outputs.ref }}
       version: ${{ steps.find_targets.outputs.version }}
-      versio_path: ${{ steps.find_targets.outputs.version_path }}
+      version_path: ${{ steps.find_targets.outputs.version_path }}
 
     steps:
       - name: Set relase to 22.03-SNAPSHOT
@@ -70,7 +70,6 @@ jobs:
             ;;
           esac
           echo "VERSION=$VERSION" >> "$GITHUB_ENV"
-          echo "VERSION_PATH=releases/22.03-SNAPSHOT" >> "$GITHUB_ENV"
 
       - name: Checkout
         uses: actions/checkout@v3
