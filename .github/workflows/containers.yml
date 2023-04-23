@@ -61,7 +61,7 @@ jobs:
               echo "VERSION_PATH=releases/$VERSION" >> "$GITHUB_ENV"
             ;;
             v*)
-              VERSION=${REF//v/}-SNAPSHOT
+              VERSION=${REF//v/}
               echo "VERSION_PATH=releases/$VERSION" >> "$GITHUB_ENV"
             ;;
             *)
