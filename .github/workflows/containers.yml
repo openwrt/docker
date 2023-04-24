@@ -56,7 +56,7 @@ jobs:
               VERSION=SNAPSHOT
               echo "VERSION_PATH=snapshots" >> "$GITHUB_ENV"
             ;;
-            openwrt-)
+            openwrt-*)
               VERSION=${REF//openwrt-/}-SNAPSHOT
               echo "VERSION_PATH=releases/$VERSION" >> "$GITHUB_ENV"
             ;;
