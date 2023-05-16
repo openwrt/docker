@@ -1,6 +1,6 @@
-ARG BASE_IMAGE=registry.gitlab.com/openwrt/buildbot/buildworker:latest
+ARG BASE_IMAGE=ghcr.io/openwrt/buildbot/buildworker-v3.8.0:latest
 
-FROM registry.gitlab.com/openwrt/buildbot/buildworker:latest
+FROM ghcr.io/openwrt/buildbot/buildworker-v3.8.0:latest
 
 WORKDIR /build/
 
