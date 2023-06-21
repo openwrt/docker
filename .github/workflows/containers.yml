@@ -112,13 +112,13 @@ jobs:
 
           JSON_IB='{"include":'"$JSON_IB"']}'
           echo -e "\n---- imagebuilders ----\n"
-          echo "$JSON_IB"
+          echo "$JSON_IB" | jq
           echo -e "\n---- imagebuilders ----\n"
           echo "imagebuilders=$JSON_IB" >> "$GITHUB_OUTPUT"
 
           JSON_ROOTFS='{"include":'"$JSON_ROOTFS"']}'
           echo -e "\n---- rootfs ----\n"
-          echo "$JSON_ROOTFS"
+          echo "$JSON_ROOTFS" | jq
           echo -e "\n---- rootfs ----\n"
           echo "rootfs=$JSON_ROOTFS" >> "$GITHUB_OUTPUT"
 
@@ -140,7 +140,7 @@ jobs:
 
           JSON='{"include":'"$JSON"']}'
           echo -e "\n---- sdks ----\n"
-          echo "$JSON"
+          echo "$JSON" | jq
           echo -e "\n---- sdks ----\n"
           echo "sdks=$JSON" >> "$GITHUB_OUTPUT"
 
