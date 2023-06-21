@@ -6,8 +6,8 @@ on:
   workflow_dispatch:
     inputs:
       ref:
-        description: "Tag or branch to deploy (empty for master)"
-        default: "master"
+        description: "Tag or branch to deploy (empty for main)"
+        default: "main"
         required: false
       target:
         description: "Single target to build (empty for all)"
@@ -48,11 +48,11 @@ jobs:
       - name: Set relase manually
         if: github.event.inputs.ref != ''
         run: |
-          export REF=${{ github.event.inputs.ref }}
+          export REF=${{ github.event.inputs.ref == 'master' && 'main' || github.event.inputs.ref }}
           echo "REF=$REF" >> "$GITHUB_ENV"
 
           case $REF in
-            master)
+            main)
               VERSION=SNAPSHOT
               echo "VERSION_PATH=snapshots" >> "$GITHUB_ENV"
             ;;
@@ -144,7 +144,7 @@ jobs:
           echo -e "\n---- sdks ----\n"
           echo "sdks=$JSON" >> "$GITHUB_OUTPUT"
 
-          echo "ref=${REF:-master}" >> "$GITHUB_OUTPUT"
+          echo "ref=${REF:-main}" >> "$GITHUB_OUTPUT"
           echo "version=${VERSION:-SNAPSHOT}" >> "$GITHUB_OUTPUT"
           echo "version_path=${VERSION_PATH:-snapshots}" >> "$GITHUB_OUTPUT"
 
@@ -191,6 +191,7 @@ jobs:
           tags: |
             ${{ matrix.target }}-${{ needs.generate_matrix.outputs.ref }}
             ${{ matrix.target }}-${{ needs.generate_matrix.outputs.version }}
+            ${{ matrix.target }}-master,enable=${{ needs.generate_matrix.outputs.ref == 'main' }}
             latest,enable=${{ needs.generate_matrix.outputs.version == 'SNAPSHOT' && matrix.target == 'x86/64'}}
 
       - name: Build and push
@@ -262,6 +263,20 @@ jobs:
             suffix=-${{ needs.generate_matrix.outputs.version }}
           tags: ${{ matrix.tags }}
 
+      - name: Docker meta (master)
+        if: needs.generate_matrix.outputs.ref == 'main'
+        id: meta_master
+        uses: docker/metadata-action@v4
+        with:
+          images: |
+            ghcr.io/openwrt/sdk
+            docker.io/openwrt/sdk
+            quay.io/openwrt/sdk
+          flavor: |
+            latest=false
+            suffix=-master
+          tags: ${{ matrix.tags }}
+
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
@@ -269,6 +284,7 @@ jobs:
           tags: |
             ${{ steps.meta_ref.outputs.tags }}
             ${{ steps.meta_version.outputs.tags }}
+            ${{ steps.meta_master.outputs.tags }}
           build-args: |
             DOWNLOAD_FILE=sdk-.*.Linux-x86_64.tar.xz
             VERSION_PATH=${{ needs.generate_matrix.outputs.version_path }}
@@ -327,8 +343,10 @@ jobs:
           tags: |
             ${{ matrix.target }}-${{ needs.generate_matrix.outputs.ref }}
             ${{ matrix.target }}-${{ needs.generate_matrix.outputs.version }}
+            ${{ matrix.target }}-master,enable=${{ needs.generate_matrix.outputs.ref == 'main' }}
             ${{ matrix.arch }}-${{ needs.generate_matrix.outputs.ref }}
             ${{ matrix.arch }}-${{ needs.generate_matrix.outputs.version }}
+            ${{ matrix.arch }}-master,enable=${{ needs.generate_matrix.outputs.ref == 'main' }}
             latest,enable=${{ needs.generate_matrix.outputs.version == 'SNAPSHOT' && matrix.target == 'x86/64'}}
 
       - name: Generate build args
