@@ -99,12 +99,15 @@ jobs:
 
             JSON_IB="$JSON_IB"'{"target":"'"$TARGET"'"}'
 
-            if echo "$TARGET" | grep -E "x86/64|x86/generic|x86/geode|armvirt/32|armvirt/64|malta/be|mvebu/cortexa9"; then
-              [[ $FIRST_ROOTFS -ne 1 ]] && JSON_ROOTFS="$JSON_ROOTFS"','
-              FIRST_ROOTFS=0
+            case "$TARGET" in
+              x86/*|arm*|malta/be|mvebu/cortexa9)
+                [[ $FIRST_ROOTFS -ne 1 ]] && JSON_ROOTFS="$JSON_ROOTFS"','
+                FIRST_ROOTFS=0
 
-              JSON_ROOTFS="$JSON_ROOTFS"'{"target":"'"$TARGET"'","arch":"'"$ARCH"'"}'
-            fi
+                JSON_ROOTFS="$JSON_ROOTFS"'{"target":"'"$TARGET"'","arch":"'"$ARCH"'"}'
+              ;;
+            esac
+
           done <<< $(perl ./scripts/dump-target-info.pl targets 2>/dev/null | grep "$TARGET_FILTER")
 
           JSON_IB='{"include":'"$JSON_IB"']}'
