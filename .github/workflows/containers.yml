@@ -15,8 +15,9 @@ on:
 
   schedule:
     - cron: "0 5 * * *" # daily snapshot
-    - cron: "0 6 * * 0" # weekly 22.03-SNAPSHOT
-    - cron: "0 7 * * 0" # weekly 21.02-SNAPSHOT
+    - cron: "0 6 * * *" # daily 23.05-SNAPSHOT
+    - cron: "0 7 * * 0" # weekly 22.03-SNAPSHOT
+    - cron: "0 8 * * 0" # weekly 21.02-SNAPSHOT
 
 jobs:
   generate_matrix:
@@ -31,15 +32,22 @@ jobs:
       version_path: ${{ steps.find_targets.outputs.version_path }}
 
     steps:
+      - name: Set release to 23.05-SNAPSHOT
+        if: github.event.schedule == '0 6 * * *'
+        run: |
+          echo "VERSION=23.05-SNAPSHOT" >> "$GITHUB_ENV"
+          echo "VERSION_PATH=releases/23.05-SNAPSHOT" >> "$GITHUB_ENV"
+          echo "REF=openwrt-23.05" >> "$GITHUB_ENV"
+
       - name: Set release to 22.03-SNAPSHOT
-        if: github.event.schedule == '0 6 * * 0'
+        if: github.event.schedule == '0 7 * * 0'
         run: |
           echo "VERSION=22.03-SNAPSHOT" >> "$GITHUB_ENV"
           echo "VERSION_PATH=releases/22.03-SNAPSHOT" >> "$GITHUB_ENV"
           echo "REF=openwrt-22.03" >> "$GITHUB_ENV"
 
       - name: Set release to 21.02-SNAPSHOT
-        if: github.event.schedule == '0 7 * * 0'
+        if: github.event.schedule == '0 8 * * 0'
         run: |
           echo "VERSION=21.02-SNAPSHOT" >> "$GITHUB_ENV"
           echo "VERSION_PATH=releases/21.02-SNAPSHOT" >> "$GITHUB_ENV"
