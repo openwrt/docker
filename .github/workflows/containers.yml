@@ -359,9 +359,10 @@ jobs:
         run: docker run --platform=linux/${{ matrix.arch }} ${{ steps.build.outputs.imageid }} uname -m
 
       - name: Push
+        if: github.event_name != 'pull_request'
         uses: docker/build-push-action@v3
         with:
-          push: ${{ github.event_name != 'pull_request' }}
+          push: true
           tags: ${{ steps.meta.outputs.tags }}
           build-args: ${{ steps.build_args.outputs.args }}
           labels: ${{ steps.meta.outputs.labels }}
