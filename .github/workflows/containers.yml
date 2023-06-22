@@ -192,6 +192,7 @@ jobs:
             ${{ matrix.target }}-${{ needs.generate_matrix.outputs.ref }}
             ${{ matrix.target }}-${{ needs.generate_matrix.outputs.version }}
             ${{ matrix.target }}-master,enable=${{ needs.generate_matrix.outputs.ref == 'main' }}
+            ${{ matrix.target }},enable=${{ needs.generate_matrix.outputs.version == 'SNAPSHOT' }}
             latest,enable=${{ needs.generate_matrix.outputs.version == 'SNAPSHOT' && matrix.target == 'x86/64'}}
 
       - name: Build and push
@@ -277,6 +278,19 @@ jobs:
             suffix=-master
           tags: ${{ matrix.tags }}
 
+      - name: Docker meta (target and arch)
+        if: needs.generate_matrix.outputs.version == 'SNAPSHOT'
+        id: meta_target_arch
+        uses: docker/metadata-action@v4
+        with:
+          images: |
+            ghcr.io/openwrt/sdk
+            docker.io/openwrt/sdk
+            quay.io/openwrt/sdk
+          flavor: |
+            latest=false
+          tags: ${{ matrix.tags }}
+
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
@@ -285,6 +299,7 @@ jobs:
             ${{ steps.meta_ref.outputs.tags }}
             ${{ steps.meta_version.outputs.tags }}
             ${{ steps.meta_master.outputs.tags }}
+            ${{ steps.meta_target_arch.outputs.tags }}
           build-args: |
             DOWNLOAD_FILE=sdk-.*.Linux-x86_64.tar.xz
             VERSION_PATH=${{ needs.generate_matrix.outputs.version_path }}
@@ -344,9 +359,11 @@ jobs:
             ${{ matrix.target }}-${{ needs.generate_matrix.outputs.ref }}
             ${{ matrix.target }}-${{ needs.generate_matrix.outputs.version }}
             ${{ matrix.target }}-master,enable=${{ needs.generate_matrix.outputs.ref == 'main' }}
+            ${{ matrix.target }},enable=${{ needs.generate_matrix.outputs.version == 'SNAPSHOT' }}
             ${{ matrix.arch }}-${{ needs.generate_matrix.outputs.ref }}
             ${{ matrix.arch }}-${{ needs.generate_matrix.outputs.version }}
             ${{ matrix.arch }}-master,enable=${{ needs.generate_matrix.outputs.ref == 'main' }}
+            ${{ matrix.arch }},enable=${{ needs.generate_matrix.outputs.version == 'SNAPSHOT' }}
             latest,enable=${{ needs.generate_matrix.outputs.version == 'SNAPSHOT' && matrix.target == 'x86/64'}}
 
       - name: Generate build args
