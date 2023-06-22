@@ -291,6 +291,17 @@ jobs:
             latest=false
           tags: ${{ matrix.tags }}
 
+      - name: Docker meta (latest)
+        if: needs.generate_matrix.outputs.version == 'SNAPSHOT' && matrix.target == 'x86/64'
+        id: meta_latest
+        uses: docker/metadata-action@v4
+        with:
+          images: |
+            ghcr.io/openwrt/sdk
+            docker.io/openwrt/sdk
+            quay.io/openwrt/sdk
+          tags: latest
+
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
@@ -300,6 +311,7 @@ jobs:
             ${{ steps.meta_version.outputs.tags }}
             ${{ steps.meta_master.outputs.tags }}
             ${{ steps.meta_target_arch.outputs.tags }}
+            ${{ steps.meta_latest.outputs.tags }}
           build-args: |
             DOWNLOAD_FILE=sdk-.*.Linux-x86_64.tar.xz
             VERSION_PATH=${{ needs.generate_matrix.outputs.version_path }}
