@@ -331,6 +331,7 @@ jobs:
     name: RootFS
     runs-on: ubuntu-latest
     needs: generate_matrix
+    if: needs.generate_matrix.outputs.rootfs != '{"include":[]}'
     strategy:
       fail-fast: False
       matrix: ${{fromJson(needs.generate_matrix.outputs.rootfs)}}
