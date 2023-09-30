@@ -1,5 +1,8 @@
 name: Build and push containers
 
+env:
+  FILE_HOST: mirror-01.infra.openwrt.org
+
 on:
   # push:
   pull_request:
@@ -214,6 +217,7 @@ jobs:
             DOWNLOAD_FILE=imagebuilder-.*x86_64.tar.xz
             VERSION_PATH=${{ needs.generate_matrix.outputs.version_path }}
             TARGET=${{ matrix.target }}
+            FILE_HOST=${{ env.FILE_HOST }}
 
   push-sdk-container:
     name: SDK
@@ -325,6 +329,7 @@ jobs:
             DOWNLOAD_FILE=sdk-.*.Linux-x86_64.tar.xz
             VERSION_PATH=${{ needs.generate_matrix.outputs.version_path }}
             TARGET=${{ matrix.target }}
+            FILE_HOST=${{ env.FILE_HOST }}
           labels: ${{ steps.meta_ref.outputs.labels }}
 
   push-rootfs-container:
@@ -400,6 +405,7 @@ jobs:
             TARGET=${{ matrix.target }}
             BASE_IMAGE=scratch
             CMD=ash
+            FILE_HOST=${{ env.FILE_HOST }}
           EOF' >> $GITHUB_OUTPUT
 
       - name: Build
