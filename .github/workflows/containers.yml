@@ -16,11 +16,11 @@ on:
         description: "Single target to build (empty for all)"
         required: false
 
-  schedule:
-    - cron: "0 5 * * *" # daily snapshot
-    - cron: "0 6 * * *" # daily 23.05-SNAPSHOT
-    - cron: "0 7 * * 2" # weekly 22.03-SNAPSHOT
-    - cron: "0 8 16 * *" # monthly 21.02-SNAPSHOT
+  # schedule:
+  #   - cron: "0 5 * * *" # daily snapshot
+  #   - cron: "0 6 * * *" # daily 23.05-SNAPSHOT
+  #   - cron: "0 7 * * 2" # weekly 22.03-SNAPSHOT
+  #   - cron: "0 8 16 * *" # monthly 21.02-SNAPSHOT
 
 jobs:
   generate_matrix:
