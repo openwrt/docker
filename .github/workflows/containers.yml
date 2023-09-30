@@ -140,7 +140,7 @@ jobs:
           while read -r line;
           do
             ARCH=$(echo "$line" | cut -d " " -f 1)
-            TARGET=$(echo "$line" | cut -d " " -f 2)
+            [ -z "$TARGET_FILTER" ] && TARGET=$(echo "$line" | cut -d " " -f 2) || TARGET="$TARGET_FILTER"
             TARGETS=$(echo "$line" | cut -d " " -f 2- | sed -e 's/ /\\n/g')
 
             [[ $FIRST -ne 1 ]] && JSON="$JSON"','
