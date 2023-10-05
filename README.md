@@ -8,20 +8,19 @@
 This repository contains files to create OpenWrt containers. While mostly used
 for our CI you may use the scripts to build containers on your own.
 
-> **Warning**
-> We have switched our docker.io account from `openwrtorg` to [`openwrt`](https://hub.docker.com/u/openwrt)
-
 Available containers:
 
 * `sdk` compile OpenWrt packages
 * `imagebuilder` create firmware images
 * `rootfs` test software inside an OpenWrt runtime
 
-All containers are mirrored to the follwing three registries:
+All containers are mirrored to the follwing three registries under `openwrt` account:
 
-* docker.io
-* ghcr.io
-* quay.io
+* docker.io ([sdk](https://hub.docker.com/u/openwrt/sdk) | [imagebuilder](https://hub.docker.com/u/openwrt/imagebuilder) | [rootfs](https://hub.docker.com/u/openwrt/rootfs))  `*` 
+* ghcr.io ([sdk](https://github.com/openwrt/docker-openwrt/pkgs/container/sdk) | [imagebuilder](https://github.com/openwrt/docker-openwrt/pkgs/container/imagebuilder) | [rootfs](https://github.com/openwrt/docker-openwrt/pkgs/container/rootfs))
+* quay.io ([sdk](https://quay.io/organization/openwrt/sdk) | [imagebuilder](https://quay.io/organization/openwrt/imagebuilder) | [rootfs](https://quay.io/organization/openwrt/rootfs))
+
+> `*` We have switched our account from `openwrtorg` to `openwrt` on docker.io
 
 Find more details on the container types below
 
