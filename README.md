@@ -16,7 +16,7 @@ Available containers:
 
 All containers are mirrored to the follwing three registries under `openwrt` account:
 
-* docker.io ([sdk](https://hub.docker.com/u/openwrt/sdk) | [imagebuilder](https://hub.docker.com/u/openwrt/imagebuilder) | [rootfs](https://hub.docker.com/u/openwrt/rootfs))  `*` 
+* docker.io ([sdk](https://hub.docker.com/r/openwrt/sdk) | [imagebuilder](https://hub.docker.com/r/openwrt/imagebuilder) | [rootfs](https://hub.docker.com/r/openwrt/rootfs))  `*` 
 * ghcr.io ([sdk](https://github.com/openwrt/docker-openwrt/pkgs/container/sdk) | [imagebuilder](https://github.com/openwrt/docker-openwrt/pkgs/container/imagebuilder) | [rootfs](https://github.com/openwrt/docker-openwrt/pkgs/container/rootfs))
 * quay.io ([sdk](https://quay.io/organization/openwrt/sdk) | [imagebuilder](https://quay.io/organization/openwrt/imagebuilder) | [rootfs](https://quay.io/organization/openwrt/rootfs))
 
