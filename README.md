@@ -9,12 +9,12 @@ This repository contains files to create OpenWrt containers. While mostly used
 for our CI you may use the scripts to build containers on your own.
 
 > **Warning**
-> We switch our docker.io account from `openwrtorg` to `openwrt`
+> We have switched our docker.io account from `openwrtorg` to [`openwrt`](https://hub.docker.com/u/openwrt)
 
 Available containers:
 
-* `imagebuilder` create firmware images
 * `sdk` compile OpenWrt packages
+* `imagebuilder` create firmware images
 * `rootfs` test software inside an OpenWrt runtime
 
 All containers are mirrored to the follwing three registries:
@@ -89,7 +89,7 @@ or `SNAPSHOT`.
 
 ## `rootfs` (experimental)
 
-> The OpenWrt runtime uses multiple active serices to work, it's not really
+> The OpenWrt runtime uses multiple active services to work, it's not really
 > suited as a container. This `rootfs` should only be used for special cases
 > like CI testing.
 
