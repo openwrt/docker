@@ -18,7 +18,7 @@ All containers are mirrored to the follwing three registries under `openwrt` acc
 
 * docker.io ([sdk](https://hub.docker.com/r/openwrt/sdk) | [imagebuilder](https://hub.docker.com/r/openwrt/imagebuilder) | [rootfs](https://hub.docker.com/r/openwrt/rootfs))  `*` 
 * ghcr.io ([sdk](https://github.com/openwrt/docker-openwrt/pkgs/container/sdk) | [imagebuilder](https://github.com/openwrt/docker-openwrt/pkgs/container/imagebuilder) | [rootfs](https://github.com/openwrt/docker-openwrt/pkgs/container/rootfs))
-* quay.io ([sdk](https://quay.io/organization/openwrt/sdk) | [imagebuilder](https://quay.io/organization/openwrt/imagebuilder) | [rootfs](https://quay.io/organization/openwrt/rootfs))
+* quay.io ([sdk](https://quay.io/repository/openwrt/sdk) | [imagebuilder](https://quay.io/repository/openwrt/imagebuilder) | [rootfs](https://quay.io/repository/openwrt/rootfs))
 
 > `*` We have switched our account from `openwrtorg` to `openwrt` on docker.io
 
