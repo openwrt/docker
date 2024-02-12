@@ -208,7 +208,7 @@ jobs:
             latest,enable=${{ needs.generate_matrix.outputs.version == 'SNAPSHOT' && matrix.target == 'x86/64'}}
 
       - name: Build and push
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v5
         with:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
@@ -316,7 +316,7 @@ jobs:
           tags: latest
 
       - name: Build and push
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v5
         with:
           push: ${{ github.event_name != 'pull_request' }}
           tags: |
@@ -410,7 +410,7 @@ jobs:
 
       - name: Build
         id: build
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v5
         with:
           push: false
           tags: ${{ steps.meta.outputs.tags }}
@@ -424,7 +424,7 @@ jobs:
 
       - name: Push
         if: github.event_name != 'pull_request'
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v5
         with:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
