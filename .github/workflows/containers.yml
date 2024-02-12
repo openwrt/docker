@@ -193,7 +193,7 @@ jobs:
 
       - name: Docker meta
         id: meta
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@v5
         with:
           images: |
             ghcr.io/openwrt/imagebuilder
@@ -253,7 +253,7 @@ jobs:
 
       - name: Docker meta (tag or branch)
         id: meta_ref
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@v5
         with:
           images: |
             ghcr.io/openwrt/sdk
@@ -266,7 +266,7 @@ jobs:
 
       - name: Docker meta (version)
         id: meta_version
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@v5
         with:
           images: |
             ghcr.io/openwrt/sdk
@@ -280,7 +280,7 @@ jobs:
       - name: Docker meta (master)
         if: needs.generate_matrix.outputs.ref == 'main'
         id: meta_master
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@v5
         with:
           images: |
             ghcr.io/openwrt/sdk
@@ -294,7 +294,7 @@ jobs:
       - name: Docker meta (target and arch)
         if: needs.generate_matrix.outputs.version == 'SNAPSHOT'
         id: meta_target_arch
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@v5
         with:
           images: |
             ghcr.io/openwrt/sdk
@@ -307,7 +307,7 @@ jobs:
       - name: Docker meta (latest)
         if: needs.generate_matrix.outputs.version == 'SNAPSHOT' && matrix.target == 'x86/64'
         id: meta_latest
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@v5
         with:
           images: |
             ghcr.io/openwrt/sdk
@@ -376,7 +376,7 @@ jobs:
 
       - name: Docker meta
         id: meta
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@v5
         with:
           images: |
             ghcr.io/openwrt/rootfs
