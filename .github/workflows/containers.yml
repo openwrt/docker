@@ -1,7 +1,7 @@
 name: Build and push containers
 
 env:
-  FILE_HOST: mirror-01.infra.openwrt.org
+  FILE_HOST: mirror-03.infra.openwrt.org
 
 on:
   # push:
