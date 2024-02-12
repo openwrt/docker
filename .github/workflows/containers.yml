@@ -349,7 +349,7 @@ jobs:
           sudo update-binfmts --import
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3
 
       - name: Login to GitHub Container Registry
         if: github.event_name != 'pull_request'
