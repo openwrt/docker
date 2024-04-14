@@ -214,7 +214,7 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
-            DOWNLOAD_FILE=imagebuilder-.*x86_64.tar.xz
+            DOWNLOAD_FILE=imagebuilder-.*x86_64.tar.[xz|zst]
             VERSION_PATH=${{ needs.generate_matrix.outputs.version_path }}
             TARGET=${{ matrix.target }}
             FILE_HOST=${{ env.FILE_HOST }}
@@ -326,7 +326,7 @@ jobs:
             ${{ steps.meta_target_arch.outputs.tags }}
             ${{ steps.meta_latest.outputs.tags }}
           build-args: |
-            DOWNLOAD_FILE=sdk-.*.Linux-x86_64.tar.xz
+            DOWNLOAD_FILE=sdk-.*.Linux-x86_64.tar.[xz|zst]
             VERSION_PATH=${{ needs.generate_matrix.outputs.version_path }}
             TARGET=${{ matrix.target }}
             FILE_HOST=${{ env.FILE_HOST }}
