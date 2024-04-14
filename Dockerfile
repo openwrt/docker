@@ -5,7 +5,7 @@ FROM ghcr.io/openwrt/buildbot/buildworker-v3.11.1:latest
 WORKDIR /build/
 
 # use "sdk-.*.Linux-x86_64.tar.xz" to create the SDK
-ARG DOWNLOAD_FILE="imagebuilder-.*x86_64.tar.xz"
+ARG DOWNLOAD_FILE="imagebuilder-.*x86_64.tar.[xz|zst]"
 ARG TARGET=x86/64
 ARG FILE_HOST=downloads.openwrt.org
 ARG VERSION_PATH
