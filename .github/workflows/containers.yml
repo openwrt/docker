@@ -1,8 +1,5 @@
 name: Build and push containers
 
-env:
-  FILE_HOST: mirror-03.infra.openwrt.org
-
 on:
   # push:
   pull_request:
@@ -15,6 +12,13 @@ on:
       target:
         description: "Single target to build (empty for all)"
         required: false
+      file_host:
+        description: "File host to use (empty for default)"
+        required: false
+      prefix:
+        description: "Prefix for the image name (add '-' at the end)"
+        required: false
+
 
   # schedule:
   #   - cron: "0 5 * * *" # daily snapshot
@@ -33,6 +37,7 @@ jobs:
       ref: ${{ steps.find_targets.outputs.ref }}
       version: ${{ steps.find_targets.outputs.version }}
       version_path: ${{ steps.find_targets.outputs.version_path }}
+      file_host: ${{ steps.find_targets.outputs.file_host }}
 
     steps:
       - name: Set release to 23.05-SNAPSHOT
@@ -159,6 +164,9 @@ jobs:
           echo "version=${VERSION:-SNAPSHOT}" >> "$GITHUB_OUTPUT"
           echo "version_path=${VERSION_PATH:-snapshots}" >> "$GITHUB_OUTPUT"
 
+          FILE_HOST=${{ needs.generate_matrix.outputs.file_host }}
+          echo "file_host=${FILE_HOST:-mirror-03.infra.openwrt.org}" >> "$GITHUB_OUTPUT"
+
   push-imagebuilder-container:
     name: ImageBuilder
     runs-on: ubuntu-latest
@@ -199,7 +207,9 @@ jobs:
             ghcr.io/openwrt/imagebuilder
             docker.io/openwrt/imagebuilder
             quay.io/openwrt/imagebuilder
-          flavor: latest=false
+          flavor: |
+            latest=false
+            prefix=${{ github.event.inputs.prefix }}
           tags: |
             ${{ matrix.target }}-${{ needs.generate_matrix.outputs.ref }}
             ${{ matrix.target }}-${{ needs.generate_matrix.outputs.version }}
@@ -217,7 +227,7 @@ jobs:
             DOWNLOAD_FILE=imagebuilder-.*x86_64.tar.[xz|zst]
             VERSION_PATH=${{ needs.generate_matrix.outputs.version_path }}
             TARGET=${{ matrix.target }}
-            FILE_HOST=${{ env.FILE_HOST }}
+            FILE_HOST=${{ needs.generate_matrix.outputs.file_host }}
 
   push-sdk-container:
     name: SDK
@@ -261,6 +271,7 @@ jobs:
             quay.io/openwrt/sdk
           flavor: |
             latest=false
+            prefix=${{ github.event.inputs.prefix }}
             suffix=-${{ needs.generate_matrix.outputs.ref }}
           tags: ${{ matrix.tags }}
 
@@ -274,6 +285,7 @@ jobs:
             quay.io/openwrt/sdk
           flavor: |
             latest=false
+            prefix=${{ github.event.inputs.prefix }}
             suffix=-${{ needs.generate_matrix.outputs.version }}
           tags: ${{ matrix.tags }}
 
@@ -288,6 +300,7 @@ jobs:
             quay.io/openwrt/sdk
           flavor: |
             latest=false
+            prefix=${{ github.event.inputs.prefix }}
             suffix=-master
           tags: ${{ matrix.tags }}
 
@@ -302,6 +315,7 @@ jobs:
             quay.io/openwrt/sdk
           flavor: |
             latest=false
+            prefix=${{ github.event.inputs.prefix }}
           tags: ${{ matrix.tags }}
 
       - name: Docker meta (latest)
@@ -329,7 +343,7 @@ jobs:
             DOWNLOAD_FILE=sdk-.*.Linux-x86_64.tar.[xz|zst]
             VERSION_PATH=${{ needs.generate_matrix.outputs.version_path }}
             TARGET=${{ matrix.target }}
-            FILE_HOST=${{ env.FILE_HOST }}
+            FILE_HOST=${{ needs.generate_matrix.outputs.file_host }}
           labels: ${{ steps.meta_ref.outputs.labels }}
 
   push-rootfs-container:
@@ -382,7 +396,9 @@ jobs:
             ghcr.io/openwrt/rootfs
             docker.io/openwrt/rootfs
             quay.io/openwrt/rootfs
-          flavor: latest=false
+          flavor: |
+            latest=false
+            prefix=${{ github.event.inputs.prefix }}
           tags: |
             ${{ matrix.target }}-${{ needs.generate_matrix.outputs.ref }}
             ${{ matrix.target }}-${{ needs.generate_matrix.outputs.version }}
@@ -405,7 +421,7 @@ jobs:
             TARGET=${{ matrix.target }}
             BASE_IMAGE=scratch
             CMD=ash
-            FILE_HOST=${{ env.FILE_HOST }}
+            FILE_HOST=${{ needs.generate_matrix.outputs.file_host }}
           EOF' >> $GITHUB_OUTPUT
 
       - name: Build
