@@ -217,6 +217,15 @@ jobs:
             ${{ matrix.target }},enable=${{ needs.generate_matrix.outputs.version == 'SNAPSHOT' }}
             latest,enable=${{ needs.generate_matrix.outputs.version == 'SNAPSHOT' && matrix.target == 'x86/64'}}
 
+      - name: Print revision
+        run: |
+          env
+          curl "https://$FILE_HOST/$VERSION_PATH/targets/$TARGET/version.buildinfo"
+        env:
+          FILE_HOST: ${{ env.FILE_HOST }}
+          VERSION_PATH: ${{ needs.generate_matrix.outputs.version_path }}
+          TARGET: ${{ matrix.target }}
+
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
