@@ -1,4 +1,5 @@
 name: Build and push containers
+run-name: ${{ inputs.ref }} ${{ inputs.target }}
 
 on:
   # push:
