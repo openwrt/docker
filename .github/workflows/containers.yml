@@ -20,7 +20,6 @@ on:
         description: "Prefix for the image name (add '-' at the end)"
         required: false
 
-
   # schedule:
   #   - cron: "0 5 * * *" # daily snapshot
   #   - cron: "0 6 * * *" # daily 23.05-SNAPSHOT
@@ -125,7 +124,7 @@ jobs:
               ;;
             esac
 
-          done <<< $(perl ./scripts/dump-target-info.pl targets 2>/dev/null | grep "$TARGET_FILTER")
+          done <<< $(perl ./scripts/dump-target-info.pl targets 2>/dev/null | ([[ -n "$TARGET_FILTER" ]] && grep -w "$TARGET_FILTER" || cat))
 
           JSON_IB='{"include":'"$JSON_IB"']}'
           echo -e "\n---- imagebuilders ----\n"
@@ -153,7 +152,7 @@ jobs:
             FIRST=0
 
             JSON="$JSON"'{"arch":"'"$ARCH"'","target":"'"$TARGET"'","tags":"'"$ARCH"'\n'"$TARGETS"'"}'
-          done <<< $(perl ./scripts/dump-target-info.pl architectures 2>/dev/null | grep "$TARGET_FILTER")
+          done <<< $(perl ./scripts/dump-target-info.pl architectures 2>/dev/null | ([[ -n "$TARGET_FILTER" ]] && grep -w "$TARGET_FILTER" || cat))
 
           JSON='{"include":'"$JSON"']}'
           echo -e "\n---- sdks ----\n"
