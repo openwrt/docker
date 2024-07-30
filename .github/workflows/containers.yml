@@ -29,7 +29,8 @@ on:
 jobs:
   generate_matrix:
     name: Set matrix
-    runs-on: ubuntu-latest
+    runs-on: ${{ (github.event_name != 'pull_request') && fromJSON('[ "docker-builder", "Linux", "X64" ]') || 'ubuntu-latest' }}
+
     outputs:
       imagebuilders: ${{ steps.find_targets.outputs.imagebuilders }}
       rootfs: ${{ steps.find_targets.outputs.rootfs }}
@@ -169,7 +170,7 @@ jobs:
 
   push-imagebuilder-container:
     name: ImageBuilder
-    runs-on: ubuntu-latest
+    runs-on: ${{ (github.event_name != 'pull_request') && fromJSON('[ "docker-builder", "Linux", "X64" ]') || 'ubuntu-latest' }}
     needs: generate_matrix
     strategy:
       fail-fast: False
@@ -231,7 +232,7 @@ jobs:
 
   push-sdk-container:
     name: SDK
-    runs-on: ubuntu-latest
+    runs-on: ${{ (github.event_name != 'pull_request') && fromJSON('[ "docker-builder", "Linux", "X64" ]') || 'ubuntu-latest' }}
     needs: generate_matrix
     strategy:
       fail-fast: False
@@ -348,7 +349,7 @@ jobs:
 
   push-rootfs-container:
     name: RootFS
-    runs-on: ubuntu-latest
+    runs-on: ${{ (github.event_name != 'pull_request') && fromJSON('[ "docker-builder", "Linux", "X64" ]') || 'ubuntu-latest' }}
     needs: generate_matrix
     if: needs.generate_matrix.outputs.rootfs != '{"include":[]}'
     strategy:
