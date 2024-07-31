@@ -230,6 +230,9 @@ jobs:
             TARGET=${{ matrix.target }}
             FILE_HOST=${{ needs.generate_matrix.outputs.file_host }}
 
+      - name: Cleanup Docker containers
+        run: docker system prune -f
+
   push-sdk-container:
     name: SDK
     runs-on: ${{ (github.event_name != 'pull_request') && fromJSON('[ "docker-builder", "Linux", "X64" ]') || 'ubuntu-latest' }}
@@ -347,6 +350,9 @@ jobs:
             FILE_HOST=${{ needs.generate_matrix.outputs.file_host }}
           labels: ${{ steps.meta_ref.outputs.labels }}
 
+      - name: Cleanup Docker containers
+        run: docker system prune -f
+
   push-rootfs-container:
     name: RootFS
     runs-on: ${{ (github.event_name != 'pull_request') && fromJSON('[ "docker-builder", "Linux", "X64" ]') || 'ubuntu-latest' }}
@@ -449,3 +455,6 @@ jobs:
           build-args: ${{ steps.build_args.outputs.args }}
           labels: ${{ steps.meta.outputs.labels }}
           platforms: linux/${{ matrix.arch }}
+
+      - name: Cleanup Docker containers
+        run: docker system prune -f
