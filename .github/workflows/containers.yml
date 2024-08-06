@@ -221,6 +221,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
+          no-cache: true
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
@@ -336,6 +337,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
+          no-cache: true
           push: ${{ github.event_name != 'pull_request' }}
           tags: |
             ${{ steps.meta_ref.outputs.tags }}
@@ -436,6 +438,7 @@ jobs:
         id: build
         uses: docker/build-push-action@v6
         with:
+          no-cache: true
           push: false
           tags: ${{ steps.meta.outputs.tags }}
           load: true
@@ -450,6 +453,7 @@ jobs:
         if: github.event_name != 'pull_request'
         uses: docker/build-push-action@v6
         with:
+          no-cache: true
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           build-args: ${{ steps.build_args.outputs.args }}
