@@ -4,9 +4,15 @@
 [![CI][ci-badge]][ci-ref]
 [![Docker Hub][docker-hub-badge]][docker-hub-ref]
 
-
 This repository contains files to create OpenWrt containers. While mostly used
 for our CI you may use the scripts to build containers on your own.
+
+> [!WARNING]
+> Starting with the branch of OpenWrt 24.10 any snapshot (aka nightly) builds no
+> longer contain the actual binaries but instead a `setup.sh` script. The
+> environment variables are set automatically per contaier to download the
+> correct archive containing the SDK/ImageBuilder/rootfs. This reduces
+> dramatically bandwidth and storage usage. Sorry for the inconvenience.
 
 Available containers:
 
