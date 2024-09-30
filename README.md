@@ -51,6 +51,7 @@ binary in hosts `./bin` folder.
 All currently available SDKs via tags in the following format:
 
 * `<target>-<subtarget>[-<branch|tag|version>]`
+* `<arch>[-<branch|tag|version>]`
 
 The `branch|tag|version` can be something like `openwrt-22.03` (branch),
 `v22.03.4` (tag) or `21.02.3` (version). To use daily builds use either `main`
