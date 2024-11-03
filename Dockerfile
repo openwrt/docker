@@ -1,6 +1,6 @@
-ARG BASE_IMAGE=ghcr.io/openwrt/buildbot/buildworker-v3.11.1:latest
+ARG BASE_IMAGE=ghcr.io/openwrt/buildbot/buildworker-v3.11.8:latest
 
-FROM ghcr.io/openwrt/buildbot/buildworker-v3.11.1:latest
+FROM ghcr.io/openwrt/buildbot/buildworker-v3.11.8:latest
 
 WORKDIR /build/
 
