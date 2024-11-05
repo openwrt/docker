@@ -1,4 +1,4 @@
-ARG BASE_IMAGE=ghcr.io/openwrt/buildbot/buildworker-v3.11.8:v20
+ARG BASE_IMAGE=ghcr.io/openwrt/buildbot/buildworker-v3.11.8:v21
 
 FROM $BASE_IMAGE
 ARG USER=buildbot
