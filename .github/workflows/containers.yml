@@ -157,6 +157,7 @@ jobs:
           echo "ref=${REF:-main}" >> "$GITHUB_OUTPUT"
           echo "version=${VERSION:-SNAPSHOT}" >> "$GITHUB_OUTPUT"
           echo "version_path=${VERSION_PATH:-snapshots}" >> "$GITHUB_OUTPUT"
+          echo "run_setup=${RUN_SETUP:-0}" >> "$GITHUB_OUTPUT"
 
           FILE_HOST=${{ needs.generate_matrix.outputs.file_host }}
           echo "file_host=${FILE_HOST:-mirror-03.infra.openwrt.org}" >> "$GITHUB_OUTPUT"
