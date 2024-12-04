@@ -24,6 +24,7 @@ RUN gpg --import /builder/keys/*.asc && rm -rf /builder/keys/
 COPY --chmod=0755 setup.sh /builder/setup.sh
 
 ARG RUN_SETUP=0
+ENV RUN_SETUP=$RUN_SETUP
 RUN if [ "$RUN_SETUP" -eq 1 ]; then /builder/setup.sh; fi
 
 ENTRYPOINT [ ]
