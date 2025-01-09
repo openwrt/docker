@@ -36,25 +36,7 @@ jobs:
       run_setup: ${{ steps.find_targets.outputs.run_setup }}
 
     steps:
-      - name: Set release to 23.05-SNAPSHOT
-        run: |
-          echo "VERSION=23.05-SNAPSHOT" >> "$GITHUB_ENV"
-          echo "VERSION_PATH=releases/23.05-SNAPSHOT" >> "$GITHUB_ENV"
-          echo "REF=openwrt-23.05" >> "$GITHUB_ENV"
-
-      - name: Set release to 22.03-SNAPSHOT
-        run: |
-          echo "VERSION=22.03-SNAPSHOT" >> "$GITHUB_ENV"
-          echo "VERSION_PATH=releases/22.03-SNAPSHOT" >> "$GITHUB_ENV"
-          echo "REF=openwrt-22.03" >> "$GITHUB_ENV"
-
-      - name: Set release to 21.02-SNAPSHOT
-        run: |
-          echo "VERSION=21.02-SNAPSHOT" >> "$GITHUB_ENV"
-          echo "VERSION_PATH=releases/21.02-SNAPSHOT" >> "$GITHUB_ENV"
-          echo "REF=openwrt-21.02" >> "$GITHUB_ENV"
-
-      - name: Set release manually
+      - name: Set release
         if: github.event.inputs.ref != ''
         run: |
           export REF=${{ github.event.inputs.ref == 'master' && 'main' || github.event.inputs.ref }}
