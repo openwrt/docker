@@ -5,14 +5,14 @@
 [![Docker Hub][docker-hub-badge]][docker-hub-ref]
 
 This repository contains files to create OpenWrt containers. While mostly used
-for our CI you may use the scripts to build containers on your own.
+for our CI, you may use the scripts to build containers on your own.
 
 > [!WARNING]
-> Starting with the branch of OpenWrt 24.10 any snapshot (aka nightly) builds no
-> longer contain the actual binaries but instead a `setup.sh` script. The
-> environment variables are set automatically per contaier to download the
-> correct archive containing the SDK/ImageBuilder/rootfs. This reduces
-> dramatically bandwidth and storage usage. Sorry for the inconvenience.
+> Starting with the branch of OpenWrt 24.10, any snapshot (aka nightly) builds no
+> longer contain the actual binaries, but instead a `setup.sh` script. The
+> environment variables are set automatically per container to download the
+> correct archive containing the SDK/ImageBuilder/rootfs. This dramatically
+> reduces bandwidth and storage usage. Sorry for the inconvenience.
 
 Available containers:
 
@@ -20,20 +20,20 @@ Available containers:
 * `imagebuilder` create firmware images
 * `rootfs` test software inside an OpenWrt runtime
 
-All containers are mirrored to the follwing three registries under `openwrt` account:
+All containers are mirrored to the follwing three registries under the `openwrt` account:
 
 * docker.io ([sdk](https://hub.docker.com/r/openwrt/sdk) | [imagebuilder](https://hub.docker.com/r/openwrt/imagebuilder) | [rootfs](https://hub.docker.com/r/openwrt/rootfs))  `*` 
 * ghcr.io ([sdk](https://github.com/openwrt/docker-openwrt/pkgs/container/sdk) | [imagebuilder](https://github.com/openwrt/docker-openwrt/pkgs/container/imagebuilder) | [rootfs](https://github.com/openwrt/docker-openwrt/pkgs/container/rootfs))
 * quay.io ([sdk](https://quay.io/repository/openwrt/sdk) | [imagebuilder](https://quay.io/repository/openwrt/imagebuilder) | [rootfs](https://quay.io/repository/openwrt/rootfs))
 
-> `*` We have switched our account from `openwrtorg` to `openwrt` on docker.io
+> `*` We have switched our account from `openwrtorg` to `openwrt` on docker.io.
 
-Find more details on the container types below
+Find more details on the container types below.
 
 ## `sdk`
 
 Contains the [OpenWrt
-SDK](https://openwrt.org/docs/guide-developer/toolchain/using_the_sdk) based on
+SDK](https://openwrt.org/docs/guide-developer/toolchain/using_the_sdk), based on
 the same container we use for our [Buildbot](https://buildbot.org)
 infrastructure. This can be useful when building packages on macOS, Windows or
 via CI.
@@ -49,8 +49,8 @@ make defconfig
 make package/tmate/{clean,compile} -j$(nproc)
 ```
 
-Enjoy a local OpenWrt SDK container building the `tmate` package and but the
-binary in hosts `./bin` folder.
+Enjoy a local OpenWrt SDK container building the `tmate` package and put the
+binary in the host's `./bin` folder.
 
 ### SDK Tags
 
@@ -60,13 +60,13 @@ All currently available SDKs via tags in the following format:
 * `<arch>[-<branch|tag|version>]`
 
 The `branch|tag|version` can be something like `openwrt-22.03` (branch),
-`v22.03.4` (tag) or `21.02.3` (version). To use daily builds use either `main`
+`v22.03.4` (tag) or `21.02.3` (version). To use daily builds, use either `main`
 or `SNAPSHOT`.
 
 ## `imagebuilder`
 
 Contains the [OpenWrt
-ImageBuilder](https://openwrt.org/docs/guide-user/additional-software/imagebuilder)
+ImageBuilder](https://openwrt.org/docs/guide-user/additional-software/imagebuilder),
 based on the same container we use for our [buildbot](buildbot.org)
 infrastructure. This can be useful when creating images on macOS, Windows or
 via CI.
@@ -80,7 +80,7 @@ make image PROFILE=generic PACKAGES=tmate
 ```
 
 Enjoy a local OpenWrt ImageBuilder container building an image for x86/64 and
-store the binary in hosts `./bin` folder.
+store the binary in the host's `./bin` folder.
 
 ### ImageBuilder Tags
 
@@ -90,18 +90,18 @@ All currently available ImageBuilders via tags in the following format:
 * `<arch>[-<branch|tag|version>]`
 
 The `branch|tag|version` can be something like `openwrt-22.03` (branch),
-`v22.03.4` (tag) or `21.02.3` (version). To use daily builds use either `main`
+`v22.03.4` (tag) or `21.02.3` (version). To use daily builds, use either `main`
 or `SNAPSHOT`.
 
 ## `rootfs` (experimental)
 
-> The OpenWrt runtime uses multiple active services to work, it's not really
+> The OpenWrt runtime uses multiple active services to work. It's not really
 > suited as a container. This `rootfs` should only be used for special cases
 > like CI testing.
 
 An unpackaged version of OpenWrt's rootfs for different architectures. The
-`./rootfs` folder requires slight modifications to work within Docker,
-additional files for the rootfs should be added there before building.
+`./rootfs` folder requires slight modifications to work within Docker.
+Additional files for the rootfs should be added there before building.
 
 ### Rootfs Example
 
@@ -114,8 +114,8 @@ opkg install tmate
 tmate
 ```
 
-Enjoy a local OpenWrt container running the x86/64 architecture with internet
-access. Once closed the container is removed.
+Enjoy a local OpenWrt container running the x86/64 architecture with Internet
+access. Once closed, the container is removed.
 
 ### Rootfs Tags
 
@@ -131,7 +131,7 @@ access. Once closed the container is removed.
 
 ## Build Your Own
 
-If you wan to create your own container you can use the `Dockerfile`. You can set the following build arguments:
+If you want to create your own container, you can use the `Dockerfile`. You can set the following build arguments:
 
 * `TARGET` - the target to build for (e.g. `x86/64`)
 * `DOWNLOAD_FILE` - the file to download (e.g. `imagebuilder-.*x86_64.tar.xz`)
@@ -140,7 +140,7 @@ If you wan to create your own container you can use the `Dockerfile`. You can se
 
 ### Example ImageBuilder
 
-> If you plan to use your own server please add your own GPG key to the
+> If you plan to use your own server, please add your own GPG key to the
 > `./keys/` folder.
 
 ```shell
