@@ -1,0 +1,76 @@
+FROM alpine:latest
+
+ARG USER=buildbot
+ARG WORKDIR=/builder/
+ARG CMD="/bin/bash"
+
+ARG DOWNLOAD_FILE="imagebuilder-.*x86_64.tar.[xz|zst]"
+ARG VERSION_PATH
+ARG UPSTREAM_URL
+
+ENV DOWNLOAD_FILE=$DOWNLOAD_FILE
+ENV VERSION_PATH=$VERSION_PATH
+ENV UPSTREAM_URL=$UPSTREAM_URL
+ENV GNUPGHOME=/tmp/.gnupg
+
+USER root
+
+RUN apk add -u --no-cache \
+  bash \
+  build-base \
+  bzip2 \
+  ccache \
+  coreutils \
+  diffutils \
+  findutils \
+  gawk \
+  git \
+  gettext \
+  gpg \
+  gpg-agent \
+  grep \
+  gzip \
+  libxslt \
+  ncurses-dev \
+  openssl-dev \
+  perl \
+  python3 \
+  py3-setuptools \
+  rsync \
+  unzip \
+  util-linux \
+  tar \
+  wget \
+  xz \
+  zlib-dev \
+  zstd
+
+RUN adduser -DH $USER \
+  && mkdir -p $WORKDIR \
+  && chown -R $USER:$USER /builder
+
+USER $USER
+WORKDIR $WORKDIR
+
+ADD --chown=buildbot:buildbot keys/*.asc /builder/keys/
+RUN gpg --import /builder/keys/*.asc && rm -rf /builder/keys/
+
+COPY setup.alpine.sh /builder/setup.sh
+
+ARG TARGET=x86/64
+ENV TARGET=$TARGET
+
+ARG RUN_SETUP=0
+ENV RUN_SETUP=$RUN_SETUP
+RUN if [ "$RUN_SETUP" -eq 1 ]; then /builder/setup.sh; fi
+
+ARG FILE_HOST=downloads.openwrt.org
+ENV FILE_HOST=$FILE_HOST
+
+RUN if [ $FILE_HOST != "downloads.openwrt.org" ]; then sed -i "s|https://downloads.openwrt.org|https://${FILE_HOST}|g" repositories*; fi
+
+ENTRYPOINT [ ]
+
+# required to have CMD as ENV to be executed
+ENV CMD_ENV=${CMD}
+CMD ${CMD_ENV}
