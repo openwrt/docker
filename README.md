@@ -67,7 +67,7 @@ or `SNAPSHOT`.
 
 Contains the [OpenWrt
 ImageBuilder](https://openwrt.org/docs/guide-user/additional-software/imagebuilder)
-based on the same container we use for our [buildbot](buildbot.openwrt.org)
+based on the same container we use for our [buildbot](https://buildbot.openwrt.org)
 infrastructure. This can be useful when creating images on macOS, Windows or
 via CI.
 
