@@ -10,7 +10,7 @@ for our CI you may use the scripts to build containers on your own.
 > [!WARNING]
 > Starting with the branch of OpenWrt 24.10 any snapshot (aka nightly) builds no
 > longer contain the actual binaries but instead a `setup.sh` script. The
-> environment variables are set automatically per contaier to download the
+> environment variables are set automatically per container to download the
 > correct archive containing the SDK/ImageBuilder/rootfs. This reduces
 > dramatically bandwidth and storage usage. Sorry for the inconvenience.
 
@@ -20,7 +20,7 @@ Available containers:
 * `imagebuilder` create firmware images
 * `rootfs` test software inside an OpenWrt runtime
 
-All containers are mirrored to the follwing three registries under `openwrt` account:
+All containers are mirrored to the following three registries under `openwrt` account:
 
 * docker.io ([sdk](https://hub.docker.com/r/openwrt/sdk) | [imagebuilder](https://hub.docker.com/r/openwrt/imagebuilder) | [rootfs](https://hub.docker.com/r/openwrt/rootfs))  `*` 
 * ghcr.io ([sdk](https://github.com/openwrt/docker-openwrt/pkgs/container/sdk) | [imagebuilder](https://github.com/openwrt/docker-openwrt/pkgs/container/imagebuilder) | [rootfs](https://github.com/openwrt/docker-openwrt/pkgs/container/rootfs))
@@ -34,7 +34,7 @@ Find more details on the container types below
 
 Contains the [OpenWrt
 SDK](https://openwrt.org/docs/guide-developer/toolchain/using_the_sdk) based on
-the same container we use for our [Buildbot](https://buildbot.org)
+the same container we use for our [Buildbot](https://buildbot.openwrt.org/)
 infrastructure. This can be useful when building packages on macOS, Windows or
 via CI.
 
@@ -67,7 +67,7 @@ or `SNAPSHOT`.
 
 Contains the [OpenWrt
 ImageBuilder](https://openwrt.org/docs/guide-user/additional-software/imagebuilder)
-based on the same container we use for our [buildbot](buildbot.org)
+based on the same container we use for our [buildbot](buildbot.openwrt.org)
 infrastructure. This can be useful when creating images on macOS, Windows or
 via CI.
 
