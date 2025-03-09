@@ -49,7 +49,7 @@ make defconfig
 make package/tmate/{clean,compile} -j$(nproc)
 ```
 
-Enjoy a local OpenWrt SDK container building the `tmate` package and but the
+Enjoy a local OpenWrt SDK container building the `tmate` package and put the
 binary in hosts `./bin` folder.
 
 ### SDK Tags
