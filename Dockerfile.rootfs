@@ -1,9 +1,4 @@
-ARG BASE_IMAGE=ghcr.io/openwrt/buildbot/buildworker-v3.11.8:v21
-
-FROM $BASE_IMAGE
-ARG USER=buildbot
-ARG WORKDIR=/builder/
-ARG CMD="/bin/bash"
+FROM ghcr.io/openwrt/buildbot/buildworker-v3.11.8:v21 as builder
 
 ARG DOWNLOAD_FILE="imagebuilder-.*x86_64.tar.[xz|zst]"
 ARG TARGET=x86/64
@@ -15,15 +10,23 @@ ENV TARGET=$TARGET
 ENV FILE_HOST=$FILE_HOST
 ENV VERSION_PATH=$VERSION_PATH
 
-USER $USER
-WORKDIR $WORKDIR
+USER root
+WORKDIR /builder/rootfs
 
 ADD keys/*.asc /builder/keys/
 COPY --chmod=0755 setup.sh /builder/setup.sh
 
-ARG RUN_SETUP=0
-ENV RUN_SETUP=$RUN_SETUP
-RUN if [ "$RUN_SETUP" -eq 1 ]; then /builder/setup.sh; fi
+RUN /builder/setup.sh
+
+FROM scratch
+
+ARG CMD=/bin/ash
+ARG USER=root
+
+ENV CMD=$CMD
+ENV USER=$USER
+
+COPY --from=builder  /builder/rootfs/ /
 
 ENTRYPOINT [ ]
 
