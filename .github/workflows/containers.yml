@@ -436,6 +436,7 @@ jobs:
           no-cache: true
           push: true
           tags: ${{ steps.meta.outputs.tags }}
+          file: Dockerfile.rootfs
           build-args: ${{ steps.build_args.outputs.args }}
           labels: ${{ steps.meta.outputs.labels }}
           platforms: linux/${{ matrix.arch }}
