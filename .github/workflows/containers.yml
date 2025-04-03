@@ -344,7 +344,6 @@ jobs:
 
     steps:
       - name: Set up QEMU
-        if: github.event_name == 'pull_request'
         run: |
           sudo apt-get update
           sudo apt-get install -y qemu-user-static binfmt-support
