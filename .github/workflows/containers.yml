@@ -194,11 +194,35 @@ jobs:
             ${{ matrix.target }},enable=${{ needs.generate_matrix.outputs.version == 'SNAPSHOT' }}
             latest,enable=${{ needs.generate_matrix.outputs.version == 'SNAPSHOT' && matrix.target == 'x86/64'}}
 
-      - name: Build and push
+      - name: Build
+        id: build
         uses: docker/build-push-action@v6
         with:
           no-cache: true
-          push: ${{ github.event_name != 'pull_request' }}
+          push: false
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            DOWNLOAD_FILE=imagebuilder-.*x86_64.tar.[xz|zst]
+            VERSION_PATH=${{ needs.generate_matrix.outputs.version_path }}
+            TARGET=${{ matrix.target }}
+            FILE_HOST=${{ needs.generate_matrix.outputs.file_host }}
+            RUN_SETUP=${{ needs.generate_matrix.outputs.run_setup }}
+
+      - name: Smoke test
+        run: |
+          docker run ${{ steps.build.outputs.imageid }} \
+          bash -c ' \
+            cd $HOME && \
+            bash setup.sh && \
+            make image PACKAGES=coreutils-echo \
+            '
+
+      - name: Push
+        if: github.event_name != 'pull_request'
+        uses: docker/build-push-action@v6
+        with:
+          no-cache: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
@@ -311,7 +335,41 @@ jobs:
             quay.io/openwrt/sdk
           tags: latest
 
-      - name: Build and push
+      - name: Build
+        id: build
+        uses: docker/build-push-action@v6
+        with:
+          no-cache: true
+          push: false
+          tags: |
+            ${{ steps.meta_ref.outputs.tags }}
+            ${{ steps.meta_version.outputs.tags }}
+            ${{ steps.meta_master.outputs.tags }}
+            ${{ steps.meta_target_arch.outputs.tags }}
+            ${{ steps.meta_latest.outputs.tags }}
+          build-args: |
+            DOWNLOAD_FILE=sdk-.*.Linux-x86_64.tar.[xz|zst]
+            VERSION_PATH=${{ needs.generate_matrix.outputs.version_path }}
+            TARGET=${{ matrix.target }}
+            FILE_HOST=${{ needs.generate_matrix.outputs.file_host }}
+            RUN_SETUP=${{ needs.generate_matrix.outputs.run_setup }}
+          labels: ${{ steps.meta_ref.outputs.labels }}
+
+      - name: Smoke test
+        run: |
+          docker run --rm ${{ steps.build.outputs.imageid }} \
+          bash -c ' \
+            cd $HOME && \
+            bash ./setup.sh && \
+            make defconfig && \
+            sed -i -E "s;git.openwrt.org/(feed|project|openwrt);github.com/openwrt;" feeds.conf.default && \
+            ./scripts/feeds update base && \
+            ./scripts/feeds install urngd && \
+            make package/urngd/{clean,compile} V=s -j$(nproc) && \
+            find ./bin/packages -name urngd*.?pk | grep ^./bin/packages/.*urngd \
+            '
+
+      - name: Push
         uses: docker/build-push-action@v6
         with:
           no-cache: true
