@@ -18,7 +18,7 @@ ENV VERSION_PATH=$VERSION_PATH
 USER $USER
 WORKDIR $WORKDIR
 
-ADD keys/*.asc /builder/keys/
+ADD --chown=buildbot:buildbot keys/*.asc /builder/keys/
 COPY --chmod=0755 setup.sh /builder/setup.sh
 
 ARG RUN_SETUP=0

@@ -10,7 +10,7 @@ DOWNLOAD_PATH="$VERSION_PATH/targets/$TARGET"
 wget "$UPSTREAM_URL/$DOWNLOAD_PATH/sha256sums" -O sha256sums
 wget "$UPSTREAM_URL/$DOWNLOAD_PATH/sha256sums.asc" -O sha256sums.asc
 
-cat /builder/keys/*.asc | gpg --import && rm -rf /builder/keys/
+gpg --import /builder/keys/*.asc && rm -rf /builder/keys/
 gpg --with-fingerprint --verify sha256sums.asc sha256sums
 
 # determine archive name
