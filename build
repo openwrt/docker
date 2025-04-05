@@ -1,0 +1,18 @@
+#!/bin/sh
+
+TARGET=${TARGET:-x86}
+SUBTARGET=${SUBTARGET:-64}
+OPENWRT_VERSION=${OPENWRT_VERSION:-23.05.5}
+EXTRA_IMAGE_NAME=
+TAG=${TARGET}-${SUBTARGET}-v${OPENWRT_VERSION}${EXTRA_IMAGE_NAME}
+UPSTREAM_URL=${UPSTREAM_URL:-"http://openwrt.mirror.garr.it/openwrt"}
+
+podman build . \
+  --build-arg VERSION_PATH=releases/${OPENWRT_VERSION} \
+  --build-arg TARGET=${TARGET}/${SUBTARGET} \
+  --build-arg RUN_SETUP=1 \
+  --build-arg UPSTREAM_URL="http://openwrt.mirror.garr.it/openwrt" \
+  --build-arg FILE_HOST="openwrt.mirror.garr.it/openwrt" \
+  --file ./Dockerfile.alpine \
+  --tag ghcr.io/openwrt/imagebuilder-alpine:${TAG}
+
