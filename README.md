@@ -41,12 +41,18 @@ via CI.
 ### SDK Example
 
 ```shell
-docker run --rm -v "$(pwd)"/bin/:/builder/bin -it openwrt/sdk
-# inside the Docker container
-./scripts/feeds update packages
-make defconfig
-./scripts/feeds install tmate
-make package/tmate/{clean,compile} -j$(nproc)
+$ docker run --rm -v "$(pwd)"/bin/:/builder/bin -it openwrt/sdk
+
+# inside the Docker container first run the setup script
+$ ./setup.sh
+
+# update the packages and config
+$ ./scripts/feeds update packages
+$ make defconfig
+
+# now you can install packages from the feeds, for example: tmate
+$ ./scripts/feeds install tmate
+$ make package/tmate/{clean,compile} -j$(nproc)
 ```
 
 Enjoy a local OpenWrt SDK container building the `tmate` package and put the
