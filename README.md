@@ -8,11 +8,11 @@ This repository contains files to create OpenWrt containers. While mostly used
 for our CI you may use the scripts to build containers on your own.
 
 > [!WARNING]
-> Starting with the branch of OpenWrt 24.10 any snapshot (aka nightly) builds no
+> Starting with the branch of OpenWrt 24.10 any snapshot (aka nightly), builds no
 > longer contain the actual binaries but instead a `setup.sh` script. The
 > environment variables are set automatically per container to download the
-> correct archive containing the SDK/ImageBuilder/rootfs. This reduces
-> dramatically bandwidth and storage usage. Sorry for the inconvenience.
+> correct archive containing the SDK/ImageBuilder/rootfs. This dramatically
+> reduces bandwidth and storage usage. Sorry for the inconvenience.
 
 Available containers:
 
@@ -49,7 +49,7 @@ make defconfig
 make package/tmate/{clean,compile} -j$(nproc)
 ```
 
-Enjoy a local OpenWrt SDK container building the `tmate` package and put the
+Enjoy a local OpenWrt SDK container building the `tmate` package with the
 binary in hosts `./bin` folder.
 
 ### SDK Tags
@@ -119,7 +119,7 @@ access. Once closed the container is removed.
 
 ### Rootfs Tags
 
-"|||armvirt/32|armvirt/64|malta/be|mvebu/cortexa9
+`|||armvirt/32|armvirt/64|malta/be|mvebu/cortexa9`
 
 * `x86/64` or `x86_64`
 * `x86/generic` or `i386_pentium4`
