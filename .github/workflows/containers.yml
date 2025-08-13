@@ -1,6 +1,9 @@
 name: Build and push containers
 run-name: ${{ inputs.ref }} ${{ inputs.target }}
 
+env:
+  FILE_HOST: https://mirror-03.infra.openwrt.org
+
 on:
   # push:
   pull_request:
