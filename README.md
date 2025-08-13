@@ -43,6 +43,7 @@ via CI.
 ```shell
 docker run --rm -v "$(pwd)"/bin/:/builder/bin -it openwrt/sdk
 # inside the Docker container
+[ ! -d ./scripts ] && ./setup.sh
 ./scripts/feeds update packages
 make defconfig
 ./scripts/feeds install tmate
@@ -76,6 +77,7 @@ via CI.
 ```shell
 docker run --rm -v "$(pwd)"/bin/:/builder/bin -it openwrt/imagebuilder
 # inside the Docker container
+[ ! -d ./scripts ] && ./setup.sh
 make image PROFILE=generic PACKAGES=tmate
 ```
 
@@ -108,6 +110,7 @@ additional files for the rootfs should be added there before building.
 ```shell
 docker run --rm -it openwrt/rootfs
 # inside the Docker container
+[ ! -d ./scripts ] && ./setup.sh
 mkdir /var/lock/
 opkg update
 opkg install tmate
