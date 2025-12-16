@@ -149,7 +149,7 @@ If you wan to create your own container you can use the `Dockerfile`. You can se
 ```shell
 docker build \
     --build-arg TARGET=x86/64 \
-    --build-arg DOWNLOAD_FILE="imagebuilder-.*x86_64.tar.xz" \
+    --build-arg DOWNLOAD_FILE="imagebuilder-.*x86_64.tar.[xz|zst]" \
     --build-arg FILE_HOST=downloads.openwrt.org \
     --build-arg VERSION_PATH=snapshots \
     -t openwrt/x86_64 .
