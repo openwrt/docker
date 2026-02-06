@@ -117,21 +117,28 @@ jobs:
           echo -e "\n---- rootfs ----\n"
           echo "rootfs=$JSON_ROOTFS" >> "$GITHUB_OUTPUT"
 
-          # sdks
+          # sdks - one per target, first target per arch also gets the arch tag
+          declare -A ARCH_SEEN
           JSON='['
           FIRST=1
 
           while read -r line;
           do
-            ARCH=$(echo "$line" | cut -d " " -f 1)
-            [ -z "$TARGET_FILTER" ] && TARGET=$(echo "$line" | cut -d " " -f 2) || TARGET="$TARGET_FILTER"
-            TARGETS=$(echo "$line" | cut -d " " -f 2- | sed -e 's/ /\\n/g')
+            TARGET=$(echo "$line" | cut -d " " -f 1)
+            ARCH=$(echo "$line" | cut -d " " -f 2)
+            TARGET_TAG="${TARGET//\//-}"
+
+            TAGS="$TARGET_TAG"
+            if [ -z "${ARCH_SEEN[$ARCH]+x}" ]; then
+              TAGS="$TARGET_TAG\n$ARCH"
+              ARCH_SEEN[$ARCH]=1
+            fi
 
             [[ $FIRST -ne 1 ]] && JSON="$JSON"','
             FIRST=0
 
-            JSON="$JSON"'{"arch":"'"$ARCH"'","target":"'"$TARGET"'","tags":"'"$ARCH"'\n'"$TARGETS"'"}'
-          done <<< $(perl ./scripts/dump-target-info.pl architectures 2>/dev/null | ([[ -n "$TARGET_FILTER" ]] && grep -w "$TARGET_FILTER" || cat))
+            JSON="$JSON"'{"target":"'"$TARGET"'","tags":"'"$TAGS"'"}'
+          done <<< $(perl ./scripts/dump-target-info.pl targets 2>/dev/null | ([[ -n "$TARGET_FILTER" ]] && grep -w "$TARGET_FILTER" || cat))
 
           JSON='{"include":'"$JSON"']}'
           echo -e "\n---- sdks ----\n"
