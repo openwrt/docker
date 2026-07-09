@@ -18,6 +18,8 @@ COPY --chmod=0755 setup.sh /builder/setup.sh
 
 RUN /builder/setup.sh
 
+RUN rm -f /builder/rootfs/etc/resolv.conf
+
 FROM scratch
 
 ARG CMD=/bin/ash
