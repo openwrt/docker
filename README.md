@@ -9,7 +9,7 @@ for our CI you may use the scripts to build containers on your own.
 
 > [!WARNING]
 > Starting with the branch of OpenWrt 24.10 any snapshot (aka nightly), builds no
-> longer contain the actual binaries but instead a `setup.sh` script. The
+> longer contain the actual binaries, but instead a `setup.sh` script. The
 > environment variables are set automatically per container to download the
 > correct archive containing the SDK/ImageBuilder/rootfs. This dramatically
 > reduces bandwidth and storage usage. Sorry for the inconvenience.
@@ -22,7 +22,7 @@ Available containers:
 
 All containers are mirrored to the following three registries under `openwrt` account:
 
-* docker.io ([sdk](https://hub.docker.com/r/openwrt/sdk) | [imagebuilder](https://hub.docker.com/r/openwrt/imagebuilder) | [rootfs](https://hub.docker.com/r/openwrt/rootfs))  `*` 
+* docker.io ([sdk](https://hub.docker.com/r/openwrt/sdk) | [imagebuilder](https://hub.docker.com/r/openwrt/imagebuilder) | [rootfs](https://hub.docker.com/r/openwrt/rootfs))  `*`
 * ghcr.io ([sdk](https://github.com/openwrt/docker-openwrt/pkgs/container/sdk) | [imagebuilder](https://github.com/openwrt/docker-openwrt/pkgs/container/imagebuilder) | [rootfs](https://github.com/openwrt/docker-openwrt/pkgs/container/rootfs))
 * quay.io ([sdk](https://quay.io/repository/openwrt/sdk) | [imagebuilder](https://quay.io/repository/openwrt/imagebuilder) | [rootfs](https://quay.io/repository/openwrt/rootfs))
 
@@ -74,15 +74,61 @@ via CI.
 
 ### ImageBuilder Example
 
+Built images will be stored in `bin`, and cached packages, that can be reused
+for other builds - in `dl`. Packages from differenet platforms/versions might
+have the same package names, but different checksums, which will cause
+errors during build, so working directories shouldn't be shared between
+different image builders.
+
+> If you're running on a SELinux-enabled system (e.g. RHEL), volumes must be
+> mounted with a `:z` flag:
+>
+> ```shell
+> --volume "$(pwd)"/bin/:/builder/bin:z
+> ```
+
+Using Docker:
+
 ```shell
-docker run --rm -v "$(pwd)"/bin/:/builder/bin -it openwrt/imagebuilder
-# inside the Docker container
-[ ! -d ./scripts ] && ./setup.sh
-make image PROFILE=generic PACKAGES=tmate
+# NB: Replace these variables, according to your needs
+PLATFORM=ath79-generic
+VERSION=25.12.5
+PROFILE=tplink_archer-c7-v2
+PACKAGES="ath10k-firmware-qca988x kmod-ath10k kmod-usb-ledtrig-usbport kmod-usb-net-cdc-ether kmod-usb2 luci luci-ssl luci-app-sqm luci-app-attendedsysupgrade owut -ppp -ppp-mod-pppoe -luci-proto-ppp -ath10k-firmware-qca988x-ct -kmod-ath10k-ct"
+
+mkdir -p openwrt-${PLATFORM}-${VERSION}/{bin,dl}
+cd openwrt-${PLATFORM}-${VERSION}
+
+docker run --rm \
+  --volume "$(pwd)"/bin/:/builder/bin \
+  --volume "$(pwd)"/dl:/builder/dl \
+  openwrt/imagebuilder:${PLATFORM}-${VERSION} \
+  sh -c "
+    [ ! -d ./scripts ] && ./setup.sh;
+    make image PROFILE='${PROFILE}' PACKAGES='${PACKAGES}'
+  "
 ```
 
-Enjoy a local OpenWrt ImageBuilder container building an image for x86/64 and
-store the binary in hosts `./bin` folder.
+Using Podman we need to map user account to same UID within container using
+`--userns=keep-id`:
+
+```shell
+# Same variables as above
+
+podman run --rm \
+  --userns=keep-id \
+  --volume "$(pwd)"/bin/:/builder/bin \
+  --volume "$(pwd)"/dl:/builder/dl \
+  openwrt/imagebuilder:${PLATFORM}-${VERSION} \
+  sh -c "
+    [ ! -d ./scripts ] && ./setup.sh;
+    make image PROFILE='${PROFILE}' PACKAGES='${PACKAGES}'
+  "
+```
+
+Variables can be inlined to make these into one-liners.
+
+> For snapshots use `VERSION=SNAPSHOT`.
 
 ### ImageBuilder Tags
 
