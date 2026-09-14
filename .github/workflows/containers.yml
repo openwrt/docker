@@ -253,18 +253,14 @@ jobs:
 
       - name: Push
         if: github.event_name != 'pull_request'
-        uses: docker/build-push-action@v7
-        with:
-          push: true
-          no-cache: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-          build-args: |
-            DOWNLOAD_FILE=imagebuilder-.*x86_64.tar.[xz|zst]
-            VERSION_PATH=${{ needs.generate_matrix.outputs.version_path }}
-            TARGET=${{ matrix.target }}
-            FILE_HOST=${{ needs.generate_matrix.outputs.file_host }}
-            RUN_SETUP=${{ needs.generate_matrix.outputs.run_setup }}
+        env:
+          IMAGE_ID: ${{ steps.build.outputs.imageid }}
+          TAGS: ${{ steps.meta.outputs.tags }}
+        run: |
+          for tag in $TAGS; do
+            docker tag "$IMAGE_ID" "$tag"
+            docker push "$tag"
+          done
 
       - name: Cleanup Docker containers
         run: docker system prune -f
@@ -405,23 +401,19 @@ jobs:
 
       - name: Push
         if: github.event_name != 'pull_request'
-        uses: docker/build-push-action@v7
-        with:
-          push: true
-          no-cache: true
-          tags: |
+        env:
+          IMAGE_ID: ${{ steps.build.outputs.imageid }}
+          TAGS: |
             ${{ steps.meta_ref.outputs.tags }}
             ${{ steps.meta_version.outputs.tags }}
             ${{ steps.meta_master.outputs.tags }}
             ${{ steps.meta_target_arch.outputs.tags }}
             ${{ steps.meta_latest.outputs.tags }}
-          build-args: |
-            DOWNLOAD_FILE=sdk-.*.Linux-x86_64.tar.[xz|zst]
-            VERSION_PATH=${{ needs.generate_matrix.outputs.version_path }}
-            TARGET=${{ matrix.target }}
-            FILE_HOST=${{ needs.generate_matrix.outputs.file_host }}
-            RUN_SETUP=${{ needs.generate_matrix.outputs.run_setup }}
-          labels: ${{ steps.meta_ref.outputs.labels }}
+        run: |
+          for tag in $TAGS; do
+            docker tag "$IMAGE_ID" "$tag"
+            docker push "$tag"
+          done
 
       - name: Cleanup Docker containers
         run: docker system prune -f
@@ -524,15 +516,14 @@ jobs:
 
       - name: Push
         if: github.event_name != 'pull_request'
-        uses: docker/build-push-action@v7
-        with:
-          no-cache: true
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          file: Dockerfile.rootfs
-          build-args: ${{ steps.build_args.outputs.args }}
-          labels: ${{ steps.meta.outputs.labels }}
-          platforms: linux/${{ matrix.arch }}
+        env:
+          IMAGE_ID: ${{ steps.build.outputs.imageid }}
+          TAGS: ${{ steps.meta.outputs.tags }}
+        run: |
+          for tag in $TAGS; do
+            docker tag "$IMAGE_ID" "$tag"
+            docker push "$tag"
+          done
 
       - name: Cleanup Docker containers
         run: docker system prune -f
