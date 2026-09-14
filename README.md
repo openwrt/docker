@@ -180,22 +180,14 @@ access. Once closed the container is removed.
 
 ## GitHub Actions CI & Registries
 
-The GitHub Actions workflow `.github/workflows/containers.yml` automatically builds and pushes the containers to the registries. If you fork this repository, you can also push to your own registry accounts.
+The GitHub Actions workflow `.github/workflows/containers.yml` builds the containers and pushes them to `<registry>/<repository owner>/<image>`, so forks push to their own namespace.
 
-### GitHub Container Registry (GHCR)
-By default, the workflow will push containers to `ghcr.io/${{ github.repository_owner }}/<image>`. This works automatically out of the box using GitHub's built-in `GITHUB_TOKEN` and does not require any additional setup.
+Pushing to ghcr.io works out of the box using GitHub's built-in `GITHUB_TOKEN`. To also push to Docker Hub or Quay.io, configure the following secrets under your repository's **Settings -> Secrets and variables -> Actions**. A registry without both its user and token is skipped.
 
-### Docker Hub & Quay.io
-To push to your own Docker Hub or Quay.io registries, you need to configure the following secrets under your repository's **Settings -> Secrets and variables -> Actions**:
+* `DOCKER_USER` and `DOCKER_TOKEN` - the Docker Hub user and its Personal Access Token.
+* `QUAY_USER` and `QUAY_TOKEN` - the Quay.io user or robot account (`org+name`) and its token. A robot account needs write permission on the existing `sdk`, `imagebuilder` and `rootfs` repositories.
 
-* **Docker Hub (docker.io)**:
-  * `DOCKER_USER` - Your Docker Hub username.
-  * `DOCKER_TOKEN` - Your Docker Hub Personal Access Token.
-* **Quay.io (quay.io)**:
-  * `QUAY_USER` - Your Quay.io username.
-  * `QUAY_TOKEN` - Your Quay.io OAuth Token / Password.
-
-If these secrets are not configured, the workflow will automatically skip logging in and pushing to these registries without failing the build.
+To push to a different namespace than the repository owner, set the `DOCKER_NAMESPACE` or `QUAY_NAMESPACE` variable. The login user needs push access to it.
 
 ## Build Your Own
 
