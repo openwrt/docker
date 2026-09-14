@@ -30,6 +30,8 @@ on:
         description: "Prefix for the image name (add '-' at the end)"
         required: false
 
+permissions: {}
+
 jobs:
   dispatch-scheduled-rebuilds:
     name: Dispatch scheduled rebuilds
@@ -50,6 +52,8 @@ jobs:
     name: Set matrix
     runs-on: ubuntu-latest
     if: github.event_name != 'schedule'
+    permissions:
+      contents: read
 
     outputs:
       imagebuilders: ${{ steps.find_targets.outputs.imagebuilders }}
@@ -181,6 +185,9 @@ jobs:
     name: ImageBuilder
     runs-on: ubuntu-latest
     needs: generate_matrix
+    permissions:
+      contents: read
+      packages: write
     strategy:
       fail-fast: False
       matrix: ${{fromJson(needs.generate_matrix.outputs.imagebuilders)}}
@@ -269,6 +276,9 @@ jobs:
     name: SDK
     runs-on: ubuntu-latest
     needs: generate_matrix
+    permissions:
+      contents: read
+      packages: write
     strategy:
       fail-fast: False
       matrix: ${{fromJson(needs.generate_matrix.outputs.sdks)}}
@@ -422,6 +432,9 @@ jobs:
     name: RootFS
     runs-on: ubuntu-latest
     needs: generate_matrix
+    permissions:
+      contents: read
+      packages: write
     if: needs.generate_matrix.outputs.rootfs != '{"include":[]}'
     strategy:
       fail-fast: False
